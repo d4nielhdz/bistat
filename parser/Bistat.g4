@@ -1,0 +1,3 @@
+grammar Bistat;
+
+program : 'Program' ';' ;

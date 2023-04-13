@@ -1,7 +1,31 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+
+	parser "bistat/parser"
+
+	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
+)
+
+type TreeShapeListener struct {
+	*parser.BaseBistatListener
+}
+
+func NewTreeShapeListener() *TreeShapeListener {
+	return new(TreeShapeListener)
+}
+
+func (this *TreeShapeListener) EnterEveryRule(ctx antlr.ParserRuleContext) {
+	fmt.Println(ctx.GetText())
+}
 
 func main() {
-	fmt.Println("Hello world")
+	input, _ := antlr.NewFileStream(os.Args[1])
+	lexer := parser.NewBistatLexer(input)
+	stream := antlr.NewCommonTokenStream(lexer, 0)
+	p := parser.NewBistatParser(stream)
+	p.AddErrorListener(antlr.NewDiagnosticErrorListener(true))
+	p.BuildParseTrees = true
 }
