@@ -50,6 +50,9 @@ type BistatListener interface {
 	// EnterConditional is called when entering the conditional production.
 	EnterConditional(c *ConditionalContext)
 
+	// EnterReturnStmt is called when entering the returnStmt production.
+	EnterReturnStmt(c *ReturnStmtContext)
+
 	// EnterSpecialFunction is called when entering the specialFunction production.
 	EnterSpecialFunction(c *SpecialFunctionContext)
 
@@ -178,6 +181,9 @@ type BistatListener interface {
 
 	// ExitConditional is called when exiting the conditional production.
 	ExitConditional(c *ConditionalContext)
+
+	// ExitReturnStmt is called when exiting the returnStmt production.
+	ExitReturnStmt(c *ReturnStmtContext)
 
 	// ExitSpecialFunction is called when exiting the specialFunction production.
 	ExitSpecialFunction(c *SpecialFunctionContext)

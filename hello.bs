@@ -7,7 +7,18 @@ func myfunc(): void {
   print("hola");
 }
 
+func myfun(var int w;): float
+  var int x;
+  var float y;
+ {
+  print("fun") ;
+  return 5;
+}
+
 main () {
+  num = 5;
+  flt = 12.0;
   myfunc();
+  return callint();
 }
 

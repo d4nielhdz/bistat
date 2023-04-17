@@ -9,6 +9,7 @@ asignacion_matriz ::= '[' asignacion_lista (',' asignacion_lista)* ']'
 asignacion_lista ::= '[' var_cte (',' var_cte)* ']'
 comentario ::= '#' .* '\n'
 estatuto ::= ((asignacion | condicion | for | while | funcion_especial | llamada_funcion) ';') | comentario
+return_stmt ::= 'return' expresion
 funcion_especial ::= read | print | list_add | list_pop | length |range | plot | sum | min | prod | avg | mode | median | sin | cos | tan | sort | sqrt | floor | ceil | abs | not
 read ::= 'read' '(' id (',' id)* ')'
 list_add ::= 'list_add' '(' expresion ',' expresion ')'

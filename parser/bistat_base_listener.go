@@ -105,6 +105,12 @@ func (s *BaseBistatListener) EnterConditional(ctx *ConditionalContext) {}
 // ExitConditional is called when production conditional is exited.
 func (s *BaseBistatListener) ExitConditional(ctx *ConditionalContext) {}
 
+// EnterReturnStmt is called when production returnStmt is entered.
+func (s *BaseBistatListener) EnterReturnStmt(ctx *ReturnStmtContext) {}
+
+// ExitReturnStmt is called when production returnStmt is exited.
+func (s *BaseBistatListener) ExitReturnStmt(ctx *ReturnStmtContext) {}
+
 // EnterSpecialFunction is called when production specialFunction is entered.
 func (s *BaseBistatListener) EnterSpecialFunction(ctx *SpecialFunctionContext) {}
 

@@ -27,6 +27,12 @@ func (l *bistatListener) EnterVarDeclaration(ctx *parser.VarDeclarationContext) 
 	fmt.Println(ctx.NON_VOID_TYPE())
 }
 
+func (l *bistatListener) EnterParamDeclaration(ctx *parser.ParamDeclarationContext) {
+	fmt.Println("Entered param declaration")
+	fmt.Println(ctx.ID())
+	fmt.Println(ctx.PARAM_TYPE())
+}
+
 func (l *bistatListener) EnterStmt(ctx *parser.StmtContext) {
 	fmt.Println("Entered statement")
 }
@@ -39,6 +45,15 @@ func (l *bistatListener) EnterFuncDef(ctx *parser.FuncDefContext) {
 
 func (l *bistatListener) EnterSpecialFunction(ctx *parser.SpecialFunctionContext) {
 	fmt.Println("Entered special function")
+}
+
+func (l *bistatListener) EnterAssignment(ctx *parser.AssignmentContext) {
+	fmt.Println("Entered assignment")
+	fmt.Println(ctx.VAR_CONS())
+}
+
+func (l *bistatListener) EnterReturnStmt(ctx *parser.ReturnStmtContext) {
+	fmt.Println("Entered return stmt")
 }
 
 func (l *bistatListener) EnterFunctionCall(ctx *parser.FunctionCallContext) {

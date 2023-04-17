@@ -1,5 +1,7 @@
 grammar Bistat;
 
+WS: [ \t\n\r]+ -> channel(HIDDEN);
+
 program: 'Program' ID ';' varDeclaration* funcDef* main EOF;
 
 varDeclaration: 'var' NON_VOID_TYPE ID ';';
@@ -7,7 +9,14 @@ funcDef:
 	'func' ID '(' paramDeclaration* ')' ':' RETURN_TYPE varDeclaration* '{' stmt+ '}';
 main: 'main' '(' ')' '{' stmt+ '}';
 
-stmt: ((assignment | specialFunction | functionCall) ';')
+stmt: (
+		(
+			assignment
+			| specialFunction
+			| functionCall
+			| returnStmt
+		) ';'
+	)
 	| conditional
 	| whileLoop
 	| forLoop
@@ -33,6 +42,7 @@ conditional:
 	'if' '(' expression ')' '{' stmt+ '}' (
 		'else' 'if' '(' expression ')' '{' stmt+ '}'
 	)* ('else' '{' stmt+ '}')?;
+returnStmt: 'return' expression;
 
 specialFunction:
 	inputRead
@@ -94,15 +104,21 @@ factor:
 functionCall: ID '(' (expression (',' expression)*)? ')';
 indexing: ID '[' expression ']' ('[' expression ']')?;
 
-WS: [ \t\n\r]+ -> channel(HIDDEN);
-NON_VOID_TYPE: Type_Primitive CARDINALITY?;
-RETURN_TYPE: NON_VOID_TYPE | 'void';
-PARAM_TYPE: Type_Primitive PARAM_CARDINALITY?;
-fragment Type_Primitive: 'int' | 'float' | 'string' | 'bool';
-ID: ('_' | Alpha)+ (Alpha | NUMBER | '_')*;
-PARAM_CARDINALITY: ('[' ']') | ('[' ']' '[' ']');
+NON_VOID_TYPE: ('int' | 'float' | 'string' | 'bool') (
+		CARDINALITY?
+	);
+PARAM_TYPE: ('int' | 'float' | 'string' | 'bool') (
+		PARAM_CARDINALITY?
+	);
+RETURN_TYPE:
+	(('int' | 'float' | 'string' | 'bool') (PARAM_CARDINALITY?))
+	| 'void';
+
 CARDINALITY: ('[' INT_CONS ']')
 	| ('[' INT_CONS ']' '[' INT_CONS ']');
+PARAM_CARDINALITY: ('[' ']') | ('[' ']' '[' ']');
+
+ID: ('_' | Alpha)+ (Alpha | NUMBER | '_')*;
 VAR_CONS: STRING_CONS | FLOAT_CONS | INT_CONS | BOOL_CONS | ID;
 BOOL_CONS: 'true' | 'false';
 STRING_CONS: '"' (~'"')* '"';
