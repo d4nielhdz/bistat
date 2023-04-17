@@ -27,35 +27,11 @@ func (s *BaseBistatListener) EnterProgram(ctx *ProgramContext) {}
 // ExitProgram is called when production program is exited.
 func (s *BaseBistatListener) ExitProgram(ctx *ProgramContext) {}
 
-// EnterStmt is called when production stmt is entered.
-func (s *BaseBistatListener) EnterStmt(ctx *StmtContext) {}
+// EnterVar_declaration is called when production var_declaration is entered.
+func (s *BaseBistatListener) EnterVar_declaration(ctx *Var_declarationContext) {}
 
-// ExitStmt is called when production stmt is exited.
-func (s *BaseBistatListener) ExitStmt(ctx *StmtContext) {}
-
-// EnterNested_stmt is called when production nested_stmt is entered.
-func (s *BaseBistatListener) EnterNested_stmt(ctx *Nested_stmtContext) {}
-
-// ExitNested_stmt is called when production nested_stmt is exited.
-func (s *BaseBistatListener) ExitNested_stmt(ctx *Nested_stmtContext) {}
-
-// EnterPrint is called when production print is entered.
-func (s *BaseBistatListener) EnterPrint(ctx *PrintContext) {}
-
-// ExitPrint is called when production print is exited.
-func (s *BaseBistatListener) ExitPrint(ctx *PrintContext) {}
-
-// EnterExpression is called when production expression is entered.
-func (s *BaseBistatListener) EnterExpression(ctx *ExpressionContext) {}
-
-// ExitExpression is called when production expression is exited.
-func (s *BaseBistatListener) ExitExpression(ctx *ExpressionContext) {}
-
-// EnterMain is called when production main is entered.
-func (s *BaseBistatListener) EnterMain(ctx *MainContext) {}
-
-// ExitMain is called when production main is exited.
-func (s *BaseBistatListener) ExitMain(ctx *MainContext) {}
+// ExitVar_declaration is called when production var_declaration is exited.
+func (s *BaseBistatListener) ExitVar_declaration(ctx *Var_declarationContext) {}
 
 // EnterFunc_def is called when production func_def is entered.
 func (s *BaseBistatListener) EnterFunc_def(ctx *Func_defContext) {}
@@ -63,11 +39,17 @@ func (s *BaseBistatListener) EnterFunc_def(ctx *Func_defContext) {}
 // ExitFunc_def is called when production func_def is exited.
 func (s *BaseBistatListener) ExitFunc_def(ctx *Func_defContext) {}
 
-// EnterVar_declaration is called when production var_declaration is entered.
-func (s *BaseBistatListener) EnterVar_declaration(ctx *Var_declarationContext) {}
+// EnterMain is called when production main is entered.
+func (s *BaseBistatListener) EnterMain(ctx *MainContext) {}
 
-// ExitVar_declaration is called when production var_declaration is exited.
-func (s *BaseBistatListener) ExitVar_declaration(ctx *Var_declarationContext) {}
+// ExitMain is called when production main is exited.
+func (s *BaseBistatListener) ExitMain(ctx *MainContext) {}
+
+// EnterStmt is called when production stmt is entered.
+func (s *BaseBistatListener) EnterStmt(ctx *StmtContext) {}
+
+// ExitStmt is called when production stmt is exited.
+func (s *BaseBistatListener) ExitStmt(ctx *StmtContext) {}
 
 // EnterParam_declaration is called when production param_declaration is entered.
 func (s *BaseBistatListener) EnterParam_declaration(ctx *Param_declarationContext) {}
@@ -80,6 +62,12 @@ func (s *BaseBistatListener) EnterAssignment(ctx *AssignmentContext) {}
 
 // ExitAssignment is called when production assignment is exited.
 func (s *BaseBistatListener) ExitAssignment(ctx *AssignmentContext) {}
+
+// EnterNested_stmt is called when production nested_stmt is entered.
+func (s *BaseBistatListener) EnterNested_stmt(ctx *Nested_stmtContext) {}
+
+// ExitNested_stmt is called when production nested_stmt is exited.
+func (s *BaseBistatListener) ExitNested_stmt(ctx *Nested_stmtContext) {}
 
 // EnterMatrix_assignment is called when production matrix_assignment is entered.
 func (s *BaseBistatListener) EnterMatrix_assignment(ctx *Matrix_assignmentContext) {}
@@ -99,17 +87,17 @@ func (s *BaseBistatListener) EnterComment(ctx *CommentContext) {}
 // ExitComment is called when production comment is exited.
 func (s *BaseBistatListener) ExitComment(ctx *CommentContext) {}
 
-// EnterFor is called when production for is entered.
-func (s *BaseBistatListener) EnterFor(ctx *ForContext) {}
+// EnterFor_loop is called when production for_loop is entered.
+func (s *BaseBistatListener) EnterFor_loop(ctx *For_loopContext) {}
 
-// ExitFor is called when production for is exited.
-func (s *BaseBistatListener) ExitFor(ctx *ForContext) {}
+// ExitFor_loop is called when production for_loop is exited.
+func (s *BaseBistatListener) ExitFor_loop(ctx *For_loopContext) {}
 
-// EnterWhile is called when production while is entered.
-func (s *BaseBistatListener) EnterWhile(ctx *WhileContext) {}
+// EnterWhile_loop is called when production while_loop is entered.
+func (s *BaseBistatListener) EnterWhile_loop(ctx *While_loopContext) {}
 
-// ExitWhile is called when production while is exited.
-func (s *BaseBistatListener) ExitWhile(ctx *WhileContext) {}
+// ExitWhile_loop is called when production while_loop is exited.
+func (s *BaseBistatListener) ExitWhile_loop(ctx *While_loopContext) {}
 
 // EnterConditional is called when production conditional is entered.
 func (s *BaseBistatListener) EnterConditional(ctx *ConditionalContext) {}
@@ -117,11 +105,23 @@ func (s *BaseBistatListener) EnterConditional(ctx *ConditionalContext) {}
 // ExitConditional is called when production conditional is exited.
 func (s *BaseBistatListener) ExitConditional(ctx *ConditionalContext) {}
 
+// EnterSpecial_function is called when production special_function is entered.
+func (s *BaseBistatListener) EnterSpecial_function(ctx *Special_functionContext) {}
+
+// ExitSpecial_function is called when production special_function is exited.
+func (s *BaseBistatListener) ExitSpecial_function(ctx *Special_functionContext) {}
+
 // EnterInput_read is called when production input_read is entered.
 func (s *BaseBistatListener) EnterInput_read(ctx *Input_readContext) {}
 
 // ExitInput_read is called when production input_read is exited.
 func (s *BaseBistatListener) ExitInput_read(ctx *Input_readContext) {}
+
+// EnterPrint is called when production print is entered.
+func (s *BaseBistatListener) EnterPrint(ctx *PrintContext) {}
+
+// ExitPrint is called when production print is exited.
+func (s *BaseBistatListener) ExitPrint(ctx *PrintContext) {}
 
 // EnterList_add is called when production list_add is entered.
 func (s *BaseBistatListener) EnterList_add(ctx *List_addContext) {}
@@ -243,11 +243,11 @@ func (s *BaseBistatListener) EnterNot(ctx *NotContext) {}
 // ExitNot is called when production not is exited.
 func (s *BaseBistatListener) ExitNot(ctx *NotContext) {}
 
-// EnterSpecial_function is called when production special_function is entered.
-func (s *BaseBistatListener) EnterSpecial_function(ctx *Special_functionContext) {}
+// EnterExpression is called when production expression is entered.
+func (s *BaseBistatListener) EnterExpression(ctx *ExpressionContext) {}
 
-// ExitSpecial_function is called when production special_function is exited.
-func (s *BaseBistatListener) ExitSpecial_function(ctx *Special_functionContext) {}
+// ExitExpression is called when production expression is exited.
+func (s *BaseBistatListener) ExitExpression(ctx *ExpressionContext) {}
 
 // EnterExp is called when production exp is entered.
 func (s *BaseBistatListener) EnterExp(ctx *ExpContext) {}

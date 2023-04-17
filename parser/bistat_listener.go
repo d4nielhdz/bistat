@@ -11,32 +11,26 @@ type BistatListener interface {
 	// EnterProgram is called when entering the program production.
 	EnterProgram(c *ProgramContext)
 
-	// EnterStmt is called when entering the stmt production.
-	EnterStmt(c *StmtContext)
-
-	// EnterNested_stmt is called when entering the nested_stmt production.
-	EnterNested_stmt(c *Nested_stmtContext)
-
-	// EnterPrint is called when entering the print production.
-	EnterPrint(c *PrintContext)
-
-	// EnterExpression is called when entering the expression production.
-	EnterExpression(c *ExpressionContext)
-
-	// EnterMain is called when entering the main production.
-	EnterMain(c *MainContext)
+	// EnterVar_declaration is called when entering the var_declaration production.
+	EnterVar_declaration(c *Var_declarationContext)
 
 	// EnterFunc_def is called when entering the func_def production.
 	EnterFunc_def(c *Func_defContext)
 
-	// EnterVar_declaration is called when entering the var_declaration production.
-	EnterVar_declaration(c *Var_declarationContext)
+	// EnterMain is called when entering the main production.
+	EnterMain(c *MainContext)
+
+	// EnterStmt is called when entering the stmt production.
+	EnterStmt(c *StmtContext)
 
 	// EnterParam_declaration is called when entering the param_declaration production.
 	EnterParam_declaration(c *Param_declarationContext)
 
 	// EnterAssignment is called when entering the assignment production.
 	EnterAssignment(c *AssignmentContext)
+
+	// EnterNested_stmt is called when entering the nested_stmt production.
+	EnterNested_stmt(c *Nested_stmtContext)
 
 	// EnterMatrix_assignment is called when entering the matrix_assignment production.
 	EnterMatrix_assignment(c *Matrix_assignmentContext)
@@ -47,17 +41,23 @@ type BistatListener interface {
 	// EnterComment is called when entering the comment production.
 	EnterComment(c *CommentContext)
 
-	// EnterFor is called when entering the for production.
-	EnterFor(c *ForContext)
+	// EnterFor_loop is called when entering the for_loop production.
+	EnterFor_loop(c *For_loopContext)
 
-	// EnterWhile is called when entering the while production.
-	EnterWhile(c *WhileContext)
+	// EnterWhile_loop is called when entering the while_loop production.
+	EnterWhile_loop(c *While_loopContext)
 
 	// EnterConditional is called when entering the conditional production.
 	EnterConditional(c *ConditionalContext)
 
+	// EnterSpecial_function is called when entering the special_function production.
+	EnterSpecial_function(c *Special_functionContext)
+
 	// EnterInput_read is called when entering the input_read production.
 	EnterInput_read(c *Input_readContext)
+
+	// EnterPrint is called when entering the print production.
+	EnterPrint(c *PrintContext)
 
 	// EnterList_add is called when entering the list_add production.
 	EnterList_add(c *List_addContext)
@@ -119,8 +119,8 @@ type BistatListener interface {
 	// EnterNot is called when entering the not production.
 	EnterNot(c *NotContext)
 
-	// EnterSpecial_function is called when entering the special_function production.
-	EnterSpecial_function(c *Special_functionContext)
+	// EnterExpression is called when entering the expression production.
+	EnterExpression(c *ExpressionContext)
 
 	// EnterExp is called when entering the exp production.
 	EnterExp(c *ExpContext)
@@ -140,32 +140,26 @@ type BistatListener interface {
 	// ExitProgram is called when exiting the program production.
 	ExitProgram(c *ProgramContext)
 
-	// ExitStmt is called when exiting the stmt production.
-	ExitStmt(c *StmtContext)
-
-	// ExitNested_stmt is called when exiting the nested_stmt production.
-	ExitNested_stmt(c *Nested_stmtContext)
-
-	// ExitPrint is called when exiting the print production.
-	ExitPrint(c *PrintContext)
-
-	// ExitExpression is called when exiting the expression production.
-	ExitExpression(c *ExpressionContext)
-
-	// ExitMain is called when exiting the main production.
-	ExitMain(c *MainContext)
+	// ExitVar_declaration is called when exiting the var_declaration production.
+	ExitVar_declaration(c *Var_declarationContext)
 
 	// ExitFunc_def is called when exiting the func_def production.
 	ExitFunc_def(c *Func_defContext)
 
-	// ExitVar_declaration is called when exiting the var_declaration production.
-	ExitVar_declaration(c *Var_declarationContext)
+	// ExitMain is called when exiting the main production.
+	ExitMain(c *MainContext)
+
+	// ExitStmt is called when exiting the stmt production.
+	ExitStmt(c *StmtContext)
 
 	// ExitParam_declaration is called when exiting the param_declaration production.
 	ExitParam_declaration(c *Param_declarationContext)
 
 	// ExitAssignment is called when exiting the assignment production.
 	ExitAssignment(c *AssignmentContext)
+
+	// ExitNested_stmt is called when exiting the nested_stmt production.
+	ExitNested_stmt(c *Nested_stmtContext)
 
 	// ExitMatrix_assignment is called when exiting the matrix_assignment production.
 	ExitMatrix_assignment(c *Matrix_assignmentContext)
@@ -176,17 +170,23 @@ type BistatListener interface {
 	// ExitComment is called when exiting the comment production.
 	ExitComment(c *CommentContext)
 
-	// ExitFor is called when exiting the for production.
-	ExitFor(c *ForContext)
+	// ExitFor_loop is called when exiting the for_loop production.
+	ExitFor_loop(c *For_loopContext)
 
-	// ExitWhile is called when exiting the while production.
-	ExitWhile(c *WhileContext)
+	// ExitWhile_loop is called when exiting the while_loop production.
+	ExitWhile_loop(c *While_loopContext)
 
 	// ExitConditional is called when exiting the conditional production.
 	ExitConditional(c *ConditionalContext)
 
+	// ExitSpecial_function is called when exiting the special_function production.
+	ExitSpecial_function(c *Special_functionContext)
+
 	// ExitInput_read is called when exiting the input_read production.
 	ExitInput_read(c *Input_readContext)
+
+	// ExitPrint is called when exiting the print production.
+	ExitPrint(c *PrintContext)
 
 	// ExitList_add is called when exiting the list_add production.
 	ExitList_add(c *List_addContext)
@@ -248,8 +248,8 @@ type BistatListener interface {
 	// ExitNot is called when exiting the not production.
 	ExitNot(c *NotContext)
 
-	// ExitSpecial_function is called when exiting the special_function production.
-	ExitSpecial_function(c *Special_functionContext)
+	// ExitExpression is called when exiting the expression production.
+	ExitExpression(c *ExpressionContext)
 
 	// ExitExp is called when exiting the exp production.
 	ExitExp(c *ExpContext)

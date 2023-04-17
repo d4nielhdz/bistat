@@ -1,26 +1,40 @@
 package main
 
 import (
+	parser "bistat/parser"
 	"fmt"
 	"os"
-
-	parser "bistat/parser"
 
 	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
 )
 
-type TreeShapeListener struct {
+type bistatListener struct {
 	*parser.BaseBistatListener
 }
 
-func NewTreeShapeListener() *TreeShapeListener {
-	return new(TreeShapeListener)
+func NewBistatListener() *bistatListener {
+	return new(bistatListener)
 }
 
-func (this *TreeShapeListener) EnterEveryRule(ctx antlr.ParserRuleContext) {
-	fmt.Println("rule\n")
-	fmt.Println(ctx.GetText())
-	fmt.Println("\n")
+func (l *bistatListener) EnterProgram(ctx *parser.ProgramContext) {
+	fmt.Println("Entered program")
+	fmt.Println(ctx.ID())
+}
+
+func (l *bistatListener) EnterVar_declaration(ctx *parser.Var_declarationContext) {
+	fmt.Println("Entered variable declaration")
+	fmt.Println(ctx.ID())
+	fmt.Println(ctx.NON_VOID_TYPE())
+}
+
+func (l *bistatListener) EnterStmt(ctx *parser.StmtContext) {
+	fmt.Println("Entered statement")
+	fmt.Println(ctx.GetBaseRuleContext())
+}
+
+func (l *bistatListener) ExitProgram(ctx *parser.ProgramContext) {
+	fmt.Println("Exited program")
+	fmt.Println(ctx.GetBaseRuleContext())
 }
 
 func main() {
@@ -29,7 +43,5 @@ func main() {
 	stream := antlr.NewCommonTokenStream(lexer, 0)
 	p := parser.NewBistatParser(stream)
 	p.AddErrorListener(antlr.NewDiagnosticErrorListener(true))
-	p.BuildParseTrees = true
-	tree := p.Program()
-	antlr.ParseTreeWalkerDefault.Walk(NewTreeShapeListener(), tree)
+	antlr.ParseTreeWalkerDefault.Walk(NewBistatListener(), p.Program())
 }
