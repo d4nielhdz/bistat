@@ -11,11 +11,11 @@ type BistatListener interface {
 	// EnterProgram is called when entering the program production.
 	EnterProgram(c *ProgramContext)
 
-	// EnterVar_declaration is called when entering the var_declaration production.
-	EnterVar_declaration(c *Var_declarationContext)
+	// EnterVarDeclaration is called when entering the varDeclaration production.
+	EnterVarDeclaration(c *VarDeclarationContext)
 
-	// EnterFunc_def is called when entering the func_def production.
-	EnterFunc_def(c *Func_defContext)
+	// EnterFuncDef is called when entering the funcDef production.
+	EnterFuncDef(c *FuncDefContext)
 
 	// EnterMain is called when entering the main production.
 	EnterMain(c *MainContext)
@@ -23,8 +23,8 @@ type BistatListener interface {
 	// EnterStmt is called when entering the stmt production.
 	EnterStmt(c *StmtContext)
 
-	// EnterParam_declaration is called when entering the param_declaration production.
-	EnterParam_declaration(c *Param_declarationContext)
+	// EnterParamDeclaration is called when entering the paramDeclaration production.
+	EnterParamDeclaration(c *ParamDeclarationContext)
 
 	// EnterAssignment is called when entering the assignment production.
 	EnterAssignment(c *AssignmentContext)
@@ -32,38 +32,38 @@ type BistatListener interface {
 	// EnterNested_stmt is called when entering the nested_stmt production.
 	EnterNested_stmt(c *Nested_stmtContext)
 
-	// EnterMatrix_assignment is called when entering the matrix_assignment production.
-	EnterMatrix_assignment(c *Matrix_assignmentContext)
+	// EnterMatrixAssignment is called when entering the matrixAssignment production.
+	EnterMatrixAssignment(c *MatrixAssignmentContext)
 
-	// EnterList_assignment is called when entering the list_assignment production.
-	EnterList_assignment(c *List_assignmentContext)
+	// EnterListAssignment is called when entering the listAssignment production.
+	EnterListAssignment(c *ListAssignmentContext)
 
 	// EnterComment is called when entering the comment production.
 	EnterComment(c *CommentContext)
 
-	// EnterFor_loop is called when entering the for_loop production.
-	EnterFor_loop(c *For_loopContext)
+	// EnterForLoop is called when entering the forLoop production.
+	EnterForLoop(c *ForLoopContext)
 
-	// EnterWhile_loop is called when entering the while_loop production.
-	EnterWhile_loop(c *While_loopContext)
+	// EnterWhileLoop is called when entering the whileLoop production.
+	EnterWhileLoop(c *WhileLoopContext)
 
 	// EnterConditional is called when entering the conditional production.
 	EnterConditional(c *ConditionalContext)
 
-	// EnterSpecial_function is called when entering the special_function production.
-	EnterSpecial_function(c *Special_functionContext)
+	// EnterSpecialFunction is called when entering the specialFunction production.
+	EnterSpecialFunction(c *SpecialFunctionContext)
 
-	// EnterInput_read is called when entering the input_read production.
-	EnterInput_read(c *Input_readContext)
+	// EnterInputRead is called when entering the inputRead production.
+	EnterInputRead(c *InputReadContext)
 
 	// EnterPrint is called when entering the print production.
 	EnterPrint(c *PrintContext)
 
-	// EnterList_add is called when entering the list_add production.
-	EnterList_add(c *List_addContext)
+	// EnterListAdd is called when entering the listAdd production.
+	EnterListAdd(c *ListAddContext)
 
-	// EnterList_pop is called when entering the list_pop production.
-	EnterList_pop(c *List_popContext)
+	// EnterListPop is called when entering the listPop production.
+	EnterListPop(c *ListPopContext)
 
 	// EnterLength is called when entering the length production.
 	EnterLength(c *LengthContext)
@@ -86,8 +86,8 @@ type BistatListener interface {
 	// EnterAvg is called when entering the avg production.
 	EnterAvg(c *AvgContext)
 
-	// EnterS_mode is called when entering the s_mode production.
-	EnterS_mode(c *S_modeContext)
+	// EnterSMode is called when entering the sMode production.
+	EnterSMode(c *SModeContext)
 
 	// EnterMedian is called when entering the median production.
 	EnterMedian(c *MedianContext)
@@ -131,8 +131,8 @@ type BistatListener interface {
 	// EnterFactor is called when entering the factor production.
 	EnterFactor(c *FactorContext)
 
-	// EnterFunction_call is called when entering the function_call production.
-	EnterFunction_call(c *Function_callContext)
+	// EnterFunctionCall is called when entering the functionCall production.
+	EnterFunctionCall(c *FunctionCallContext)
 
 	// EnterIndexing is called when entering the indexing production.
 	EnterIndexing(c *IndexingContext)
@@ -140,11 +140,11 @@ type BistatListener interface {
 	// ExitProgram is called when exiting the program production.
 	ExitProgram(c *ProgramContext)
 
-	// ExitVar_declaration is called when exiting the var_declaration production.
-	ExitVar_declaration(c *Var_declarationContext)
+	// ExitVarDeclaration is called when exiting the varDeclaration production.
+	ExitVarDeclaration(c *VarDeclarationContext)
 
-	// ExitFunc_def is called when exiting the func_def production.
-	ExitFunc_def(c *Func_defContext)
+	// ExitFuncDef is called when exiting the funcDef production.
+	ExitFuncDef(c *FuncDefContext)
 
 	// ExitMain is called when exiting the main production.
 	ExitMain(c *MainContext)
@@ -152,8 +152,8 @@ type BistatListener interface {
 	// ExitStmt is called when exiting the stmt production.
 	ExitStmt(c *StmtContext)
 
-	// ExitParam_declaration is called when exiting the param_declaration production.
-	ExitParam_declaration(c *Param_declarationContext)
+	// ExitParamDeclaration is called when exiting the paramDeclaration production.
+	ExitParamDeclaration(c *ParamDeclarationContext)
 
 	// ExitAssignment is called when exiting the assignment production.
 	ExitAssignment(c *AssignmentContext)
@@ -161,38 +161,38 @@ type BistatListener interface {
 	// ExitNested_stmt is called when exiting the nested_stmt production.
 	ExitNested_stmt(c *Nested_stmtContext)
 
-	// ExitMatrix_assignment is called when exiting the matrix_assignment production.
-	ExitMatrix_assignment(c *Matrix_assignmentContext)
+	// ExitMatrixAssignment is called when exiting the matrixAssignment production.
+	ExitMatrixAssignment(c *MatrixAssignmentContext)
 
-	// ExitList_assignment is called when exiting the list_assignment production.
-	ExitList_assignment(c *List_assignmentContext)
+	// ExitListAssignment is called when exiting the listAssignment production.
+	ExitListAssignment(c *ListAssignmentContext)
 
 	// ExitComment is called when exiting the comment production.
 	ExitComment(c *CommentContext)
 
-	// ExitFor_loop is called when exiting the for_loop production.
-	ExitFor_loop(c *For_loopContext)
+	// ExitForLoop is called when exiting the forLoop production.
+	ExitForLoop(c *ForLoopContext)
 
-	// ExitWhile_loop is called when exiting the while_loop production.
-	ExitWhile_loop(c *While_loopContext)
+	// ExitWhileLoop is called when exiting the whileLoop production.
+	ExitWhileLoop(c *WhileLoopContext)
 
 	// ExitConditional is called when exiting the conditional production.
 	ExitConditional(c *ConditionalContext)
 
-	// ExitSpecial_function is called when exiting the special_function production.
-	ExitSpecial_function(c *Special_functionContext)
+	// ExitSpecialFunction is called when exiting the specialFunction production.
+	ExitSpecialFunction(c *SpecialFunctionContext)
 
-	// ExitInput_read is called when exiting the input_read production.
-	ExitInput_read(c *Input_readContext)
+	// ExitInputRead is called when exiting the inputRead production.
+	ExitInputRead(c *InputReadContext)
 
 	// ExitPrint is called when exiting the print production.
 	ExitPrint(c *PrintContext)
 
-	// ExitList_add is called when exiting the list_add production.
-	ExitList_add(c *List_addContext)
+	// ExitListAdd is called when exiting the listAdd production.
+	ExitListAdd(c *ListAddContext)
 
-	// ExitList_pop is called when exiting the list_pop production.
-	ExitList_pop(c *List_popContext)
+	// ExitListPop is called when exiting the listPop production.
+	ExitListPop(c *ListPopContext)
 
 	// ExitLength is called when exiting the length production.
 	ExitLength(c *LengthContext)
@@ -215,8 +215,8 @@ type BistatListener interface {
 	// ExitAvg is called when exiting the avg production.
 	ExitAvg(c *AvgContext)
 
-	// ExitS_mode is called when exiting the s_mode production.
-	ExitS_mode(c *S_modeContext)
+	// ExitSMode is called when exiting the sMode production.
+	ExitSMode(c *SModeContext)
 
 	// ExitMedian is called when exiting the median production.
 	ExitMedian(c *MedianContext)
@@ -260,8 +260,8 @@ type BistatListener interface {
 	// ExitFactor is called when exiting the factor production.
 	ExitFactor(c *FactorContext)
 
-	// ExitFunction_call is called when exiting the function_call production.
-	ExitFunction_call(c *Function_callContext)
+	// ExitFunctionCall is called when exiting the functionCall production.
+	ExitFunctionCall(c *FunctionCallContext)
 
 	// ExitIndexing is called when exiting the indexing production.
 	ExitIndexing(c *IndexingContext)

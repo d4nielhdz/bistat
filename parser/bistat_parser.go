@@ -35,9 +35,9 @@ func bistatParserInit() {
 	staticData.literalNames = []string{
 		"", "'Program'", "';'", "'var'", "'func'", "'('", "')'", "':'", "'{'",
 		"'}'", "'main'", "'='", "'['", "','", "']'", "'#'", "'for'", "'in'",
-		"'while'", "'if'", "'else'", "'read'", "'print'", "'list_add'", "'list_pop'",
+		"'while'", "'if'", "'else'", "'read'", "'print'", "'listAdd'", "'listPop'",
 		"'length'", "'range'", "'plot'", "'sum'", "'min'", "'prod'", "'avg'",
-		"'s_mode'", "'median'", "'sin'", "'tan'", "'cos'", "'sort'", "'sqrt'",
+		"'sMode'", "'median'", "'sin'", "'tan'", "'cos'", "'sort'", "'sqrt'",
 		"'floor'", "'ceil'", "'abs'", "'not'",
 	}
 	staticData.symbolicNames = []string{
@@ -49,13 +49,13 @@ func bistatParserInit() {
 		"LOGIC_OPERATOR", "NUMBER",
 	}
 	staticData.ruleNames = []string{
-		"program", "var_declaration", "func_def", "main", "stmt", "param_declaration",
-		"assignment", "nested_stmt", "matrix_assignment", "list_assignment",
-		"comment", "for_loop", "while_loop", "conditional", "special_function",
-		"input_read", "print", "list_add", "list_pop", "length", "range", "plot",
-		"sum", "min", "prod", "avg", "s_mode", "median", "sin", "tan", "cos",
-		"sort", "sqrt", "floor", "ceil", "abs", "not", "expression", "exp",
-		"term", "factor", "function_call", "indexing",
+		"program", "varDeclaration", "funcDef", "main", "stmt", "paramDeclaration",
+		"assignment", "nested_stmt", "matrixAssignment", "listAssignment", "comment",
+		"forLoop", "whileLoop", "conditional", "specialFunction", "inputRead",
+		"print", "listAdd", "listPop", "length", "range", "plot", "sum", "min",
+		"prod", "avg", "sMode", "median", "sin", "tan", "cos", "sort", "sqrt",
+		"floor", "ceil", "abs", "not", "expression", "exp", "term", "factor",
+		"functionCall", "indexing",
 	}
 	staticData.predictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
@@ -370,49 +370,49 @@ const (
 
 // BistatParser rules.
 const (
-	BistatParserRULE_program           = 0
-	BistatParserRULE_var_declaration   = 1
-	BistatParserRULE_func_def          = 2
-	BistatParserRULE_main              = 3
-	BistatParserRULE_stmt              = 4
-	BistatParserRULE_param_declaration = 5
-	BistatParserRULE_assignment        = 6
-	BistatParserRULE_nested_stmt       = 7
-	BistatParserRULE_matrix_assignment = 8
-	BistatParserRULE_list_assignment   = 9
-	BistatParserRULE_comment           = 10
-	BistatParserRULE_for_loop          = 11
-	BistatParserRULE_while_loop        = 12
-	BistatParserRULE_conditional       = 13
-	BistatParserRULE_special_function  = 14
-	BistatParserRULE_input_read        = 15
-	BistatParserRULE_print             = 16
-	BistatParserRULE_list_add          = 17
-	BistatParserRULE_list_pop          = 18
-	BistatParserRULE_length            = 19
-	BistatParserRULE_range             = 20
-	BistatParserRULE_plot              = 21
-	BistatParserRULE_sum               = 22
-	BistatParserRULE_min               = 23
-	BistatParserRULE_prod              = 24
-	BistatParserRULE_avg               = 25
-	BistatParserRULE_s_mode            = 26
-	BistatParserRULE_median            = 27
-	BistatParserRULE_sin               = 28
-	BistatParserRULE_tan               = 29
-	BistatParserRULE_cos               = 30
-	BistatParserRULE_sort              = 31
-	BistatParserRULE_sqrt              = 32
-	BistatParserRULE_floor             = 33
-	BistatParserRULE_ceil              = 34
-	BistatParserRULE_abs               = 35
-	BistatParserRULE_not               = 36
-	BistatParserRULE_expression        = 37
-	BistatParserRULE_exp               = 38
-	BistatParserRULE_term              = 39
-	BistatParserRULE_factor            = 40
-	BistatParserRULE_function_call     = 41
-	BistatParserRULE_indexing          = 42
+	BistatParserRULE_program          = 0
+	BistatParserRULE_varDeclaration   = 1
+	BistatParserRULE_funcDef          = 2
+	BistatParserRULE_main             = 3
+	BistatParserRULE_stmt             = 4
+	BistatParserRULE_paramDeclaration = 5
+	BistatParserRULE_assignment       = 6
+	BistatParserRULE_nested_stmt      = 7
+	BistatParserRULE_matrixAssignment = 8
+	BistatParserRULE_listAssignment   = 9
+	BistatParserRULE_comment          = 10
+	BistatParserRULE_forLoop          = 11
+	BistatParserRULE_whileLoop        = 12
+	BistatParserRULE_conditional      = 13
+	BistatParserRULE_specialFunction  = 14
+	BistatParserRULE_inputRead        = 15
+	BistatParserRULE_print            = 16
+	BistatParserRULE_listAdd          = 17
+	BistatParserRULE_listPop          = 18
+	BistatParserRULE_length           = 19
+	BistatParserRULE_range            = 20
+	BistatParserRULE_plot             = 21
+	BistatParserRULE_sum              = 22
+	BistatParserRULE_min              = 23
+	BistatParserRULE_prod             = 24
+	BistatParserRULE_avg              = 25
+	BistatParserRULE_sMode            = 26
+	BistatParserRULE_median           = 27
+	BistatParserRULE_sin              = 28
+	BistatParserRULE_tan              = 29
+	BistatParserRULE_cos              = 30
+	BistatParserRULE_sort             = 31
+	BistatParserRULE_sqrt             = 32
+	BistatParserRULE_floor            = 33
+	BistatParserRULE_ceil             = 34
+	BistatParserRULE_abs              = 35
+	BistatParserRULE_not              = 36
+	BistatParserRULE_expression       = 37
+	BistatParserRULE_exp              = 38
+	BistatParserRULE_term             = 39
+	BistatParserRULE_factor           = 40
+	BistatParserRULE_functionCall     = 41
+	BistatParserRULE_indexing         = 42
 )
 
 // IProgramContext is an interface to support dynamic dispatch.
@@ -426,10 +426,10 @@ type IProgramContext interface {
 	ID() antlr.TerminalNode
 	Main() IMainContext
 	EOF() antlr.TerminalNode
-	AllVar_declaration() []IVar_declarationContext
-	Var_declaration(i int) IVar_declarationContext
-	AllFunc_def() []IFunc_defContext
-	Func_def(i int) IFunc_defContext
+	AllVarDeclaration() []IVarDeclarationContext
+	VarDeclaration(i int) IVarDeclarationContext
+	AllFuncDef() []IFuncDefContext
+	FuncDef(i int) IFuncDefContext
 
 	// IsProgramContext differentiates from other interfaces.
 	IsProgramContext()
@@ -486,20 +486,20 @@ func (s *ProgramContext) EOF() antlr.TerminalNode {
 	return s.GetToken(BistatParserEOF, 0)
 }
 
-func (s *ProgramContext) AllVar_declaration() []IVar_declarationContext {
+func (s *ProgramContext) AllVarDeclaration() []IVarDeclarationContext {
 	children := s.GetChildren()
 	len := 0
 	for _, ctx := range children {
-		if _, ok := ctx.(IVar_declarationContext); ok {
+		if _, ok := ctx.(IVarDeclarationContext); ok {
 			len++
 		}
 	}
 
-	tst := make([]IVar_declarationContext, len)
+	tst := make([]IVarDeclarationContext, len)
 	i := 0
 	for _, ctx := range children {
-		if t, ok := ctx.(IVar_declarationContext); ok {
-			tst[i] = t.(IVar_declarationContext)
+		if t, ok := ctx.(IVarDeclarationContext); ok {
+			tst[i] = t.(IVarDeclarationContext)
 			i++
 		}
 	}
@@ -507,11 +507,11 @@ func (s *ProgramContext) AllVar_declaration() []IVar_declarationContext {
 	return tst
 }
 
-func (s *ProgramContext) Var_declaration(i int) IVar_declarationContext {
+func (s *ProgramContext) VarDeclaration(i int) IVarDeclarationContext {
 	var t antlr.RuleContext
 	j := 0
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IVar_declarationContext); ok {
+		if _, ok := ctx.(IVarDeclarationContext); ok {
 			if j == i {
 				t = ctx.(antlr.RuleContext)
 				break
@@ -524,23 +524,23 @@ func (s *ProgramContext) Var_declaration(i int) IVar_declarationContext {
 		return nil
 	}
 
-	return t.(IVar_declarationContext)
+	return t.(IVarDeclarationContext)
 }
 
-func (s *ProgramContext) AllFunc_def() []IFunc_defContext {
+func (s *ProgramContext) AllFuncDef() []IFuncDefContext {
 	children := s.GetChildren()
 	len := 0
 	for _, ctx := range children {
-		if _, ok := ctx.(IFunc_defContext); ok {
+		if _, ok := ctx.(IFuncDefContext); ok {
 			len++
 		}
 	}
 
-	tst := make([]IFunc_defContext, len)
+	tst := make([]IFuncDefContext, len)
 	i := 0
 	for _, ctx := range children {
-		if t, ok := ctx.(IFunc_defContext); ok {
-			tst[i] = t.(IFunc_defContext)
+		if t, ok := ctx.(IFuncDefContext); ok {
+			tst[i] = t.(IFuncDefContext)
 			i++
 		}
 	}
@@ -548,11 +548,11 @@ func (s *ProgramContext) AllFunc_def() []IFunc_defContext {
 	return tst
 }
 
-func (s *ProgramContext) Func_def(i int) IFunc_defContext {
+func (s *ProgramContext) FuncDef(i int) IFuncDefContext {
 	var t antlr.RuleContext
 	j := 0
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IFunc_defContext); ok {
+		if _, ok := ctx.(IFuncDefContext); ok {
 			if j == i {
 				t = ctx.(antlr.RuleContext)
 				break
@@ -565,7 +565,7 @@ func (s *ProgramContext) Func_def(i int) IFunc_defContext {
 		return nil
 	}
 
-	return t.(IFunc_defContext)
+	return t.(IFuncDefContext)
 }
 
 func (s *ProgramContext) GetRuleContext() antlr.RuleContext {
@@ -632,7 +632,7 @@ func (p *BistatParser) Program() (localctx IProgramContext) {
 	for _la == BistatParserT__2 {
 		{
 			p.SetState(89)
-			p.Var_declaration()
+			p.VarDeclaration()
 		}
 
 		p.SetState(94)
@@ -646,7 +646,7 @@ func (p *BistatParser) Program() (localctx IProgramContext) {
 	for _la == BistatParserT__3 {
 		{
 			p.SetState(95)
-			p.Func_def()
+			p.FuncDef()
 		}
 
 		p.SetState(100)
@@ -665,8 +665,8 @@ func (p *BistatParser) Program() (localctx IProgramContext) {
 	return localctx
 }
 
-// IVar_declarationContext is an interface to support dynamic dispatch.
-type IVar_declarationContext interface {
+// IVarDeclarationContext is an interface to support dynamic dispatch.
+type IVarDeclarationContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
@@ -676,71 +676,71 @@ type IVar_declarationContext interface {
 	NON_VOID_TYPE() antlr.TerminalNode
 	ID() antlr.TerminalNode
 
-	// IsVar_declarationContext differentiates from other interfaces.
-	IsVar_declarationContext()
+	// IsVarDeclarationContext differentiates from other interfaces.
+	IsVarDeclarationContext()
 }
 
-type Var_declarationContext struct {
+type VarDeclarationContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyVar_declarationContext() *Var_declarationContext {
-	var p = new(Var_declarationContext)
+func NewEmptyVarDeclarationContext() *VarDeclarationContext {
+	var p = new(VarDeclarationContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = BistatParserRULE_var_declaration
+	p.RuleIndex = BistatParserRULE_varDeclaration
 	return p
 }
 
-func (*Var_declarationContext) IsVar_declarationContext() {}
+func (*VarDeclarationContext) IsVarDeclarationContext() {}
 
-func NewVar_declarationContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Var_declarationContext {
-	var p = new(Var_declarationContext)
+func NewVarDeclarationContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *VarDeclarationContext {
+	var p = new(VarDeclarationContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = BistatParserRULE_var_declaration
+	p.RuleIndex = BistatParserRULE_varDeclaration
 
 	return p
 }
 
-func (s *Var_declarationContext) GetParser() antlr.Parser { return s.parser }
+func (s *VarDeclarationContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *Var_declarationContext) NON_VOID_TYPE() antlr.TerminalNode {
+func (s *VarDeclarationContext) NON_VOID_TYPE() antlr.TerminalNode {
 	return s.GetToken(BistatParserNON_VOID_TYPE, 0)
 }
 
-func (s *Var_declarationContext) ID() antlr.TerminalNode {
+func (s *VarDeclarationContext) ID() antlr.TerminalNode {
 	return s.GetToken(BistatParserID, 0)
 }
 
-func (s *Var_declarationContext) GetRuleContext() antlr.RuleContext {
+func (s *VarDeclarationContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *Var_declarationContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *VarDeclarationContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *Var_declarationContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *VarDeclarationContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.EnterVar_declaration(s)
+		listenerT.EnterVarDeclaration(s)
 	}
 }
 
-func (s *Var_declarationContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *VarDeclarationContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.ExitVar_declaration(s)
+		listenerT.ExitVarDeclaration(s)
 	}
 }
 
-func (p *BistatParser) Var_declaration() (localctx IVar_declarationContext) {
+func (p *BistatParser) VarDeclaration() (localctx IVarDeclarationContext) {
 	this := p
 	_ = this
 
-	localctx = NewVar_declarationContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 2, BistatParserRULE_var_declaration)
+	localctx = NewVarDeclarationContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 2, BistatParserRULE_varDeclaration)
 
 	defer func() {
 		p.ExitRule()
@@ -779,8 +779,8 @@ func (p *BistatParser) Var_declaration() (localctx IVar_declarationContext) {
 	return localctx
 }
 
-// IFunc_defContext is an interface to support dynamic dispatch.
-type IFunc_defContext interface {
+// IFuncDefContext is an interface to support dynamic dispatch.
+type IFuncDefContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
@@ -789,66 +789,66 @@ type IFunc_defContext interface {
 	// Getter signatures
 	ID() antlr.TerminalNode
 	RETURN_TYPE() antlr.TerminalNode
-	AllParam_declaration() []IParam_declarationContext
-	Param_declaration(i int) IParam_declarationContext
-	AllVar_declaration() []IVar_declarationContext
-	Var_declaration(i int) IVar_declarationContext
+	AllParamDeclaration() []IParamDeclarationContext
+	ParamDeclaration(i int) IParamDeclarationContext
+	AllVarDeclaration() []IVarDeclarationContext
+	VarDeclaration(i int) IVarDeclarationContext
 	AllStmt() []IStmtContext
 	Stmt(i int) IStmtContext
 
-	// IsFunc_defContext differentiates from other interfaces.
-	IsFunc_defContext()
+	// IsFuncDefContext differentiates from other interfaces.
+	IsFuncDefContext()
 }
 
-type Func_defContext struct {
+type FuncDefContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyFunc_defContext() *Func_defContext {
-	var p = new(Func_defContext)
+func NewEmptyFuncDefContext() *FuncDefContext {
+	var p = new(FuncDefContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = BistatParserRULE_func_def
+	p.RuleIndex = BistatParserRULE_funcDef
 	return p
 }
 
-func (*Func_defContext) IsFunc_defContext() {}
+func (*FuncDefContext) IsFuncDefContext() {}
 
-func NewFunc_defContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Func_defContext {
-	var p = new(Func_defContext)
+func NewFuncDefContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *FuncDefContext {
+	var p = new(FuncDefContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = BistatParserRULE_func_def
+	p.RuleIndex = BistatParserRULE_funcDef
 
 	return p
 }
 
-func (s *Func_defContext) GetParser() antlr.Parser { return s.parser }
+func (s *FuncDefContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *Func_defContext) ID() antlr.TerminalNode {
+func (s *FuncDefContext) ID() antlr.TerminalNode {
 	return s.GetToken(BistatParserID, 0)
 }
 
-func (s *Func_defContext) RETURN_TYPE() antlr.TerminalNode {
+func (s *FuncDefContext) RETURN_TYPE() antlr.TerminalNode {
 	return s.GetToken(BistatParserRETURN_TYPE, 0)
 }
 
-func (s *Func_defContext) AllParam_declaration() []IParam_declarationContext {
+func (s *FuncDefContext) AllParamDeclaration() []IParamDeclarationContext {
 	children := s.GetChildren()
 	len := 0
 	for _, ctx := range children {
-		if _, ok := ctx.(IParam_declarationContext); ok {
+		if _, ok := ctx.(IParamDeclarationContext); ok {
 			len++
 		}
 	}
 
-	tst := make([]IParam_declarationContext, len)
+	tst := make([]IParamDeclarationContext, len)
 	i := 0
 	for _, ctx := range children {
-		if t, ok := ctx.(IParam_declarationContext); ok {
-			tst[i] = t.(IParam_declarationContext)
+		if t, ok := ctx.(IParamDeclarationContext); ok {
+			tst[i] = t.(IParamDeclarationContext)
 			i++
 		}
 	}
@@ -856,11 +856,11 @@ func (s *Func_defContext) AllParam_declaration() []IParam_declarationContext {
 	return tst
 }
 
-func (s *Func_defContext) Param_declaration(i int) IParam_declarationContext {
+func (s *FuncDefContext) ParamDeclaration(i int) IParamDeclarationContext {
 	var t antlr.RuleContext
 	j := 0
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IParam_declarationContext); ok {
+		if _, ok := ctx.(IParamDeclarationContext); ok {
 			if j == i {
 				t = ctx.(antlr.RuleContext)
 				break
@@ -873,23 +873,23 @@ func (s *Func_defContext) Param_declaration(i int) IParam_declarationContext {
 		return nil
 	}
 
-	return t.(IParam_declarationContext)
+	return t.(IParamDeclarationContext)
 }
 
-func (s *Func_defContext) AllVar_declaration() []IVar_declarationContext {
+func (s *FuncDefContext) AllVarDeclaration() []IVarDeclarationContext {
 	children := s.GetChildren()
 	len := 0
 	for _, ctx := range children {
-		if _, ok := ctx.(IVar_declarationContext); ok {
+		if _, ok := ctx.(IVarDeclarationContext); ok {
 			len++
 		}
 	}
 
-	tst := make([]IVar_declarationContext, len)
+	tst := make([]IVarDeclarationContext, len)
 	i := 0
 	for _, ctx := range children {
-		if t, ok := ctx.(IVar_declarationContext); ok {
-			tst[i] = t.(IVar_declarationContext)
+		if t, ok := ctx.(IVarDeclarationContext); ok {
+			tst[i] = t.(IVarDeclarationContext)
 			i++
 		}
 	}
@@ -897,11 +897,11 @@ func (s *Func_defContext) AllVar_declaration() []IVar_declarationContext {
 	return tst
 }
 
-func (s *Func_defContext) Var_declaration(i int) IVar_declarationContext {
+func (s *FuncDefContext) VarDeclaration(i int) IVarDeclarationContext {
 	var t antlr.RuleContext
 	j := 0
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IVar_declarationContext); ok {
+		if _, ok := ctx.(IVarDeclarationContext); ok {
 			if j == i {
 				t = ctx.(antlr.RuleContext)
 				break
@@ -914,10 +914,10 @@ func (s *Func_defContext) Var_declaration(i int) IVar_declarationContext {
 		return nil
 	}
 
-	return t.(IVar_declarationContext)
+	return t.(IVarDeclarationContext)
 }
 
-func (s *Func_defContext) AllStmt() []IStmtContext {
+func (s *FuncDefContext) AllStmt() []IStmtContext {
 	children := s.GetChildren()
 	len := 0
 	for _, ctx := range children {
@@ -938,7 +938,7 @@ func (s *Func_defContext) AllStmt() []IStmtContext {
 	return tst
 }
 
-func (s *Func_defContext) Stmt(i int) IStmtContext {
+func (s *FuncDefContext) Stmt(i int) IStmtContext {
 	var t antlr.RuleContext
 	j := 0
 	for _, ctx := range s.GetChildren() {
@@ -958,32 +958,32 @@ func (s *Func_defContext) Stmt(i int) IStmtContext {
 	return t.(IStmtContext)
 }
 
-func (s *Func_defContext) GetRuleContext() antlr.RuleContext {
+func (s *FuncDefContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *Func_defContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *FuncDefContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *Func_defContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *FuncDefContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.EnterFunc_def(s)
+		listenerT.EnterFuncDef(s)
 	}
 }
 
-func (s *Func_defContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *FuncDefContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.ExitFunc_def(s)
+		listenerT.ExitFuncDef(s)
 	}
 }
 
-func (p *BistatParser) Func_def() (localctx IFunc_defContext) {
+func (p *BistatParser) FuncDef() (localctx IFuncDefContext) {
 	this := p
 	_ = this
 
-	localctx = NewFunc_defContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 4, BistatParserRULE_func_def)
+	localctx = NewFuncDefContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 4, BistatParserRULE_funcDef)
 	var _la int
 
 	defer func() {
@@ -1022,7 +1022,7 @@ func (p *BistatParser) Func_def() (localctx IFunc_defContext) {
 	for _la == BistatParserT__2 {
 		{
 			p.SetState(112)
-			p.Param_declaration()
+			p.ParamDeclaration()
 		}
 
 		p.SetState(117)
@@ -1048,7 +1048,7 @@ func (p *BistatParser) Func_def() (localctx IFunc_defContext) {
 	for _la == BistatParserT__2 {
 		{
 			p.SetState(121)
-			p.Var_declaration()
+			p.VarDeclaration()
 		}
 
 		p.SetState(126)
@@ -1257,11 +1257,11 @@ type IStmtContext interface {
 	// Getter signatures
 	Assignment() IAssignmentContext
 	Print_() IPrintContext
-	Special_function() ISpecial_functionContext
-	Function_call() IFunction_callContext
+	SpecialFunction() ISpecialFunctionContext
+	FunctionCall() IFunctionCallContext
 	Conditional() IConditionalContext
-	While_loop() IWhile_loopContext
-	For_loop() IFor_loopContext
+	WhileLoop() IWhileLoopContext
+	ForLoop() IForLoopContext
 	Comment() ICommentContext
 
 	// IsStmtContext differentiates from other interfaces.
@@ -1327,10 +1327,10 @@ func (s *StmtContext) Print_() IPrintContext {
 	return t.(IPrintContext)
 }
 
-func (s *StmtContext) Special_function() ISpecial_functionContext {
+func (s *StmtContext) SpecialFunction() ISpecialFunctionContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(ISpecial_functionContext); ok {
+		if _, ok := ctx.(ISpecialFunctionContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -1340,13 +1340,13 @@ func (s *StmtContext) Special_function() ISpecial_functionContext {
 		return nil
 	}
 
-	return t.(ISpecial_functionContext)
+	return t.(ISpecialFunctionContext)
 }
 
-func (s *StmtContext) Function_call() IFunction_callContext {
+func (s *StmtContext) FunctionCall() IFunctionCallContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IFunction_callContext); ok {
+		if _, ok := ctx.(IFunctionCallContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -1356,7 +1356,7 @@ func (s *StmtContext) Function_call() IFunction_callContext {
 		return nil
 	}
 
-	return t.(IFunction_callContext)
+	return t.(IFunctionCallContext)
 }
 
 func (s *StmtContext) Conditional() IConditionalContext {
@@ -1375,10 +1375,10 @@ func (s *StmtContext) Conditional() IConditionalContext {
 	return t.(IConditionalContext)
 }
 
-func (s *StmtContext) While_loop() IWhile_loopContext {
+func (s *StmtContext) WhileLoop() IWhileLoopContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IWhile_loopContext); ok {
+		if _, ok := ctx.(IWhileLoopContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -1388,13 +1388,13 @@ func (s *StmtContext) While_loop() IWhile_loopContext {
 		return nil
 	}
 
-	return t.(IWhile_loopContext)
+	return t.(IWhileLoopContext)
 }
 
-func (s *StmtContext) For_loop() IFor_loopContext {
+func (s *StmtContext) ForLoop() IForLoopContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IFor_loopContext); ok {
+		if _, ok := ctx.(IForLoopContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -1404,7 +1404,7 @@ func (s *StmtContext) For_loop() IFor_loopContext {
 		return nil
 	}
 
-	return t.(IFor_loopContext)
+	return t.(IForLoopContext)
 }
 
 func (s *StmtContext) Comment() ICommentContext {
@@ -1490,13 +1490,13 @@ func (p *BistatParser) Stmt() (localctx IStmtContext) {
 		case 3:
 			{
 				p.SetState(148)
-				p.Special_function()
+				p.SpecialFunction()
 			}
 
 		case 4:
 			{
 				p.SetState(149)
-				p.Function_call()
+				p.FunctionCall()
 			}
 
 		}
@@ -1516,14 +1516,14 @@ func (p *BistatParser) Stmt() (localctx IStmtContext) {
 		p.EnterOuterAlt(localctx, 3)
 		{
 			p.SetState(155)
-			p.While_loop()
+			p.WhileLoop()
 		}
 
 	case BistatParserT__15:
 		p.EnterOuterAlt(localctx, 4)
 		{
 			p.SetState(156)
-			p.For_loop()
+			p.ForLoop()
 		}
 
 	case BistatParserT__14:
@@ -1540,8 +1540,8 @@ func (p *BistatParser) Stmt() (localctx IStmtContext) {
 	return localctx
 }
 
-// IParam_declarationContext is an interface to support dynamic dispatch.
-type IParam_declarationContext interface {
+// IParamDeclarationContext is an interface to support dynamic dispatch.
+type IParamDeclarationContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
@@ -1551,71 +1551,71 @@ type IParam_declarationContext interface {
 	PARAM_TYPE() antlr.TerminalNode
 	ID() antlr.TerminalNode
 
-	// IsParam_declarationContext differentiates from other interfaces.
-	IsParam_declarationContext()
+	// IsParamDeclarationContext differentiates from other interfaces.
+	IsParamDeclarationContext()
 }
 
-type Param_declarationContext struct {
+type ParamDeclarationContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyParam_declarationContext() *Param_declarationContext {
-	var p = new(Param_declarationContext)
+func NewEmptyParamDeclarationContext() *ParamDeclarationContext {
+	var p = new(ParamDeclarationContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = BistatParserRULE_param_declaration
+	p.RuleIndex = BistatParserRULE_paramDeclaration
 	return p
 }
 
-func (*Param_declarationContext) IsParam_declarationContext() {}
+func (*ParamDeclarationContext) IsParamDeclarationContext() {}
 
-func NewParam_declarationContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Param_declarationContext {
-	var p = new(Param_declarationContext)
+func NewParamDeclarationContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ParamDeclarationContext {
+	var p = new(ParamDeclarationContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = BistatParserRULE_param_declaration
+	p.RuleIndex = BistatParserRULE_paramDeclaration
 
 	return p
 }
 
-func (s *Param_declarationContext) GetParser() antlr.Parser { return s.parser }
+func (s *ParamDeclarationContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *Param_declarationContext) PARAM_TYPE() antlr.TerminalNode {
+func (s *ParamDeclarationContext) PARAM_TYPE() antlr.TerminalNode {
 	return s.GetToken(BistatParserPARAM_TYPE, 0)
 }
 
-func (s *Param_declarationContext) ID() antlr.TerminalNode {
+func (s *ParamDeclarationContext) ID() antlr.TerminalNode {
 	return s.GetToken(BistatParserID, 0)
 }
 
-func (s *Param_declarationContext) GetRuleContext() antlr.RuleContext {
+func (s *ParamDeclarationContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *Param_declarationContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *ParamDeclarationContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *Param_declarationContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *ParamDeclarationContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.EnterParam_declaration(s)
+		listenerT.EnterParamDeclaration(s)
 	}
 }
 
-func (s *Param_declarationContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *ParamDeclarationContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.ExitParam_declaration(s)
+		listenerT.ExitParamDeclaration(s)
 	}
 }
 
-func (p *BistatParser) Param_declaration() (localctx IParam_declarationContext) {
+func (p *BistatParser) ParamDeclaration() (localctx IParamDeclarationContext) {
 	this := p
 	_ = this
 
-	localctx = NewParam_declarationContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 10, BistatParserRULE_param_declaration)
+	localctx = NewParamDeclarationContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 10, BistatParserRULE_paramDeclaration)
 
 	defer func() {
 		p.ExitRule()
@@ -1664,8 +1664,8 @@ type IAssignmentContext interface {
 	// Getter signatures
 	ID() antlr.TerminalNode
 	VAR_CONS() antlr.TerminalNode
-	List_assignment() IList_assignmentContext
-	Matrix_assignment() IMatrix_assignmentContext
+	ListAssignment() IListAssignmentContext
+	MatrixAssignment() IMatrixAssignmentContext
 
 	// IsAssignmentContext differentiates from other interfaces.
 	IsAssignmentContext()
@@ -1706,10 +1706,10 @@ func (s *AssignmentContext) VAR_CONS() antlr.TerminalNode {
 	return s.GetToken(BistatParserVAR_CONS, 0)
 }
 
-func (s *AssignmentContext) List_assignment() IList_assignmentContext {
+func (s *AssignmentContext) ListAssignment() IListAssignmentContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IList_assignmentContext); ok {
+		if _, ok := ctx.(IListAssignmentContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -1719,13 +1719,13 @@ func (s *AssignmentContext) List_assignment() IList_assignmentContext {
 		return nil
 	}
 
-	return t.(IList_assignmentContext)
+	return t.(IListAssignmentContext)
 }
 
-func (s *AssignmentContext) Matrix_assignment() IMatrix_assignmentContext {
+func (s *AssignmentContext) MatrixAssignment() IMatrixAssignmentContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IMatrix_assignmentContext); ok {
+		if _, ok := ctx.(IMatrixAssignmentContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -1735,7 +1735,7 @@ func (s *AssignmentContext) Matrix_assignment() IMatrix_assignmentContext {
 		return nil
 	}
 
-	return t.(IMatrix_assignmentContext)
+	return t.(IMatrixAssignmentContext)
 }
 
 func (s *AssignmentContext) GetRuleContext() antlr.RuleContext {
@@ -1802,13 +1802,13 @@ func (p *BistatParser) Assignment() (localctx IAssignmentContext) {
 	case 2:
 		{
 			p.SetState(168)
-			p.List_assignment()
+			p.ListAssignment()
 		}
 
 	case 3:
 		{
 			p.SetState(169)
-			p.Matrix_assignment()
+			p.MatrixAssignment()
 		}
 
 	}
@@ -1826,10 +1826,10 @@ type INested_stmtContext interface {
 	// Getter signatures
 	Assignment() IAssignmentContext
 	Print_() IPrintContext
-	Special_function() ISpecial_functionContext
-	Function_call() IFunction_callContext
+	SpecialFunction() ISpecialFunctionContext
+	FunctionCall() IFunctionCallContext
 	Conditional() IConditionalContext
-	While_loop() IWhile_loopContext
+	WhileLoop() IWhileLoopContext
 	Comment() ICommentContext
 
 	// IsNested_stmtContext differentiates from other interfaces.
@@ -1895,10 +1895,10 @@ func (s *Nested_stmtContext) Print_() IPrintContext {
 	return t.(IPrintContext)
 }
 
-func (s *Nested_stmtContext) Special_function() ISpecial_functionContext {
+func (s *Nested_stmtContext) SpecialFunction() ISpecialFunctionContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(ISpecial_functionContext); ok {
+		if _, ok := ctx.(ISpecialFunctionContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -1908,13 +1908,13 @@ func (s *Nested_stmtContext) Special_function() ISpecial_functionContext {
 		return nil
 	}
 
-	return t.(ISpecial_functionContext)
+	return t.(ISpecialFunctionContext)
 }
 
-func (s *Nested_stmtContext) Function_call() IFunction_callContext {
+func (s *Nested_stmtContext) FunctionCall() IFunctionCallContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IFunction_callContext); ok {
+		if _, ok := ctx.(IFunctionCallContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -1924,7 +1924,7 @@ func (s *Nested_stmtContext) Function_call() IFunction_callContext {
 		return nil
 	}
 
-	return t.(IFunction_callContext)
+	return t.(IFunctionCallContext)
 }
 
 func (s *Nested_stmtContext) Conditional() IConditionalContext {
@@ -1943,10 +1943,10 @@ func (s *Nested_stmtContext) Conditional() IConditionalContext {
 	return t.(IConditionalContext)
 }
 
-func (s *Nested_stmtContext) While_loop() IWhile_loopContext {
+func (s *Nested_stmtContext) WhileLoop() IWhileLoopContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IWhile_loopContext); ok {
+		if _, ok := ctx.(IWhileLoopContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -1956,7 +1956,7 @@ func (s *Nested_stmtContext) While_loop() IWhile_loopContext {
 		return nil
 	}
 
-	return t.(IWhile_loopContext)
+	return t.(IWhileLoopContext)
 }
 
 func (s *Nested_stmtContext) Comment() ICommentContext {
@@ -2042,13 +2042,13 @@ func (p *BistatParser) Nested_stmt() (localctx INested_stmtContext) {
 		case 3:
 			{
 				p.SetState(174)
-				p.Special_function()
+				p.SpecialFunction()
 			}
 
 		case 4:
 			{
 				p.SetState(175)
-				p.Function_call()
+				p.FunctionCall()
 			}
 
 		}
@@ -2068,7 +2068,7 @@ func (p *BistatParser) Nested_stmt() (localctx INested_stmtContext) {
 		p.EnterOuterAlt(localctx, 3)
 		{
 			p.SetState(181)
-			p.While_loop()
+			p.WhileLoop()
 		}
 
 	case BistatParserT__14:
@@ -2085,62 +2085,62 @@ func (p *BistatParser) Nested_stmt() (localctx INested_stmtContext) {
 	return localctx
 }
 
-// IMatrix_assignmentContext is an interface to support dynamic dispatch.
-type IMatrix_assignmentContext interface {
+// IMatrixAssignmentContext is an interface to support dynamic dispatch.
+type IMatrixAssignmentContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
 	// Getter signatures
-	AllList_assignment() []IList_assignmentContext
-	List_assignment(i int) IList_assignmentContext
+	AllListAssignment() []IListAssignmentContext
+	ListAssignment(i int) IListAssignmentContext
 
-	// IsMatrix_assignmentContext differentiates from other interfaces.
-	IsMatrix_assignmentContext()
+	// IsMatrixAssignmentContext differentiates from other interfaces.
+	IsMatrixAssignmentContext()
 }
 
-type Matrix_assignmentContext struct {
+type MatrixAssignmentContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyMatrix_assignmentContext() *Matrix_assignmentContext {
-	var p = new(Matrix_assignmentContext)
+func NewEmptyMatrixAssignmentContext() *MatrixAssignmentContext {
+	var p = new(MatrixAssignmentContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = BistatParserRULE_matrix_assignment
+	p.RuleIndex = BistatParserRULE_matrixAssignment
 	return p
 }
 
-func (*Matrix_assignmentContext) IsMatrix_assignmentContext() {}
+func (*MatrixAssignmentContext) IsMatrixAssignmentContext() {}
 
-func NewMatrix_assignmentContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Matrix_assignmentContext {
-	var p = new(Matrix_assignmentContext)
+func NewMatrixAssignmentContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *MatrixAssignmentContext {
+	var p = new(MatrixAssignmentContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = BistatParserRULE_matrix_assignment
+	p.RuleIndex = BistatParserRULE_matrixAssignment
 
 	return p
 }
 
-func (s *Matrix_assignmentContext) GetParser() antlr.Parser { return s.parser }
+func (s *MatrixAssignmentContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *Matrix_assignmentContext) AllList_assignment() []IList_assignmentContext {
+func (s *MatrixAssignmentContext) AllListAssignment() []IListAssignmentContext {
 	children := s.GetChildren()
 	len := 0
 	for _, ctx := range children {
-		if _, ok := ctx.(IList_assignmentContext); ok {
+		if _, ok := ctx.(IListAssignmentContext); ok {
 			len++
 		}
 	}
 
-	tst := make([]IList_assignmentContext, len)
+	tst := make([]IListAssignmentContext, len)
 	i := 0
 	for _, ctx := range children {
-		if t, ok := ctx.(IList_assignmentContext); ok {
-			tst[i] = t.(IList_assignmentContext)
+		if t, ok := ctx.(IListAssignmentContext); ok {
+			tst[i] = t.(IListAssignmentContext)
 			i++
 		}
 	}
@@ -2148,11 +2148,11 @@ func (s *Matrix_assignmentContext) AllList_assignment() []IList_assignmentContex
 	return tst
 }
 
-func (s *Matrix_assignmentContext) List_assignment(i int) IList_assignmentContext {
+func (s *MatrixAssignmentContext) ListAssignment(i int) IListAssignmentContext {
 	var t antlr.RuleContext
 	j := 0
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IList_assignmentContext); ok {
+		if _, ok := ctx.(IListAssignmentContext); ok {
 			if j == i {
 				t = ctx.(antlr.RuleContext)
 				break
@@ -2165,35 +2165,35 @@ func (s *Matrix_assignmentContext) List_assignment(i int) IList_assignmentContex
 		return nil
 	}
 
-	return t.(IList_assignmentContext)
+	return t.(IListAssignmentContext)
 }
 
-func (s *Matrix_assignmentContext) GetRuleContext() antlr.RuleContext {
+func (s *MatrixAssignmentContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *Matrix_assignmentContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *MatrixAssignmentContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *Matrix_assignmentContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *MatrixAssignmentContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.EnterMatrix_assignment(s)
+		listenerT.EnterMatrixAssignment(s)
 	}
 }
 
-func (s *Matrix_assignmentContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *MatrixAssignmentContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.ExitMatrix_assignment(s)
+		listenerT.ExitMatrixAssignment(s)
 	}
 }
 
-func (p *BistatParser) Matrix_assignment() (localctx IMatrix_assignmentContext) {
+func (p *BistatParser) MatrixAssignment() (localctx IMatrixAssignmentContext) {
 	this := p
 	_ = this
 
-	localctx = NewMatrix_assignmentContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 16, BistatParserRULE_matrix_assignment)
+	localctx = NewMatrixAssignmentContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 16, BistatParserRULE_matrixAssignment)
 	var _la int
 
 	defer func() {
@@ -2219,7 +2219,7 @@ func (p *BistatParser) Matrix_assignment() (localctx IMatrix_assignmentContext) 
 	}
 	{
 		p.SetState(186)
-		p.List_assignment()
+		p.ListAssignment()
 	}
 	p.SetState(191)
 	p.GetErrorHandler().Sync(p)
@@ -2232,7 +2232,7 @@ func (p *BistatParser) Matrix_assignment() (localctx IMatrix_assignmentContext) 
 		}
 		{
 			p.SetState(188)
-			p.List_assignment()
+			p.ListAssignment()
 		}
 
 		p.SetState(193)
@@ -2247,8 +2247,8 @@ func (p *BistatParser) Matrix_assignment() (localctx IMatrix_assignmentContext) 
 	return localctx
 }
 
-// IList_assignmentContext is an interface to support dynamic dispatch.
-type IList_assignmentContext interface {
+// IListAssignmentContext is an interface to support dynamic dispatch.
+type IListAssignmentContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
@@ -2258,71 +2258,71 @@ type IList_assignmentContext interface {
 	AllVAR_CONS() []antlr.TerminalNode
 	VAR_CONS(i int) antlr.TerminalNode
 
-	// IsList_assignmentContext differentiates from other interfaces.
-	IsList_assignmentContext()
+	// IsListAssignmentContext differentiates from other interfaces.
+	IsListAssignmentContext()
 }
 
-type List_assignmentContext struct {
+type ListAssignmentContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyList_assignmentContext() *List_assignmentContext {
-	var p = new(List_assignmentContext)
+func NewEmptyListAssignmentContext() *ListAssignmentContext {
+	var p = new(ListAssignmentContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = BistatParserRULE_list_assignment
+	p.RuleIndex = BistatParserRULE_listAssignment
 	return p
 }
 
-func (*List_assignmentContext) IsList_assignmentContext() {}
+func (*ListAssignmentContext) IsListAssignmentContext() {}
 
-func NewList_assignmentContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *List_assignmentContext {
-	var p = new(List_assignmentContext)
+func NewListAssignmentContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ListAssignmentContext {
+	var p = new(ListAssignmentContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = BistatParserRULE_list_assignment
+	p.RuleIndex = BistatParserRULE_listAssignment
 
 	return p
 }
 
-func (s *List_assignmentContext) GetParser() antlr.Parser { return s.parser }
+func (s *ListAssignmentContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *List_assignmentContext) AllVAR_CONS() []antlr.TerminalNode {
+func (s *ListAssignmentContext) AllVAR_CONS() []antlr.TerminalNode {
 	return s.GetTokens(BistatParserVAR_CONS)
 }
 
-func (s *List_assignmentContext) VAR_CONS(i int) antlr.TerminalNode {
+func (s *ListAssignmentContext) VAR_CONS(i int) antlr.TerminalNode {
 	return s.GetToken(BistatParserVAR_CONS, i)
 }
 
-func (s *List_assignmentContext) GetRuleContext() antlr.RuleContext {
+func (s *ListAssignmentContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *List_assignmentContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *ListAssignmentContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *List_assignmentContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *ListAssignmentContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.EnterList_assignment(s)
+		listenerT.EnterListAssignment(s)
 	}
 }
 
-func (s *List_assignmentContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *ListAssignmentContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.ExitList_assignment(s)
+		listenerT.ExitListAssignment(s)
 	}
 }
 
-func (p *BistatParser) List_assignment() (localctx IList_assignmentContext) {
+func (p *BistatParser) ListAssignment() (localctx IListAssignmentContext) {
 	this := p
 	_ = this
 
-	localctx = NewList_assignmentContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 18, BistatParserRULE_list_assignment)
+	localctx = NewListAssignmentContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 18, BistatParserRULE_listAssignment)
 	var _la int
 
 	defer func() {
@@ -2490,8 +2490,8 @@ func (p *BistatParser) Comment() (localctx ICommentContext) {
 	return localctx
 }
 
-// IFor_loopContext is an interface to support dynamic dispatch.
-type IFor_loopContext interface {
+// IForLoopContext is an interface to support dynamic dispatch.
+type IForLoopContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
@@ -2503,42 +2503,42 @@ type IFor_loopContext interface {
 	AllNested_stmt() []INested_stmtContext
 	Nested_stmt(i int) INested_stmtContext
 
-	// IsFor_loopContext differentiates from other interfaces.
-	IsFor_loopContext()
+	// IsForLoopContext differentiates from other interfaces.
+	IsForLoopContext()
 }
 
-type For_loopContext struct {
+type ForLoopContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyFor_loopContext() *For_loopContext {
-	var p = new(For_loopContext)
+func NewEmptyForLoopContext() *ForLoopContext {
+	var p = new(ForLoopContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = BistatParserRULE_for_loop
+	p.RuleIndex = BistatParserRULE_forLoop
 	return p
 }
 
-func (*For_loopContext) IsFor_loopContext() {}
+func (*ForLoopContext) IsForLoopContext() {}
 
-func NewFor_loopContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *For_loopContext {
-	var p = new(For_loopContext)
+func NewForLoopContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ForLoopContext {
+	var p = new(ForLoopContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = BistatParserRULE_for_loop
+	p.RuleIndex = BistatParserRULE_forLoop
 
 	return p
 }
 
-func (s *For_loopContext) GetParser() antlr.Parser { return s.parser }
+func (s *ForLoopContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *For_loopContext) ID() antlr.TerminalNode {
+func (s *ForLoopContext) ID() antlr.TerminalNode {
 	return s.GetToken(BistatParserID, 0)
 }
 
-func (s *For_loopContext) Expression() IExpressionContext {
+func (s *ForLoopContext) Expression() IExpressionContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(IExpressionContext); ok {
@@ -2554,7 +2554,7 @@ func (s *For_loopContext) Expression() IExpressionContext {
 	return t.(IExpressionContext)
 }
 
-func (s *For_loopContext) AllNested_stmt() []INested_stmtContext {
+func (s *ForLoopContext) AllNested_stmt() []INested_stmtContext {
 	children := s.GetChildren()
 	len := 0
 	for _, ctx := range children {
@@ -2575,7 +2575,7 @@ func (s *For_loopContext) AllNested_stmt() []INested_stmtContext {
 	return tst
 }
 
-func (s *For_loopContext) Nested_stmt(i int) INested_stmtContext {
+func (s *ForLoopContext) Nested_stmt(i int) INested_stmtContext {
 	var t antlr.RuleContext
 	j := 0
 	for _, ctx := range s.GetChildren() {
@@ -2595,32 +2595,32 @@ func (s *For_loopContext) Nested_stmt(i int) INested_stmtContext {
 	return t.(INested_stmtContext)
 }
 
-func (s *For_loopContext) GetRuleContext() antlr.RuleContext {
+func (s *ForLoopContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *For_loopContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *ForLoopContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *For_loopContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *ForLoopContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.EnterFor_loop(s)
+		listenerT.EnterForLoop(s)
 	}
 }
 
-func (s *For_loopContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *ForLoopContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.ExitFor_loop(s)
+		listenerT.ExitForLoop(s)
 	}
 }
 
-func (p *BistatParser) For_loop() (localctx IFor_loopContext) {
+func (p *BistatParser) ForLoop() (localctx IForLoopContext) {
 	this := p
 	_ = this
 
-	localctx = NewFor_loopContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 22, BistatParserRULE_for_loop)
+	localctx = NewForLoopContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 22, BistatParserRULE_forLoop)
 	var _la int
 
 	defer func() {
@@ -2690,8 +2690,8 @@ func (p *BistatParser) For_loop() (localctx IFor_loopContext) {
 	return localctx
 }
 
-// IWhile_loopContext is an interface to support dynamic dispatch.
-type IWhile_loopContext interface {
+// IWhileLoopContext is an interface to support dynamic dispatch.
+type IWhileLoopContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
@@ -2702,38 +2702,38 @@ type IWhile_loopContext interface {
 	AllStmt() []IStmtContext
 	Stmt(i int) IStmtContext
 
-	// IsWhile_loopContext differentiates from other interfaces.
-	IsWhile_loopContext()
+	// IsWhileLoopContext differentiates from other interfaces.
+	IsWhileLoopContext()
 }
 
-type While_loopContext struct {
+type WhileLoopContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyWhile_loopContext() *While_loopContext {
-	var p = new(While_loopContext)
+func NewEmptyWhileLoopContext() *WhileLoopContext {
+	var p = new(WhileLoopContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = BistatParserRULE_while_loop
+	p.RuleIndex = BistatParserRULE_whileLoop
 	return p
 }
 
-func (*While_loopContext) IsWhile_loopContext() {}
+func (*WhileLoopContext) IsWhileLoopContext() {}
 
-func NewWhile_loopContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *While_loopContext {
-	var p = new(While_loopContext)
+func NewWhileLoopContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *WhileLoopContext {
+	var p = new(WhileLoopContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = BistatParserRULE_while_loop
+	p.RuleIndex = BistatParserRULE_whileLoop
 
 	return p
 }
 
-func (s *While_loopContext) GetParser() antlr.Parser { return s.parser }
+func (s *WhileLoopContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *While_loopContext) Expression() IExpressionContext {
+func (s *WhileLoopContext) Expression() IExpressionContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(IExpressionContext); ok {
@@ -2749,7 +2749,7 @@ func (s *While_loopContext) Expression() IExpressionContext {
 	return t.(IExpressionContext)
 }
 
-func (s *While_loopContext) AllStmt() []IStmtContext {
+func (s *WhileLoopContext) AllStmt() []IStmtContext {
 	children := s.GetChildren()
 	len := 0
 	for _, ctx := range children {
@@ -2770,7 +2770,7 @@ func (s *While_loopContext) AllStmt() []IStmtContext {
 	return tst
 }
 
-func (s *While_loopContext) Stmt(i int) IStmtContext {
+func (s *WhileLoopContext) Stmt(i int) IStmtContext {
 	var t antlr.RuleContext
 	j := 0
 	for _, ctx := range s.GetChildren() {
@@ -2790,32 +2790,32 @@ func (s *While_loopContext) Stmt(i int) IStmtContext {
 	return t.(IStmtContext)
 }
 
-func (s *While_loopContext) GetRuleContext() antlr.RuleContext {
+func (s *WhileLoopContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *While_loopContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *WhileLoopContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *While_loopContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *WhileLoopContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.EnterWhile_loop(s)
+		listenerT.EnterWhileLoop(s)
 	}
 }
 
-func (s *While_loopContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *WhileLoopContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.ExitWhile_loop(s)
+		listenerT.ExitWhileLoop(s)
 	}
 }
 
-func (p *BistatParser) While_loop() (localctx IWhile_loopContext) {
+func (p *BistatParser) WhileLoop() (localctx IWhileLoopContext) {
 	this := p
 	_ = this
 
-	localctx = NewWhile_loopContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 24, BistatParserRULE_while_loop)
+	localctx = NewWhileLoopContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 24, BistatParserRULE_whileLoop)
 	var _la int
 
 	defer func() {
@@ -3179,18 +3179,18 @@ func (p *BistatParser) Conditional() (localctx IConditionalContext) {
 	return localctx
 }
 
-// ISpecial_functionContext is an interface to support dynamic dispatch.
-type ISpecial_functionContext interface {
+// ISpecialFunctionContext is an interface to support dynamic dispatch.
+type ISpecialFunctionContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
 	// Getter signatures
-	Input_read() IInput_readContext
+	InputRead() IInputReadContext
 	Print_() IPrintContext
-	List_add() IList_addContext
-	List_pop() IList_popContext
+	ListAdd() IListAddContext
+	ListPop() IListPopContext
 	Length() ILengthContext
 	Range_() IRangeContext
 	Plot() IPlotContext
@@ -3198,7 +3198,7 @@ type ISpecial_functionContext interface {
 	Min() IMinContext
 	Prod() IProdContext
 	Avg() IAvgContext
-	S_mode() IS_modeContext
+	SMode() ISModeContext
 	Median() IMedianContext
 	Sin() ISinContext
 	Cos() ICosContext
@@ -3210,41 +3210,41 @@ type ISpecial_functionContext interface {
 	Abs() IAbsContext
 	Not() INotContext
 
-	// IsSpecial_functionContext differentiates from other interfaces.
-	IsSpecial_functionContext()
+	// IsSpecialFunctionContext differentiates from other interfaces.
+	IsSpecialFunctionContext()
 }
 
-type Special_functionContext struct {
+type SpecialFunctionContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptySpecial_functionContext() *Special_functionContext {
-	var p = new(Special_functionContext)
+func NewEmptySpecialFunctionContext() *SpecialFunctionContext {
+	var p = new(SpecialFunctionContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = BistatParserRULE_special_function
+	p.RuleIndex = BistatParserRULE_specialFunction
 	return p
 }
 
-func (*Special_functionContext) IsSpecial_functionContext() {}
+func (*SpecialFunctionContext) IsSpecialFunctionContext() {}
 
-func NewSpecial_functionContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Special_functionContext {
-	var p = new(Special_functionContext)
+func NewSpecialFunctionContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *SpecialFunctionContext {
+	var p = new(SpecialFunctionContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = BistatParserRULE_special_function
+	p.RuleIndex = BistatParserRULE_specialFunction
 
 	return p
 }
 
-func (s *Special_functionContext) GetParser() antlr.Parser { return s.parser }
+func (s *SpecialFunctionContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *Special_functionContext) Input_read() IInput_readContext {
+func (s *SpecialFunctionContext) InputRead() IInputReadContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IInput_readContext); ok {
+		if _, ok := ctx.(IInputReadContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -3254,10 +3254,10 @@ func (s *Special_functionContext) Input_read() IInput_readContext {
 		return nil
 	}
 
-	return t.(IInput_readContext)
+	return t.(IInputReadContext)
 }
 
-func (s *Special_functionContext) Print_() IPrintContext {
+func (s *SpecialFunctionContext) Print_() IPrintContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(IPrintContext); ok {
@@ -3273,10 +3273,10 @@ func (s *Special_functionContext) Print_() IPrintContext {
 	return t.(IPrintContext)
 }
 
-func (s *Special_functionContext) List_add() IList_addContext {
+func (s *SpecialFunctionContext) ListAdd() IListAddContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IList_addContext); ok {
+		if _, ok := ctx.(IListAddContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -3286,13 +3286,13 @@ func (s *Special_functionContext) List_add() IList_addContext {
 		return nil
 	}
 
-	return t.(IList_addContext)
+	return t.(IListAddContext)
 }
 
-func (s *Special_functionContext) List_pop() IList_popContext {
+func (s *SpecialFunctionContext) ListPop() IListPopContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IList_popContext); ok {
+		if _, ok := ctx.(IListPopContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -3302,10 +3302,10 @@ func (s *Special_functionContext) List_pop() IList_popContext {
 		return nil
 	}
 
-	return t.(IList_popContext)
+	return t.(IListPopContext)
 }
 
-func (s *Special_functionContext) Length() ILengthContext {
+func (s *SpecialFunctionContext) Length() ILengthContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(ILengthContext); ok {
@@ -3321,7 +3321,7 @@ func (s *Special_functionContext) Length() ILengthContext {
 	return t.(ILengthContext)
 }
 
-func (s *Special_functionContext) Range_() IRangeContext {
+func (s *SpecialFunctionContext) Range_() IRangeContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(IRangeContext); ok {
@@ -3337,7 +3337,7 @@ func (s *Special_functionContext) Range_() IRangeContext {
 	return t.(IRangeContext)
 }
 
-func (s *Special_functionContext) Plot() IPlotContext {
+func (s *SpecialFunctionContext) Plot() IPlotContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(IPlotContext); ok {
@@ -3353,7 +3353,7 @@ func (s *Special_functionContext) Plot() IPlotContext {
 	return t.(IPlotContext)
 }
 
-func (s *Special_functionContext) Sum() ISumContext {
+func (s *SpecialFunctionContext) Sum() ISumContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(ISumContext); ok {
@@ -3369,7 +3369,7 @@ func (s *Special_functionContext) Sum() ISumContext {
 	return t.(ISumContext)
 }
 
-func (s *Special_functionContext) Min() IMinContext {
+func (s *SpecialFunctionContext) Min() IMinContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(IMinContext); ok {
@@ -3385,7 +3385,7 @@ func (s *Special_functionContext) Min() IMinContext {
 	return t.(IMinContext)
 }
 
-func (s *Special_functionContext) Prod() IProdContext {
+func (s *SpecialFunctionContext) Prod() IProdContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(IProdContext); ok {
@@ -3401,7 +3401,7 @@ func (s *Special_functionContext) Prod() IProdContext {
 	return t.(IProdContext)
 }
 
-func (s *Special_functionContext) Avg() IAvgContext {
+func (s *SpecialFunctionContext) Avg() IAvgContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(IAvgContext); ok {
@@ -3417,10 +3417,10 @@ func (s *Special_functionContext) Avg() IAvgContext {
 	return t.(IAvgContext)
 }
 
-func (s *Special_functionContext) S_mode() IS_modeContext {
+func (s *SpecialFunctionContext) SMode() ISModeContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IS_modeContext); ok {
+		if _, ok := ctx.(ISModeContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -3430,10 +3430,10 @@ func (s *Special_functionContext) S_mode() IS_modeContext {
 		return nil
 	}
 
-	return t.(IS_modeContext)
+	return t.(ISModeContext)
 }
 
-func (s *Special_functionContext) Median() IMedianContext {
+func (s *SpecialFunctionContext) Median() IMedianContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(IMedianContext); ok {
@@ -3449,7 +3449,7 @@ func (s *Special_functionContext) Median() IMedianContext {
 	return t.(IMedianContext)
 }
 
-func (s *Special_functionContext) Sin() ISinContext {
+func (s *SpecialFunctionContext) Sin() ISinContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(ISinContext); ok {
@@ -3465,7 +3465,7 @@ func (s *Special_functionContext) Sin() ISinContext {
 	return t.(ISinContext)
 }
 
-func (s *Special_functionContext) Cos() ICosContext {
+func (s *SpecialFunctionContext) Cos() ICosContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(ICosContext); ok {
@@ -3481,7 +3481,7 @@ func (s *Special_functionContext) Cos() ICosContext {
 	return t.(ICosContext)
 }
 
-func (s *Special_functionContext) Tan() ITanContext {
+func (s *SpecialFunctionContext) Tan() ITanContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(ITanContext); ok {
@@ -3497,7 +3497,7 @@ func (s *Special_functionContext) Tan() ITanContext {
 	return t.(ITanContext)
 }
 
-func (s *Special_functionContext) Sort() ISortContext {
+func (s *SpecialFunctionContext) Sort() ISortContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(ISortContext); ok {
@@ -3513,7 +3513,7 @@ func (s *Special_functionContext) Sort() ISortContext {
 	return t.(ISortContext)
 }
 
-func (s *Special_functionContext) Sqrt() ISqrtContext {
+func (s *SpecialFunctionContext) Sqrt() ISqrtContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(ISqrtContext); ok {
@@ -3529,7 +3529,7 @@ func (s *Special_functionContext) Sqrt() ISqrtContext {
 	return t.(ISqrtContext)
 }
 
-func (s *Special_functionContext) Floor() IFloorContext {
+func (s *SpecialFunctionContext) Floor() IFloorContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(IFloorContext); ok {
@@ -3545,7 +3545,7 @@ func (s *Special_functionContext) Floor() IFloorContext {
 	return t.(IFloorContext)
 }
 
-func (s *Special_functionContext) Ceil() ICeilContext {
+func (s *SpecialFunctionContext) Ceil() ICeilContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(ICeilContext); ok {
@@ -3561,7 +3561,7 @@ func (s *Special_functionContext) Ceil() ICeilContext {
 	return t.(ICeilContext)
 }
 
-func (s *Special_functionContext) Abs() IAbsContext {
+func (s *SpecialFunctionContext) Abs() IAbsContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(IAbsContext); ok {
@@ -3577,7 +3577,7 @@ func (s *Special_functionContext) Abs() IAbsContext {
 	return t.(IAbsContext)
 }
 
-func (s *Special_functionContext) Not() INotContext {
+func (s *SpecialFunctionContext) Not() INotContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(INotContext); ok {
@@ -3593,32 +3593,32 @@ func (s *Special_functionContext) Not() INotContext {
 	return t.(INotContext)
 }
 
-func (s *Special_functionContext) GetRuleContext() antlr.RuleContext {
+func (s *SpecialFunctionContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *Special_functionContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *SpecialFunctionContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *Special_functionContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *SpecialFunctionContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.EnterSpecial_function(s)
+		listenerT.EnterSpecialFunction(s)
 	}
 }
 
-func (s *Special_functionContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *SpecialFunctionContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.ExitSpecial_function(s)
+		listenerT.ExitSpecialFunction(s)
 	}
 }
 
-func (p *BistatParser) Special_function() (localctx ISpecial_functionContext) {
+func (p *BistatParser) SpecialFunction() (localctx ISpecialFunctionContext) {
 	this := p
 	_ = this
 
-	localctx = NewSpecial_functionContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 28, BistatParserRULE_special_function)
+	localctx = NewSpecialFunctionContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 28, BistatParserRULE_specialFunction)
 
 	defer func() {
 		p.ExitRule()
@@ -3644,7 +3644,7 @@ func (p *BistatParser) Special_function() (localctx ISpecial_functionContext) {
 		p.EnterOuterAlt(localctx, 1)
 		{
 			p.SetState(281)
-			p.Input_read()
+			p.InputRead()
 		}
 
 	case BistatParserT__21:
@@ -3658,14 +3658,14 @@ func (p *BistatParser) Special_function() (localctx ISpecial_functionContext) {
 		p.EnterOuterAlt(localctx, 3)
 		{
 			p.SetState(283)
-			p.List_add()
+			p.ListAdd()
 		}
 
 	case BistatParserT__23:
 		p.EnterOuterAlt(localctx, 4)
 		{
 			p.SetState(284)
-			p.List_pop()
+			p.ListPop()
 		}
 
 	case BistatParserT__24:
@@ -3721,7 +3721,7 @@ func (p *BistatParser) Special_function() (localctx ISpecial_functionContext) {
 		p.EnterOuterAlt(localctx, 12)
 		{
 			p.SetState(292)
-			p.S_mode()
+			p.SMode()
 		}
 
 	case BistatParserT__32:
@@ -3801,8 +3801,8 @@ func (p *BistatParser) Special_function() (localctx ISpecial_functionContext) {
 	return localctx
 }
 
-// IInput_readContext is an interface to support dynamic dispatch.
-type IInput_readContext interface {
+// IInputReadContext is an interface to support dynamic dispatch.
+type IInputReadContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
@@ -3812,71 +3812,71 @@ type IInput_readContext interface {
 	AllID() []antlr.TerminalNode
 	ID(i int) antlr.TerminalNode
 
-	// IsInput_readContext differentiates from other interfaces.
-	IsInput_readContext()
+	// IsInputReadContext differentiates from other interfaces.
+	IsInputReadContext()
 }
 
-type Input_readContext struct {
+type InputReadContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyInput_readContext() *Input_readContext {
-	var p = new(Input_readContext)
+func NewEmptyInputReadContext() *InputReadContext {
+	var p = new(InputReadContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = BistatParserRULE_input_read
+	p.RuleIndex = BistatParserRULE_inputRead
 	return p
 }
 
-func (*Input_readContext) IsInput_readContext() {}
+func (*InputReadContext) IsInputReadContext() {}
 
-func NewInput_readContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Input_readContext {
-	var p = new(Input_readContext)
+func NewInputReadContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *InputReadContext {
+	var p = new(InputReadContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = BistatParserRULE_input_read
+	p.RuleIndex = BistatParserRULE_inputRead
 
 	return p
 }
 
-func (s *Input_readContext) GetParser() antlr.Parser { return s.parser }
+func (s *InputReadContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *Input_readContext) AllID() []antlr.TerminalNode {
+func (s *InputReadContext) AllID() []antlr.TerminalNode {
 	return s.GetTokens(BistatParserID)
 }
 
-func (s *Input_readContext) ID(i int) antlr.TerminalNode {
+func (s *InputReadContext) ID(i int) antlr.TerminalNode {
 	return s.GetToken(BistatParserID, i)
 }
 
-func (s *Input_readContext) GetRuleContext() antlr.RuleContext {
+func (s *InputReadContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *Input_readContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *InputReadContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *Input_readContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *InputReadContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.EnterInput_read(s)
+		listenerT.EnterInputRead(s)
 	}
 }
 
-func (s *Input_readContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *InputReadContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.ExitInput_read(s)
+		listenerT.ExitInputRead(s)
 	}
 }
 
-func (p *BistatParser) Input_read() (localctx IInput_readContext) {
+func (p *BistatParser) InputRead() (localctx IInputReadContext) {
 	this := p
 	_ = this
 
-	localctx = NewInput_readContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 30, BistatParserRULE_input_read)
+	localctx = NewInputReadContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 30, BistatParserRULE_inputRead)
 	var _la int
 
 	defer func() {
@@ -4100,8 +4100,8 @@ func (p *BistatParser) Print_() (localctx IPrintContext) {
 	return localctx
 }
 
-// IList_addContext is an interface to support dynamic dispatch.
-type IList_addContext interface {
+// IListAddContext is an interface to support dynamic dispatch.
+type IListAddContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
@@ -4111,38 +4111,38 @@ type IList_addContext interface {
 	AllExpression() []IExpressionContext
 	Expression(i int) IExpressionContext
 
-	// IsList_addContext differentiates from other interfaces.
-	IsList_addContext()
+	// IsListAddContext differentiates from other interfaces.
+	IsListAddContext()
 }
 
-type List_addContext struct {
+type ListAddContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyList_addContext() *List_addContext {
-	var p = new(List_addContext)
+func NewEmptyListAddContext() *ListAddContext {
+	var p = new(ListAddContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = BistatParserRULE_list_add
+	p.RuleIndex = BistatParserRULE_listAdd
 	return p
 }
 
-func (*List_addContext) IsList_addContext() {}
+func (*ListAddContext) IsListAddContext() {}
 
-func NewList_addContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *List_addContext {
-	var p = new(List_addContext)
+func NewListAddContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ListAddContext {
+	var p = new(ListAddContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = BistatParserRULE_list_add
+	p.RuleIndex = BistatParserRULE_listAdd
 
 	return p
 }
 
-func (s *List_addContext) GetParser() antlr.Parser { return s.parser }
+func (s *ListAddContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *List_addContext) AllExpression() []IExpressionContext {
+func (s *ListAddContext) AllExpression() []IExpressionContext {
 	children := s.GetChildren()
 	len := 0
 	for _, ctx := range children {
@@ -4163,7 +4163,7 @@ func (s *List_addContext) AllExpression() []IExpressionContext {
 	return tst
 }
 
-func (s *List_addContext) Expression(i int) IExpressionContext {
+func (s *ListAddContext) Expression(i int) IExpressionContext {
 	var t antlr.RuleContext
 	j := 0
 	for _, ctx := range s.GetChildren() {
@@ -4183,32 +4183,32 @@ func (s *List_addContext) Expression(i int) IExpressionContext {
 	return t.(IExpressionContext)
 }
 
-func (s *List_addContext) GetRuleContext() antlr.RuleContext {
+func (s *ListAddContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *List_addContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *ListAddContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *List_addContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *ListAddContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.EnterList_add(s)
+		listenerT.EnterListAdd(s)
 	}
 }
 
-func (s *List_addContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *ListAddContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.ExitList_add(s)
+		listenerT.ExitListAdd(s)
 	}
 }
 
-func (p *BistatParser) List_add() (localctx IList_addContext) {
+func (p *BistatParser) ListAdd() (localctx IListAddContext) {
 	this := p
 	_ = this
 
-	localctx = NewList_addContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 34, BistatParserRULE_list_add)
+	localctx = NewListAddContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 34, BistatParserRULE_listAdd)
 
 	defer func() {
 		p.ExitRule()
@@ -4255,8 +4255,8 @@ func (p *BistatParser) List_add() (localctx IList_addContext) {
 	return localctx
 }
 
-// IList_popContext is an interface to support dynamic dispatch.
-type IList_popContext interface {
+// IListPopContext is an interface to support dynamic dispatch.
+type IListPopContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
@@ -4265,38 +4265,38 @@ type IList_popContext interface {
 	// Getter signatures
 	Expression() IExpressionContext
 
-	// IsList_popContext differentiates from other interfaces.
-	IsList_popContext()
+	// IsListPopContext differentiates from other interfaces.
+	IsListPopContext()
 }
 
-type List_popContext struct {
+type ListPopContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyList_popContext() *List_popContext {
-	var p = new(List_popContext)
+func NewEmptyListPopContext() *ListPopContext {
+	var p = new(ListPopContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = BistatParserRULE_list_pop
+	p.RuleIndex = BistatParserRULE_listPop
 	return p
 }
 
-func (*List_popContext) IsList_popContext() {}
+func (*ListPopContext) IsListPopContext() {}
 
-func NewList_popContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *List_popContext {
-	var p = new(List_popContext)
+func NewListPopContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ListPopContext {
+	var p = new(ListPopContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = BistatParserRULE_list_pop
+	p.RuleIndex = BistatParserRULE_listPop
 
 	return p
 }
 
-func (s *List_popContext) GetParser() antlr.Parser { return s.parser }
+func (s *ListPopContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *List_popContext) Expression() IExpressionContext {
+func (s *ListPopContext) Expression() IExpressionContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(IExpressionContext); ok {
@@ -4312,32 +4312,32 @@ func (s *List_popContext) Expression() IExpressionContext {
 	return t.(IExpressionContext)
 }
 
-func (s *List_popContext) GetRuleContext() antlr.RuleContext {
+func (s *ListPopContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *List_popContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *ListPopContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *List_popContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *ListPopContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.EnterList_pop(s)
+		listenerT.EnterListPop(s)
 	}
 }
 
-func (s *List_popContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *ListPopContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.ExitList_pop(s)
+		listenerT.ExitListPop(s)
 	}
 }
 
-func (p *BistatParser) List_pop() (localctx IList_popContext) {
+func (p *BistatParser) ListPop() (localctx IListPopContext) {
 	this := p
 	_ = this
 
-	localctx = NewList_popContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 36, BistatParserRULE_list_pop)
+	localctx = NewListPopContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 36, BistatParserRULE_listPop)
 
 	defer func() {
 		p.ExitRule()
@@ -5265,8 +5265,8 @@ func (p *BistatParser) Avg() (localctx IAvgContext) {
 	return localctx
 }
 
-// IS_modeContext is an interface to support dynamic dispatch.
-type IS_modeContext interface {
+// ISModeContext is an interface to support dynamic dispatch.
+type ISModeContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
@@ -5275,38 +5275,38 @@ type IS_modeContext interface {
 	// Getter signatures
 	Expression() IExpressionContext
 
-	// IsS_modeContext differentiates from other interfaces.
-	IsS_modeContext()
+	// IsSModeContext differentiates from other interfaces.
+	IsSModeContext()
 }
 
-type S_modeContext struct {
+type SModeContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyS_modeContext() *S_modeContext {
-	var p = new(S_modeContext)
+func NewEmptySModeContext() *SModeContext {
+	var p = new(SModeContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = BistatParserRULE_s_mode
+	p.RuleIndex = BistatParserRULE_sMode
 	return p
 }
 
-func (*S_modeContext) IsS_modeContext() {}
+func (*SModeContext) IsSModeContext() {}
 
-func NewS_modeContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *S_modeContext {
-	var p = new(S_modeContext)
+func NewSModeContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *SModeContext {
+	var p = new(SModeContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = BistatParserRULE_s_mode
+	p.RuleIndex = BistatParserRULE_sMode
 
 	return p
 }
 
-func (s *S_modeContext) GetParser() antlr.Parser { return s.parser }
+func (s *SModeContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *S_modeContext) Expression() IExpressionContext {
+func (s *SModeContext) Expression() IExpressionContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(IExpressionContext); ok {
@@ -5322,32 +5322,32 @@ func (s *S_modeContext) Expression() IExpressionContext {
 	return t.(IExpressionContext)
 }
 
-func (s *S_modeContext) GetRuleContext() antlr.RuleContext {
+func (s *SModeContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *S_modeContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *SModeContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *S_modeContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *SModeContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.EnterS_mode(s)
+		listenerT.EnterSMode(s)
 	}
 }
 
-func (s *S_modeContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *SModeContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.ExitS_mode(s)
+		listenerT.ExitSMode(s)
 	}
 }
 
-func (p *BistatParser) S_mode() (localctx IS_modeContext) {
+func (p *BistatParser) SMode() (localctx ISModeContext) {
 	this := p
 	_ = this
 
-	localctx = NewS_modeContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 52, BistatParserRULE_s_mode)
+	localctx = NewSModeContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 52, BistatParserRULE_sMode)
 
 	defer func() {
 		p.ExitRule()
@@ -7055,8 +7055,8 @@ type IFactorContext interface {
 
 	// Getter signatures
 	Indexing() IIndexingContext
-	Special_function() ISpecial_functionContext
-	Function_call() IFunction_callContext
+	SpecialFunction() ISpecialFunctionContext
+	FunctionCall() IFunctionCallContext
 	VAR_CONS() antlr.TerminalNode
 	OP_SEC() antlr.TerminalNode
 	Expression() IExpressionContext
@@ -7108,10 +7108,10 @@ func (s *FactorContext) Indexing() IIndexingContext {
 	return t.(IIndexingContext)
 }
 
-func (s *FactorContext) Special_function() ISpecial_functionContext {
+func (s *FactorContext) SpecialFunction() ISpecialFunctionContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(ISpecial_functionContext); ok {
+		if _, ok := ctx.(ISpecialFunctionContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -7121,13 +7121,13 @@ func (s *FactorContext) Special_function() ISpecial_functionContext {
 		return nil
 	}
 
-	return t.(ISpecial_functionContext)
+	return t.(ISpecialFunctionContext)
 }
 
-func (s *FactorContext) Function_call() IFunction_callContext {
+func (s *FactorContext) FunctionCall() IFunctionCallContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IFunction_callContext); ok {
+		if _, ok := ctx.(IFunctionCallContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -7137,7 +7137,7 @@ func (s *FactorContext) Function_call() IFunction_callContext {
 		return nil
 	}
 
-	return t.(IFunction_callContext)
+	return t.(IFunctionCallContext)
 }
 
 func (s *FactorContext) VAR_CONS() antlr.TerminalNode {
@@ -7246,13 +7246,13 @@ func (p *BistatParser) Factor() (localctx IFactorContext) {
 	case 3:
 		{
 			p.SetState(458)
-			p.Special_function()
+			p.SpecialFunction()
 		}
 
 	case 4:
 		{
 			p.SetState(459)
-			p.Function_call()
+			p.FunctionCall()
 		}
 
 	case 5:
@@ -7266,8 +7266,8 @@ func (p *BistatParser) Factor() (localctx IFactorContext) {
 	return localctx
 }
 
-// IFunction_callContext is an interface to support dynamic dispatch.
-type IFunction_callContext interface {
+// IFunctionCallContext is an interface to support dynamic dispatch.
+type IFunctionCallContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
@@ -7278,42 +7278,42 @@ type IFunction_callContext interface {
 	AllExpression() []IExpressionContext
 	Expression(i int) IExpressionContext
 
-	// IsFunction_callContext differentiates from other interfaces.
-	IsFunction_callContext()
+	// IsFunctionCallContext differentiates from other interfaces.
+	IsFunctionCallContext()
 }
 
-type Function_callContext struct {
+type FunctionCallContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyFunction_callContext() *Function_callContext {
-	var p = new(Function_callContext)
+func NewEmptyFunctionCallContext() *FunctionCallContext {
+	var p = new(FunctionCallContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = BistatParserRULE_function_call
+	p.RuleIndex = BistatParserRULE_functionCall
 	return p
 }
 
-func (*Function_callContext) IsFunction_callContext() {}
+func (*FunctionCallContext) IsFunctionCallContext() {}
 
-func NewFunction_callContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Function_callContext {
-	var p = new(Function_callContext)
+func NewFunctionCallContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *FunctionCallContext {
+	var p = new(FunctionCallContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = BistatParserRULE_function_call
+	p.RuleIndex = BistatParserRULE_functionCall
 
 	return p
 }
 
-func (s *Function_callContext) GetParser() antlr.Parser { return s.parser }
+func (s *FunctionCallContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *Function_callContext) ID() antlr.TerminalNode {
+func (s *FunctionCallContext) ID() antlr.TerminalNode {
 	return s.GetToken(BistatParserID, 0)
 }
 
-func (s *Function_callContext) AllExpression() []IExpressionContext {
+func (s *FunctionCallContext) AllExpression() []IExpressionContext {
 	children := s.GetChildren()
 	len := 0
 	for _, ctx := range children {
@@ -7334,7 +7334,7 @@ func (s *Function_callContext) AllExpression() []IExpressionContext {
 	return tst
 }
 
-func (s *Function_callContext) Expression(i int) IExpressionContext {
+func (s *FunctionCallContext) Expression(i int) IExpressionContext {
 	var t antlr.RuleContext
 	j := 0
 	for _, ctx := range s.GetChildren() {
@@ -7354,32 +7354,32 @@ func (s *Function_callContext) Expression(i int) IExpressionContext {
 	return t.(IExpressionContext)
 }
 
-func (s *Function_callContext) GetRuleContext() antlr.RuleContext {
+func (s *FunctionCallContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *Function_callContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *FunctionCallContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *Function_callContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *FunctionCallContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.EnterFunction_call(s)
+		listenerT.EnterFunctionCall(s)
 	}
 }
 
-func (s *Function_callContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *FunctionCallContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.ExitFunction_call(s)
+		listenerT.ExitFunctionCall(s)
 	}
 }
 
-func (p *BistatParser) Function_call() (localctx IFunction_callContext) {
+func (p *BistatParser) FunctionCall() (localctx IFunctionCallContext) {
 	this := p
 	_ = this
 
-	localctx = NewFunction_callContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 82, BistatParserRULE_function_call)
+	localctx = NewFunctionCallContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 82, BistatParserRULE_functionCall)
 	var _la int
 
 	defer func() {

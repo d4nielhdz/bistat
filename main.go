@@ -21,7 +21,7 @@ func (l *bistatListener) EnterProgram(ctx *parser.ProgramContext) {
 	fmt.Println(ctx.ID())
 }
 
-func (l *bistatListener) EnterVar_declaration(ctx *parser.Var_declarationContext) {
+func (l *bistatListener) EnterVarDeclaration(ctx *parser.VarDeclarationContext) {
 	fmt.Println("Entered variable declaration")
 	fmt.Println(ctx.ID())
 	fmt.Println(ctx.NON_VOID_TYPE())

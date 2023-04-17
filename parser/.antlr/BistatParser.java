@@ -26,25 +26,25 @@ public class BistatParser extends Parser {
 		BOOL_CONS=51, STRING_CONS=52, FLOAT_CONS=53, INT_CONS=54, OP_SEC=55, OP_FIRST=56, 
 		LOGIC_OPERATOR=57, NUMBER=58;
 	public static final int
-		RULE_program = 0, RULE_var_declaration = 1, RULE_func_def = 2, RULE_main = 3, 
-		RULE_stmt = 4, RULE_param_declaration = 5, RULE_assignment = 6, RULE_nested_stmt = 7, 
-		RULE_matrix_assignment = 8, RULE_list_assignment = 9, RULE_comment = 10, 
-		RULE_for_loop = 11, RULE_while_loop = 12, RULE_conditional = 13, RULE_special_function = 14, 
-		RULE_input_read = 15, RULE_print = 16, RULE_list_add = 17, RULE_list_pop = 18, 
+		RULE_program = 0, RULE_varDeclaration = 1, RULE_funcDef = 2, RULE_main = 3, 
+		RULE_stmt = 4, RULE_paramDeclaration = 5, RULE_assignment = 6, RULE_nested_stmt = 7, 
+		RULE_matrixAssignment = 8, RULE_listAssignment = 9, RULE_comment = 10, 
+		RULE_forLoop = 11, RULE_whileLoop = 12, RULE_conditional = 13, RULE_specialFunction = 14, 
+		RULE_inputRead = 15, RULE_print = 16, RULE_listAdd = 17, RULE_listPop = 18, 
 		RULE_length = 19, RULE_range = 20, RULE_plot = 21, RULE_sum = 22, RULE_min = 23, 
-		RULE_prod = 24, RULE_avg = 25, RULE_s_mode = 26, RULE_median = 27, RULE_sin = 28, 
+		RULE_prod = 24, RULE_avg = 25, RULE_sMode = 26, RULE_median = 27, RULE_sin = 28, 
 		RULE_tan = 29, RULE_cos = 30, RULE_sort = 31, RULE_sqrt = 32, RULE_floor = 33, 
 		RULE_ceil = 34, RULE_abs = 35, RULE_not = 36, RULE_expression = 37, RULE_exp = 38, 
-		RULE_term = 39, RULE_factor = 40, RULE_function_call = 41, RULE_indexing = 42;
+		RULE_term = 39, RULE_factor = 40, RULE_functionCall = 41, RULE_indexing = 42;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"program", "var_declaration", "func_def", "main", "stmt", "param_declaration", 
-			"assignment", "nested_stmt", "matrix_assignment", "list_assignment", 
-			"comment", "for_loop", "while_loop", "conditional", "special_function", 
-			"input_read", "print", "list_add", "list_pop", "length", "range", "plot", 
-			"sum", "min", "prod", "avg", "s_mode", "median", "sin", "tan", "cos", 
-			"sort", "sqrt", "floor", "ceil", "abs", "not", "expression", "exp", "term", 
-			"factor", "function_call", "indexing"
+			"program", "varDeclaration", "funcDef", "main", "stmt", "paramDeclaration", 
+			"assignment", "nested_stmt", "matrixAssignment", "listAssignment", "comment", 
+			"forLoop", "whileLoop", "conditional", "specialFunction", "inputRead", 
+			"print", "listAdd", "listPop", "length", "range", "plot", "sum", "min", 
+			"prod", "avg", "sMode", "median", "sin", "tan", "cos", "sort", "sqrt", 
+			"floor", "ceil", "abs", "not", "expression", "exp", "term", "factor", 
+			"functionCall", "indexing"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -53,9 +53,9 @@ public class BistatParser extends Parser {
 		return new String[] {
 			null, "'Program'", "';'", "'var'", "'func'", "'('", "')'", "':'", "'{'", 
 			"'}'", "'main'", "'='", "'['", "','", "']'", "'#'", "'for'", "'in'", 
-			"'while'", "'if'", "'else'", "'read'", "'print'", "'list_add'", "'list_pop'", 
+			"'while'", "'if'", "'else'", "'read'", "'print'", "'listAdd'", "'listPop'", 
 			"'length'", "'range'", "'plot'", "'sum'", "'min'", "'prod'", "'avg'", 
-			"'s_mode'", "'median'", "'sin'", "'tan'", "'cos'", "'sort'", "'sqrt'", 
+			"'sMode'", "'median'", "'sin'", "'tan'", "'cos'", "'sort'", "'sqrt'", 
 			"'floor'", "'ceil'", "'abs'", "'not'"
 		};
 	}
@@ -128,17 +128,17 @@ public class BistatParser extends Parser {
 			return getRuleContext(MainContext.class,0);
 		}
 		public TerminalNode EOF() { return getToken(BistatParser.EOF, 0); }
-		public List<Var_declarationContext> var_declaration() {
-			return getRuleContexts(Var_declarationContext.class);
+		public List<VarDeclarationContext> varDeclaration() {
+			return getRuleContexts(VarDeclarationContext.class);
 		}
-		public Var_declarationContext var_declaration(int i) {
-			return getRuleContext(Var_declarationContext.class,i);
+		public VarDeclarationContext varDeclaration(int i) {
+			return getRuleContext(VarDeclarationContext.class,i);
 		}
-		public List<Func_defContext> func_def() {
-			return getRuleContexts(Func_defContext.class);
+		public List<FuncDefContext> funcDef() {
+			return getRuleContexts(FuncDefContext.class);
 		}
-		public Func_defContext func_def(int i) {
-			return getRuleContext(Func_defContext.class,i);
+		public FuncDefContext funcDef(int i) {
+			return getRuleContext(FuncDefContext.class,i);
 		}
 		public ProgramContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -166,7 +166,7 @@ public class BistatParser extends Parser {
 				{
 				{
 				setState(89);
-				var_declaration();
+				varDeclaration();
 				}
 				}
 				setState(94);
@@ -180,7 +180,7 @@ public class BistatParser extends Parser {
 				{
 				{
 				setState(95);
-				func_def();
+				funcDef();
 				}
 				}
 				setState(100);
@@ -204,18 +204,18 @@ public class BistatParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Var_declarationContext extends ParserRuleContext {
+	public static class VarDeclarationContext extends ParserRuleContext {
 		public TerminalNode NON_VOID_TYPE() { return getToken(BistatParser.NON_VOID_TYPE, 0); }
 		public TerminalNode ID() { return getToken(BistatParser.ID, 0); }
-		public Var_declarationContext(ParserRuleContext parent, int invokingState) {
+		public VarDeclarationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_var_declaration; }
+		@Override public int getRuleIndex() { return RULE_varDeclaration; }
 	}
 
-	public final Var_declarationContext var_declaration() throws RecognitionException {
-		Var_declarationContext _localctx = new Var_declarationContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_var_declaration);
+	public final VarDeclarationContext varDeclaration() throws RecognitionException {
+		VarDeclarationContext _localctx = new VarDeclarationContext(_ctx, getState());
+		enterRule(_localctx, 2, RULE_varDeclaration);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
@@ -240,20 +240,20 @@ public class BistatParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Func_defContext extends ParserRuleContext {
+	public static class FuncDefContext extends ParserRuleContext {
 		public TerminalNode ID() { return getToken(BistatParser.ID, 0); }
 		public TerminalNode RETURN_TYPE() { return getToken(BistatParser.RETURN_TYPE, 0); }
-		public List<Param_declarationContext> param_declaration() {
-			return getRuleContexts(Param_declarationContext.class);
+		public List<ParamDeclarationContext> paramDeclaration() {
+			return getRuleContexts(ParamDeclarationContext.class);
 		}
-		public Param_declarationContext param_declaration(int i) {
-			return getRuleContext(Param_declarationContext.class,i);
+		public ParamDeclarationContext paramDeclaration(int i) {
+			return getRuleContext(ParamDeclarationContext.class,i);
 		}
-		public List<Var_declarationContext> var_declaration() {
-			return getRuleContexts(Var_declarationContext.class);
+		public List<VarDeclarationContext> varDeclaration() {
+			return getRuleContexts(VarDeclarationContext.class);
 		}
-		public Var_declarationContext var_declaration(int i) {
-			return getRuleContext(Var_declarationContext.class,i);
+		public VarDeclarationContext varDeclaration(int i) {
+			return getRuleContext(VarDeclarationContext.class,i);
 		}
 		public List<StmtContext> stmt() {
 			return getRuleContexts(StmtContext.class);
@@ -261,15 +261,15 @@ public class BistatParser extends Parser {
 		public StmtContext stmt(int i) {
 			return getRuleContext(StmtContext.class,i);
 		}
-		public Func_defContext(ParserRuleContext parent, int invokingState) {
+		public FuncDefContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_func_def; }
+		@Override public int getRuleIndex() { return RULE_funcDef; }
 	}
 
-	public final Func_defContext func_def() throws RecognitionException {
-		Func_defContext _localctx = new Func_defContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_func_def);
+	public final FuncDefContext funcDef() throws RecognitionException {
+		FuncDefContext _localctx = new FuncDefContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_funcDef);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
@@ -287,7 +287,7 @@ public class BistatParser extends Parser {
 				{
 				{
 				setState(112);
-				param_declaration();
+				paramDeclaration();
 				}
 				}
 				setState(117);
@@ -307,7 +307,7 @@ public class BistatParser extends Parser {
 				{
 				{
 				setState(121);
-				var_declaration();
+				varDeclaration();
 				}
 				}
 				setState(126);
@@ -409,20 +409,20 @@ public class BistatParser extends Parser {
 		public PrintContext print() {
 			return getRuleContext(PrintContext.class,0);
 		}
-		public Special_functionContext special_function() {
-			return getRuleContext(Special_functionContext.class,0);
+		public SpecialFunctionContext specialFunction() {
+			return getRuleContext(SpecialFunctionContext.class,0);
 		}
-		public Function_callContext function_call() {
-			return getRuleContext(Function_callContext.class,0);
+		public FunctionCallContext functionCall() {
+			return getRuleContext(FunctionCallContext.class,0);
 		}
 		public ConditionalContext conditional() {
 			return getRuleContext(ConditionalContext.class,0);
 		}
-		public While_loopContext while_loop() {
-			return getRuleContext(While_loopContext.class,0);
+		public WhileLoopContext whileLoop() {
+			return getRuleContext(WhileLoopContext.class,0);
 		}
-		public For_loopContext for_loop() {
-			return getRuleContext(For_loopContext.class,0);
+		public ForLoopContext forLoop() {
+			return getRuleContext(ForLoopContext.class,0);
 		}
 		public CommentContext comment() {
 			return getRuleContext(CommentContext.class,0);
@@ -484,13 +484,13 @@ public class BistatParser extends Parser {
 				case 3:
 					{
 					setState(148);
-					special_function();
+					specialFunction();
 					}
 					break;
 				case 4:
 					{
 					setState(149);
-					function_call();
+					functionCall();
 					}
 					break;
 				}
@@ -510,14 +510,14 @@ public class BistatParser extends Parser {
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(155);
-				while_loop();
+				whileLoop();
 				}
 				break;
 			case T__15:
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(156);
-				for_loop();
+				forLoop();
 				}
 				break;
 			case T__14:
@@ -542,18 +542,18 @@ public class BistatParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Param_declarationContext extends ParserRuleContext {
+	public static class ParamDeclarationContext extends ParserRuleContext {
 		public TerminalNode PARAM_TYPE() { return getToken(BistatParser.PARAM_TYPE, 0); }
 		public TerminalNode ID() { return getToken(BistatParser.ID, 0); }
-		public Param_declarationContext(ParserRuleContext parent, int invokingState) {
+		public ParamDeclarationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_param_declaration; }
+		@Override public int getRuleIndex() { return RULE_paramDeclaration; }
 	}
 
-	public final Param_declarationContext param_declaration() throws RecognitionException {
-		Param_declarationContext _localctx = new Param_declarationContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_param_declaration);
+	public final ParamDeclarationContext paramDeclaration() throws RecognitionException {
+		ParamDeclarationContext _localctx = new ParamDeclarationContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_paramDeclaration);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
@@ -581,11 +581,11 @@ public class BistatParser extends Parser {
 	public static class AssignmentContext extends ParserRuleContext {
 		public TerminalNode ID() { return getToken(BistatParser.ID, 0); }
 		public TerminalNode VAR_CONS() { return getToken(BistatParser.VAR_CONS, 0); }
-		public List_assignmentContext list_assignment() {
-			return getRuleContext(List_assignmentContext.class,0);
+		public ListAssignmentContext listAssignment() {
+			return getRuleContext(ListAssignmentContext.class,0);
 		}
-		public Matrix_assignmentContext matrix_assignment() {
-			return getRuleContext(Matrix_assignmentContext.class,0);
+		public MatrixAssignmentContext matrixAssignment() {
+			return getRuleContext(MatrixAssignmentContext.class,0);
 		}
 		public AssignmentContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -615,13 +615,13 @@ public class BistatParser extends Parser {
 			case 2:
 				{
 				setState(168);
-				list_assignment();
+				listAssignment();
 				}
 				break;
 			case 3:
 				{
 				setState(169);
-				matrix_assignment();
+				matrixAssignment();
 				}
 				break;
 			}
@@ -645,17 +645,17 @@ public class BistatParser extends Parser {
 		public PrintContext print() {
 			return getRuleContext(PrintContext.class,0);
 		}
-		public Special_functionContext special_function() {
-			return getRuleContext(Special_functionContext.class,0);
+		public SpecialFunctionContext specialFunction() {
+			return getRuleContext(SpecialFunctionContext.class,0);
 		}
-		public Function_callContext function_call() {
-			return getRuleContext(Function_callContext.class,0);
+		public FunctionCallContext functionCall() {
+			return getRuleContext(FunctionCallContext.class,0);
 		}
 		public ConditionalContext conditional() {
 			return getRuleContext(ConditionalContext.class,0);
 		}
-		public While_loopContext while_loop() {
-			return getRuleContext(While_loopContext.class,0);
+		public WhileLoopContext whileLoop() {
+			return getRuleContext(WhileLoopContext.class,0);
 		}
 		public CommentContext comment() {
 			return getRuleContext(CommentContext.class,0);
@@ -717,13 +717,13 @@ public class BistatParser extends Parser {
 				case 3:
 					{
 					setState(174);
-					special_function();
+					specialFunction();
 					}
 					break;
 				case 4:
 					{
 					setState(175);
-					function_call();
+					functionCall();
 					}
 					break;
 				}
@@ -743,7 +743,7 @@ public class BistatParser extends Parser {
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(181);
-				while_loop();
+				whileLoop();
 				}
 				break;
 			case T__14:
@@ -768,22 +768,22 @@ public class BistatParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Matrix_assignmentContext extends ParserRuleContext {
-		public List<List_assignmentContext> list_assignment() {
-			return getRuleContexts(List_assignmentContext.class);
+	public static class MatrixAssignmentContext extends ParserRuleContext {
+		public List<ListAssignmentContext> listAssignment() {
+			return getRuleContexts(ListAssignmentContext.class);
 		}
-		public List_assignmentContext list_assignment(int i) {
-			return getRuleContext(List_assignmentContext.class,i);
+		public ListAssignmentContext listAssignment(int i) {
+			return getRuleContext(ListAssignmentContext.class,i);
 		}
-		public Matrix_assignmentContext(ParserRuleContext parent, int invokingState) {
+		public MatrixAssignmentContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_matrix_assignment; }
+		@Override public int getRuleIndex() { return RULE_matrixAssignment; }
 	}
 
-	public final Matrix_assignmentContext matrix_assignment() throws RecognitionException {
-		Matrix_assignmentContext _localctx = new Matrix_assignmentContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_matrix_assignment);
+	public final MatrixAssignmentContext matrixAssignment() throws RecognitionException {
+		MatrixAssignmentContext _localctx = new MatrixAssignmentContext(_ctx, getState());
+		enterRule(_localctx, 16, RULE_matrixAssignment);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
@@ -791,7 +791,7 @@ public class BistatParser extends Parser {
 			setState(185);
 			match(T__11);
 			setState(186);
-			list_assignment();
+			listAssignment();
 			setState(191);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
@@ -801,7 +801,7 @@ public class BistatParser extends Parser {
 				setState(187);
 				match(T__12);
 				setState(188);
-				list_assignment();
+				listAssignment();
 				}
 				}
 				setState(193);
@@ -823,20 +823,20 @@ public class BistatParser extends Parser {
 		return _localctx;
 	}
 
-	public static class List_assignmentContext extends ParserRuleContext {
+	public static class ListAssignmentContext extends ParserRuleContext {
 		public List<TerminalNode> VAR_CONS() { return getTokens(BistatParser.VAR_CONS); }
 		public TerminalNode VAR_CONS(int i) {
 			return getToken(BistatParser.VAR_CONS, i);
 		}
-		public List_assignmentContext(ParserRuleContext parent, int invokingState) {
+		public ListAssignmentContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_list_assignment; }
+		@Override public int getRuleIndex() { return RULE_listAssignment; }
 	}
 
-	public final List_assignmentContext list_assignment() throws RecognitionException {
-		List_assignmentContext _localctx = new List_assignmentContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_list_assignment);
+	public final ListAssignmentContext listAssignment() throws RecognitionException {
+		ListAssignmentContext _localctx = new ListAssignmentContext(_ctx, getState());
+		enterRule(_localctx, 18, RULE_listAssignment);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
@@ -929,7 +929,7 @@ public class BistatParser extends Parser {
 		return _localctx;
 	}
 
-	public static class For_loopContext extends ParserRuleContext {
+	public static class ForLoopContext extends ParserRuleContext {
 		public TerminalNode ID() { return getToken(BistatParser.ID, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
@@ -940,15 +940,15 @@ public class BistatParser extends Parser {
 		public Nested_stmtContext nested_stmt(int i) {
 			return getRuleContext(Nested_stmtContext.class,i);
 		}
-		public For_loopContext(ParserRuleContext parent, int invokingState) {
+		public ForLoopContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_for_loop; }
+		@Override public int getRuleIndex() { return RULE_forLoop; }
 	}
 
-	public final For_loopContext for_loop() throws RecognitionException {
-		For_loopContext _localctx = new For_loopContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_for_loop);
+	public final ForLoopContext forLoop() throws RecognitionException {
+		ForLoopContext _localctx = new ForLoopContext(_ctx, getState());
+		enterRule(_localctx, 22, RULE_forLoop);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
@@ -996,7 +996,7 @@ public class BistatParser extends Parser {
 		return _localctx;
 	}
 
-	public static class While_loopContext extends ParserRuleContext {
+	public static class WhileLoopContext extends ParserRuleContext {
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
@@ -1006,15 +1006,15 @@ public class BistatParser extends Parser {
 		public StmtContext stmt(int i) {
 			return getRuleContext(StmtContext.class,i);
 		}
-		public While_loopContext(ParserRuleContext parent, int invokingState) {
+		public WhileLoopContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_while_loop; }
+		@Override public int getRuleIndex() { return RULE_whileLoop; }
 	}
 
-	public final While_loopContext while_loop() throws RecognitionException {
-		While_loopContext _localctx = new While_loopContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_while_loop);
+	public final WhileLoopContext whileLoop() throws RecognitionException {
+		WhileLoopContext _localctx = new WhileLoopContext(_ctx, getState());
+		enterRule(_localctx, 24, RULE_whileLoop);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
@@ -1194,18 +1194,18 @@ public class BistatParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Special_functionContext extends ParserRuleContext {
-		public Input_readContext input_read() {
-			return getRuleContext(Input_readContext.class,0);
+	public static class SpecialFunctionContext extends ParserRuleContext {
+		public InputReadContext inputRead() {
+			return getRuleContext(InputReadContext.class,0);
 		}
 		public PrintContext print() {
 			return getRuleContext(PrintContext.class,0);
 		}
-		public List_addContext list_add() {
-			return getRuleContext(List_addContext.class,0);
+		public ListAddContext listAdd() {
+			return getRuleContext(ListAddContext.class,0);
 		}
-		public List_popContext list_pop() {
-			return getRuleContext(List_popContext.class,0);
+		public ListPopContext listPop() {
+			return getRuleContext(ListPopContext.class,0);
 		}
 		public LengthContext length() {
 			return getRuleContext(LengthContext.class,0);
@@ -1228,8 +1228,8 @@ public class BistatParser extends Parser {
 		public AvgContext avg() {
 			return getRuleContext(AvgContext.class,0);
 		}
-		public S_modeContext s_mode() {
-			return getRuleContext(S_modeContext.class,0);
+		public SModeContext sMode() {
+			return getRuleContext(SModeContext.class,0);
 		}
 		public MedianContext median() {
 			return getRuleContext(MedianContext.class,0);
@@ -1261,15 +1261,15 @@ public class BistatParser extends Parser {
 		public NotContext not() {
 			return getRuleContext(NotContext.class,0);
 		}
-		public Special_functionContext(ParserRuleContext parent, int invokingState) {
+		public SpecialFunctionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_special_function; }
+		@Override public int getRuleIndex() { return RULE_specialFunction; }
 	}
 
-	public final Special_functionContext special_function() throws RecognitionException {
-		Special_functionContext _localctx = new Special_functionContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_special_function);
+	public final SpecialFunctionContext specialFunction() throws RecognitionException {
+		SpecialFunctionContext _localctx = new SpecialFunctionContext(_ctx, getState());
+		enterRule(_localctx, 28, RULE_specialFunction);
 		try {
 			setState(303);
 			_errHandler.sync(this);
@@ -1278,7 +1278,7 @@ public class BistatParser extends Parser {
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(281);
-				input_read();
+				inputRead();
 				}
 				break;
 			case T__21:
@@ -1292,14 +1292,14 @@ public class BistatParser extends Parser {
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(283);
-				list_add();
+				listAdd();
 				}
 				break;
 			case T__23:
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(284);
-				list_pop();
+				listPop();
 				}
 				break;
 			case T__24:
@@ -1355,7 +1355,7 @@ public class BistatParser extends Parser {
 				enterOuterAlt(_localctx, 12);
 				{
 				setState(292);
-				s_mode();
+				sMode();
 				}
 				break;
 			case T__32:
@@ -1443,20 +1443,20 @@ public class BistatParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Input_readContext extends ParserRuleContext {
+	public static class InputReadContext extends ParserRuleContext {
 		public List<TerminalNode> ID() { return getTokens(BistatParser.ID); }
 		public TerminalNode ID(int i) {
 			return getToken(BistatParser.ID, i);
 		}
-		public Input_readContext(ParserRuleContext parent, int invokingState) {
+		public InputReadContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_input_read; }
+		@Override public int getRuleIndex() { return RULE_inputRead; }
 	}
 
-	public final Input_readContext input_read() throws RecognitionException {
-		Input_readContext _localctx = new Input_readContext(_ctx, getState());
-		enterRule(_localctx, 30, RULE_input_read);
+	public final InputReadContext inputRead() throws RecognitionException {
+		InputReadContext _localctx = new InputReadContext(_ctx, getState());
+		enterRule(_localctx, 30, RULE_inputRead);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
@@ -1555,22 +1555,22 @@ public class BistatParser extends Parser {
 		return _localctx;
 	}
 
-	public static class List_addContext extends ParserRuleContext {
+	public static class ListAddContext extends ParserRuleContext {
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
-		public List_addContext(ParserRuleContext parent, int invokingState) {
+		public ListAddContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_list_add; }
+		@Override public int getRuleIndex() { return RULE_listAdd; }
 	}
 
-	public final List_addContext list_add() throws RecognitionException {
-		List_addContext _localctx = new List_addContext(_ctx, getState());
-		enterRule(_localctx, 34, RULE_list_add);
+	public final ListAddContext listAdd() throws RecognitionException {
+		ListAddContext _localctx = new ListAddContext(_ctx, getState());
+		enterRule(_localctx, 34, RULE_listAdd);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
@@ -1599,19 +1599,19 @@ public class BistatParser extends Parser {
 		return _localctx;
 	}
 
-	public static class List_popContext extends ParserRuleContext {
+	public static class ListPopContext extends ParserRuleContext {
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public List_popContext(ParserRuleContext parent, int invokingState) {
+		public ListPopContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_list_pop; }
+		@Override public int getRuleIndex() { return RULE_listPop; }
 	}
 
-	public final List_popContext list_pop() throws RecognitionException {
-		List_popContext _localctx = new List_popContext(_ctx, getState());
-		enterRule(_localctx, 36, RULE_list_pop);
+	public final ListPopContext listPop() throws RecognitionException {
+		ListPopContext _localctx = new ListPopContext(_ctx, getState());
+		enterRule(_localctx, 36, RULE_listPop);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
@@ -1911,19 +1911,19 @@ public class BistatParser extends Parser {
 		return _localctx;
 	}
 
-	public static class S_modeContext extends ParserRuleContext {
+	public static class SModeContext extends ParserRuleContext {
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public S_modeContext(ParserRuleContext parent, int invokingState) {
+		public SModeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_s_mode; }
+		@Override public int getRuleIndex() { return RULE_sMode; }
 	}
 
-	public final S_modeContext s_mode() throws RecognitionException {
-		S_modeContext _localctx = new S_modeContext(_ctx, getState());
-		enterRule(_localctx, 52, RULE_s_mode);
+	public final SModeContext sMode() throws RecognitionException {
+		SModeContext _localctx = new SModeContext(_ctx, getState());
+		enterRule(_localctx, 52, RULE_sMode);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
@@ -2466,11 +2466,11 @@ public class BistatParser extends Parser {
 		public IndexingContext indexing() {
 			return getRuleContext(IndexingContext.class,0);
 		}
-		public Special_functionContext special_function() {
-			return getRuleContext(Special_functionContext.class,0);
+		public SpecialFunctionContext specialFunction() {
+			return getRuleContext(SpecialFunctionContext.class,0);
 		}
-		public Function_callContext function_call() {
-			return getRuleContext(Function_callContext.class,0);
+		public FunctionCallContext functionCall() {
+			return getRuleContext(FunctionCallContext.class,0);
 		}
 		public TerminalNode VAR_CONS() { return getToken(BistatParser.VAR_CONS, 0); }
 		public TerminalNode OP_SEC() { return getToken(BistatParser.OP_SEC, 0); }
@@ -2524,13 +2524,13 @@ public class BistatParser extends Parser {
 			case 3:
 				{
 				setState(458);
-				special_function();
+				specialFunction();
 				}
 				break;
 			case 4:
 				{
 				setState(459);
-				function_call();
+				functionCall();
 				}
 				break;
 			case 5:
@@ -2553,7 +2553,7 @@ public class BistatParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Function_callContext extends ParserRuleContext {
+	public static class FunctionCallContext extends ParserRuleContext {
 		public TerminalNode ID() { return getToken(BistatParser.ID, 0); }
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
@@ -2561,15 +2561,15 @@ public class BistatParser extends Parser {
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
-		public Function_callContext(ParserRuleContext parent, int invokingState) {
+		public FunctionCallContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_function_call; }
+		@Override public int getRuleIndex() { return RULE_functionCall; }
 	}
 
-	public final Function_callContext function_call() throws RecognitionException {
-		Function_callContext _localctx = new Function_callContext(_ctx, getState());
-		enterRule(_localctx, 82, RULE_function_call);
+	public final FunctionCallContext functionCall() throws RecognitionException {
+		FunctionCallContext _localctx = new FunctionCallContext(_ctx, getState());
+		enterRule(_localctx, 82, RULE_functionCall);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);

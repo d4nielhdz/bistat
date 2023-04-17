@@ -1,47 +1,44 @@
 grammar Bistat;
 
-program: 'Program' ID ';' var_declaration* func_def* main EOF;
+program: 'Program' ID ';' varDeclaration* funcDef* main EOF;
 
-var_declaration: 'var' NON_VOID_TYPE ID ';';
-func_def:
-	'func' ID '(' param_declaration* ')' ':' RETURN_TYPE var_declaration* '{' stmt+ '}';
+varDeclaration: 'var' NON_VOID_TYPE ID ';';
+funcDef:
+	'func' ID '(' paramDeclaration* ')' ':' RETURN_TYPE varDeclaration* '{' stmt+ '}';
 main: 'main' '(' ')' '{' stmt+ '}';
 
-stmt: (
-		(assignment | print | special_function | function_call) ';'
-	)
+stmt: ((assignment | print | specialFunction | functionCall) ';')
 	| conditional
-	| while_loop
-	| for_loop
+	| whileLoop
+	| forLoop
 	| comment;
 
-param_declaration: 'var' PARAM_TYPE ID ';';
+paramDeclaration: 'var' PARAM_TYPE ID ';';
 assignment:
-	ID '=' (VAR_CONS | list_assignment | matrix_assignment);
+	ID '=' (VAR_CONS | listAssignment | matrixAssignment);
 nested_stmt: (
-		(assignment | print | special_function | function_call) ';'
+		(assignment | print | specialFunction | functionCall) ';'
 	)
 	| conditional
-	| while_loop
+	| whileLoop
 	| comment;
 
-matrix_assignment:
-	'[' list_assignment (',' list_assignment)* ']';
-list_assignment: '[' VAR_CONS (',' VAR_CONS)* ']';
+matrixAssignment: '[' listAssignment (',' listAssignment)* ']';
+listAssignment: '[' VAR_CONS (',' VAR_CONS)* ']';
 
 comment: '#' (~'#')+ '#';
-for_loop: 'for' '(' ID 'in' expression ')' '{' nested_stmt+ '}';
-while_loop: 'while' '(' expression ')' '{' stmt+ '}';
+forLoop: 'for' '(' ID 'in' expression ')' '{' nested_stmt+ '}';
+whileLoop: 'while' '(' expression ')' '{' stmt+ '}';
 conditional:
 	'if' '(' expression ')' '{' stmt+ '}' (
 		'else' 'if' '(' expression ')' '{' stmt+ '}'
 	)* ('else' '{' stmt+ '}')?;
 
-special_function:
-	input_read
+specialFunction:
+	inputRead
 	| print
-	| list_add
-	| list_pop
+	| listAdd
+	| listPop
 	| length
 	| range
 	| plot
@@ -49,7 +46,7 @@ special_function:
 	| min
 	| prod
 	| avg
-	| s_mode
+	| sMode
 	| median
 	| sin
 	| cos
@@ -60,10 +57,10 @@ special_function:
 	| ceil
 	| abs
 	| not;
-input_read: 'read' '(' ID (',' ID)* ')';
+inputRead: 'read' '(' ID (',' ID)* ')';
 print: 'print' '(' expression ( ',' expression)* ')';
-list_add: 'list_add' '(' expression ',' expression ')';
-list_pop: 'list_pop' '(' expression ')';
+listAdd: 'listAdd' '(' expression ',' expression ')';
+listPop: 'listPop' '(' expression ')';
 length: 'length' '(' expression ')';
 range: 'range' '(' expression (',' expression)? ')';
 plot: 'plot' '(' expression ')';
@@ -71,7 +68,7 @@ sum: 'sum' '(' expression ')';
 min: 'min' '(' expression ')';
 prod: 'prod' '(' expression ')';
 avg: 'avg' '(' expression ')';
-s_mode: 's_mode' '(' expression ')';
+sMode: 'sMode' '(' expression ')';
 median: 'median' '(' expression ')';
 sin: 'sin' '(' expression ')';
 tan: 'tan' '(' expression ')';
@@ -90,11 +87,11 @@ factor:
 	OP_SEC? (
 		( '(' expression ')')
 		| indexing
-		| special_function
-		| function_call
+		| specialFunction
+		| functionCall
 		| VAR_CONS
 	);
-function_call: ID '(' (expression (',' expression)*)? ')';
+functionCall: ID '(' (expression (',' expression)*)? ')';
 indexing: ID '[' expression ']' ('[' expression ']')?;
 
 WS: [ \t\n\r]+ -> channel(HIDDEN);

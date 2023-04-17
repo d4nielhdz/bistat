@@ -22,8 +22,8 @@ null
 'else'
 'read'
 'print'
-'list_add'
-'list_pop'
+'listAdd'
+'listPop'
 'length'
 'range'
 'plot'
@@ -31,7 +31,7 @@ null
 'min'
 'prod'
 'avg'
-'s_mode'
+'sMode'
 'median'
 'sin'
 'tan'
@@ -122,24 +122,24 @@ NUMBER
 
 rule names:
 program
-var_declaration
-func_def
+varDeclaration
+funcDef
 main
 stmt
-param_declaration
+paramDeclaration
 assignment
 nested_stmt
-matrix_assignment
-list_assignment
+matrixAssignment
+listAssignment
 comment
-for_loop
-while_loop
+forLoop
+whileLoop
 conditional
-special_function
-input_read
+specialFunction
+inputRead
 print
-list_add
-list_pop
+listAdd
+listPop
 length
 range
 plot
@@ -147,7 +147,7 @@ sum
 min
 prod
 avg
-s_mode
+sMode
 median
 sin
 tan
@@ -162,7 +162,7 @@ expression
 exp
 term
 factor
-function_call
+functionCall
 indexing
 
 
