@@ -7,7 +7,7 @@ funcDef:
 	'func' ID '(' paramDeclaration* ')' ':' RETURN_TYPE varDeclaration* '{' stmt+ '}';
 main: 'main' '(' ')' '{' stmt+ '}';
 
-stmt: ((assignment | print | specialFunction | functionCall) ';')
+stmt: ((assignment | specialFunction | functionCall) ';')
 	| conditional
 	| whileLoop
 	| forLoop

@@ -29,12 +29,28 @@ func (l *bistatListener) EnterVarDeclaration(ctx *parser.VarDeclarationContext) 
 
 func (l *bistatListener) EnterStmt(ctx *parser.StmtContext) {
 	fmt.Println("Entered statement")
-	fmt.Println(ctx.GetBaseRuleContext())
+}
+
+func (l *bistatListener) EnterFuncDef(ctx *parser.FuncDefContext) {
+	fmt.Println("Entered function definition")
+	fmt.Println(ctx.ID())
+	fmt.Println(ctx.RETURN_TYPE())
+}
+
+func (l *bistatListener) EnterSpecialFunction(ctx *parser.SpecialFunctionContext) {
+	fmt.Println("Entered special function")
+}
+
+func (l *bistatListener) EnterFunctionCall(ctx *parser.FunctionCallContext) {
+	fmt.Println("Entered function call")
+}
+
+func (l *bistatListener) EnterPrint(ctx *parser.PrintContext) {
+	fmt.Println("Entered print")
 }
 
 func (l *bistatListener) ExitProgram(ctx *parser.ProgramContext) {
 	fmt.Println("Exited program")
-	fmt.Println(ctx.GetBaseRuleContext())
 }
 
 func main() {
