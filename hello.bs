@@ -1,1 +1,13 @@
-Program;
+Program Hello;
+
+var int num;
+var float flt;
+
+func myfunc(): void {
+  print("hola");
+}
+
+main () {
+  myfunc();
+}
+

@@ -18,7 +18,9 @@ func NewTreeShapeListener() *TreeShapeListener {
 }
 
 func (this *TreeShapeListener) EnterEveryRule(ctx antlr.ParserRuleContext) {
+	fmt.Println("rule\n")
 	fmt.Println(ctx.GetText())
+	fmt.Println("\n")
 }
 
 func main() {
@@ -28,4 +30,6 @@ func main() {
 	p := parser.NewBistatParser(stream)
 	p.AddErrorListener(antlr.NewDiagnosticErrorListener(true))
 	p.BuildParseTrees = true
+	tree := p.Program()
+	antlr.ParseTreeWalkerDefault.Walk(NewTreeShapeListener(), tree)
 }
