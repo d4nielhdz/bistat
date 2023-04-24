@@ -10,7 +10,8 @@ CARDINALITY: ('[' (INT_CONS?) ']') ('[' (INT_CONS?) ']')?;
 TYPE_PRIMITIVE: 'int' | 'float' | 'string' | 'bool' | 'void';
 
 funcDef:
-	'func' ID '(' paramDeclaration* ')' ':' var_type varDeclaration* '{' stmt+ '}';
+	'func' ID '(' paramDeclaration* ')' ':' var_type varDeclaration* '{' stmt+ funcEnd;
+funcEnd: '}';
 
 paramDeclaration: 'var' var_type ID ';';
 
@@ -30,7 +31,7 @@ stmt: (
 	| comment;
 
 assignment:
-	ID '=' (VAR_CONS | listAssignment | matrixAssignment);
+	ID '=' (var_cons | listAssignment | matrixAssignment);
 nested_stmt: (
 		(
 			assignment
@@ -45,7 +46,7 @@ nested_stmt: (
 	| comment;
 
 matrixAssignment: '[' listAssignment (',' listAssignment)* ']';
-listAssignment: '[' VAR_CONS (',' VAR_CONS)* ']';
+listAssignment: '[' var_cons (',' var_cons)* ']';
 
 comment: '#' (~'#')+ '#';
 forLoop: 'for' '(' ID 'in' expression ')' '{' nested_stmt+ '}';
@@ -111,13 +112,13 @@ factor:
 		| indexing
 		| specialFunction
 		| functionCall
-		| VAR_CONS
+		| var_cons
 	);
 
 functionCall: ID '(' (expression (',' expression)*)? ')';
 indexing: ID '[' expression ']' ('[' expression ']')?;
 ID: ('_' | Alpha)+ (Alpha | NUMBER | '_')*;
-VAR_CONS: STRING_CONS | FLOAT_CONS | INT_CONS | BOOL_CONS | ID;
+var_cons: STRING_CONS | FLOAT_CONS | INT_CONS | BOOL_CONS | ID;
 INT_CONS: NUMBER+;
 NUMBER: '0' .. '9';
 BOOL_CONS: 'true' | 'false';

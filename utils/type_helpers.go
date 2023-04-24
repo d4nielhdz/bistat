@@ -131,6 +131,10 @@ type RType struct {
 	secondDim int
 }
 
+func NewRType(pType PType) RType {
+	return RType{pType: pType}
+}
+
 func (rType RType) print() {
 	fmt.Println("print")
 	fmt.Println(rType.pType)
@@ -138,7 +142,7 @@ func (rType RType) print() {
 	fmt.Println(rType.secondDim)
 }
 
-func ResolveType(vt parser.IVar_typeContext) int {
+func ResolveType(vt parser.IVar_typeContext) RType {
 	fmt.Println("resolving")
 	var pType = PTypeFromString(vt.TYPE_PRIMITIVE().GetText())
 	var rType = RType{pType: pType}
@@ -166,5 +170,5 @@ func ResolveType(vt parser.IVar_typeContext) int {
 	}
 	fmt.Println(card)
 	rType.print()
-	return 1
+	return rType
 }

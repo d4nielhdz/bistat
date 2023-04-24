@@ -15,3 +15,15 @@ Resumen de commits:
 - Agregar más listeners: se agregaron más listeners para comprobar reglas adicionales y se descubrió que algunas reglas no están funcionando correctamente
 
 Archivos creados: main.go y parser/Bistat.g4
+
+### Avance 2
+
+- Se corrigieron algunos errores observados en la entrega pasada
+- Se crearon enums para representar los tipos y los operadores
+- Se creó un struct para representar los tipos de las variables y los parámetros, así como de los retornos de las funciones
+- Se creó el cubo semántico y una función para determinar si se puede realizar una operación entre dos operandos
+- Se creó una estructura PCtx (program context) que contiene los scopes, el directorio de funciones y la tabla de variables
+- Se creó la tabla de variables
+- Se creó el directorio de funciones
+
+Archivos creados: utils/type_helpers.go

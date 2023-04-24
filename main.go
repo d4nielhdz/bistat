@@ -13,6 +13,26 @@ type bistatListener struct {
 	*parser.BaseBistatListener
 }
 
+type PCtx struct {
+	scopes   []string
+	funcDir  map[string]utils.RType
+	varTable map[string]map[string]utils.RType
+}
+
+func NewPCtx() PCtx {
+	return PCtx{
+		scopes:   make([]string, 0),
+		funcDir:  make(map[string]utils.RType),
+		varTable: make(map[string]map[string]utils.RType),
+	}
+}
+
+func (pCtx PCtx) GetCurrentScope() string {
+	return pCtx.scopes[len(pCtx.scopes)-1]
+}
+
+var pCtx = NewPCtx()
+
 func NewBistatListener() *bistatListener {
 	return new(bistatListener)
 }
@@ -20,13 +40,23 @@ func NewBistatListener() *bistatListener {
 func (l *bistatListener) EnterProgram(ctx *parser.ProgramContext) {
 	fmt.Println("Entered program")
 	fmt.Println(ctx.ID())
+	scopes := append(pCtx.scopes, ctx.ID().GetText())
+	pCtx.scopes = scopes
+	pCtx.funcDir[ctx.ID().GetText()] = utils.NewRType(utils.Void)
 }
 
 func (l *bistatListener) EnterVarDeclaration(ctx *parser.VarDeclarationContext) {
 	fmt.Println("Entered variable declaration")
+	currScope := pCtx.GetCurrentScope()
 	fmt.Println(ctx.ID())
 	var vt = ctx.Var_type()
 	var resolved = utils.ResolveType(vt)
+	_, exists := pCtx.varTable[currScope][ctx.ID().GetText()]
+	if exists {
+		fmt.Println("variable already exists")
+	} else {
+		pCtx.varTable[currScope][ctx.ID().GetText()] = resolved
+	}
 	fmt.Println(vt.TYPE_PRIMITIVE())
 	fmt.Println(vt.CARDINALITY())
 	fmt.Println(resolved)

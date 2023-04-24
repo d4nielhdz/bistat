@@ -45,6 +45,12 @@ func (s *BaseBistatListener) EnterFuncDef(ctx *FuncDefContext) {}
 // ExitFuncDef is called when production funcDef is exited.
 func (s *BaseBistatListener) ExitFuncDef(ctx *FuncDefContext) {}
 
+// EnterFuncEnd is called when production funcEnd is entered.
+func (s *BaseBistatListener) EnterFuncEnd(ctx *FuncEndContext) {}
+
+// ExitFuncEnd is called when production funcEnd is exited.
+func (s *BaseBistatListener) ExitFuncEnd(ctx *FuncEndContext) {}
+
 // EnterParamDeclaration is called when production paramDeclaration is entered.
 func (s *BaseBistatListener) EnterParamDeclaration(ctx *ParamDeclarationContext) {}
 
@@ -290,3 +296,9 @@ func (s *BaseBistatListener) EnterIndexing(ctx *IndexingContext) {}
 
 // ExitIndexing is called when production indexing is exited.
 func (s *BaseBistatListener) ExitIndexing(ctx *IndexingContext) {}
+
+// EnterVar_cons is called when production var_cons is entered.
+func (s *BaseBistatListener) EnterVar_cons(ctx *Var_consContext) {}
+
+// ExitVar_cons is called when production var_cons is exited.
+func (s *BaseBistatListener) ExitVar_cons(ctx *Var_consContext) {}
