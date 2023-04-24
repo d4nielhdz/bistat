@@ -4,9 +4,16 @@ WS: [ \t\n\r]+ -> channel(HIDDEN);
 
 program: 'Program' ID ';' varDeclaration* funcDef* main EOF;
 
-varDeclaration: 'var' NON_VOID_TYPE ID ';';
+varDeclaration: 'var' var_type ID ';';
+var_type: TYPE_PRIMITIVE (CARDINALITY?);
+CARDINALITY: ('[' (INT_CONS?) ']') ('[' (INT_CONS?) ']')?;
+TYPE_PRIMITIVE: 'int' | 'float' | 'string' | 'bool' | 'void';
+
 funcDef:
-	'func' ID '(' paramDeclaration* ')' ':' RETURN_TYPE varDeclaration* '{' stmt+ '}';
+	'func' ID '(' paramDeclaration* ')' ':' var_type varDeclaration* '{' stmt+ '}';
+
+paramDeclaration: 'var' var_type ID ';';
+
 main: 'main' '(' ')' '{' stmt+ '}';
 
 stmt: (
@@ -22,11 +29,16 @@ stmt: (
 	| forLoop
 	| comment;
 
-paramDeclaration: 'var' PARAM_TYPE ID ';';
 assignment:
 	ID '=' (VAR_CONS | listAssignment | matrixAssignment);
 nested_stmt: (
-		(assignment | print | specialFunction | functionCall) ';'
+		(
+			assignment
+			| print
+			| specialFunction
+			| functionCall
+			| returnStmt
+		) ';'
 	)
 	| conditional
 	| whileLoop
@@ -101,29 +113,16 @@ factor:
 		| functionCall
 		| VAR_CONS
 	);
+
 functionCall: ID '(' (expression (',' expression)*)? ')';
 indexing: ID '[' expression ']' ('[' expression ']')?;
-
-NON_VOID_TYPE: ('int' | 'float' | 'string' | 'bool') (
-		CARDINALITY?
-	);
-PARAM_TYPE: ('int' | 'float' | 'string' | 'bool') (
-		PARAM_CARDINALITY?
-	);
-RETURN_TYPE:
-	(('int' | 'float' | 'string' | 'bool') (PARAM_CARDINALITY?))
-	| 'void';
-
-CARDINALITY: ('[' INT_CONS ']')
-	| ('[' INT_CONS ']' '[' INT_CONS ']');
-PARAM_CARDINALITY: ('[' ']') | ('[' ']' '[' ']');
-
 ID: ('_' | Alpha)+ (Alpha | NUMBER | '_')*;
 VAR_CONS: STRING_CONS | FLOAT_CONS | INT_CONS | BOOL_CONS | ID;
+INT_CONS: NUMBER+;
+NUMBER: '0' .. '9';
 BOOL_CONS: 'true' | 'false';
 STRING_CONS: '"' (~'"')* '"';
 FLOAT_CONS: NUMBER+ '.' NUMBER+;
-INT_CONS: NUMBER+;
 OP_SEC: '+' | '-';
 OP_FIRST: '/' | '*' | '%';
 LOGIC_OPERATOR:
@@ -136,4 +135,3 @@ LOGIC_OPERATOR:
 	| '&&'
 	| '||';
 fragment Alpha: 'A' .. 'Z' | 'a' .. 'z';
-NUMBER: '0' .. '9';

@@ -33,11 +33,23 @@ func (s *BaseBistatListener) EnterVarDeclaration(ctx *VarDeclarationContext) {}
 // ExitVarDeclaration is called when production varDeclaration is exited.
 func (s *BaseBistatListener) ExitVarDeclaration(ctx *VarDeclarationContext) {}
 
+// EnterVar_type is called when production var_type is entered.
+func (s *BaseBistatListener) EnterVar_type(ctx *Var_typeContext) {}
+
+// ExitVar_type is called when production var_type is exited.
+func (s *BaseBistatListener) ExitVar_type(ctx *Var_typeContext) {}
+
 // EnterFuncDef is called when production funcDef is entered.
 func (s *BaseBistatListener) EnterFuncDef(ctx *FuncDefContext) {}
 
 // ExitFuncDef is called when production funcDef is exited.
 func (s *BaseBistatListener) ExitFuncDef(ctx *FuncDefContext) {}
+
+// EnterParamDeclaration is called when production paramDeclaration is entered.
+func (s *BaseBistatListener) EnterParamDeclaration(ctx *ParamDeclarationContext) {}
+
+// ExitParamDeclaration is called when production paramDeclaration is exited.
+func (s *BaseBistatListener) ExitParamDeclaration(ctx *ParamDeclarationContext) {}
 
 // EnterMain is called when production main is entered.
 func (s *BaseBistatListener) EnterMain(ctx *MainContext) {}
@@ -50,12 +62,6 @@ func (s *BaseBistatListener) EnterStmt(ctx *StmtContext) {}
 
 // ExitStmt is called when production stmt is exited.
 func (s *BaseBistatListener) ExitStmt(ctx *StmtContext) {}
-
-// EnterParamDeclaration is called when production paramDeclaration is entered.
-func (s *BaseBistatListener) EnterParamDeclaration(ctx *ParamDeclarationContext) {}
-
-// ExitParamDeclaration is called when production paramDeclaration is exited.
-func (s *BaseBistatListener) ExitParamDeclaration(ctx *ParamDeclarationContext) {}
 
 // EnterAssignment is called when production assignment is entered.
 func (s *BaseBistatListener) EnterAssignment(ctx *AssignmentContext) {}

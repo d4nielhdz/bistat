@@ -13,3 +13,5 @@ Resumen de commits:
 - Agregar listeners: se agregaron listeners para comprobar que el parser esté entrando a las reglas correctas
 - Cambiar convención de acciones a camel case: se empezó a a usar camel case para las acciones de antlr
 - Agregar más listeners: se agregaron más listeners para comprobar reglas adicionales y se descubrió que algunas reglas no están funcionando correctamente
+
+Archivos creados: main.go y parser/Bistat.g4

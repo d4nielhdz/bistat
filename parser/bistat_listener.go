@@ -14,17 +14,20 @@ type BistatListener interface {
 	// EnterVarDeclaration is called when entering the varDeclaration production.
 	EnterVarDeclaration(c *VarDeclarationContext)
 
+	// EnterVar_type is called when entering the var_type production.
+	EnterVar_type(c *Var_typeContext)
+
 	// EnterFuncDef is called when entering the funcDef production.
 	EnterFuncDef(c *FuncDefContext)
+
+	// EnterParamDeclaration is called when entering the paramDeclaration production.
+	EnterParamDeclaration(c *ParamDeclarationContext)
 
 	// EnterMain is called when entering the main production.
 	EnterMain(c *MainContext)
 
 	// EnterStmt is called when entering the stmt production.
 	EnterStmt(c *StmtContext)
-
-	// EnterParamDeclaration is called when entering the paramDeclaration production.
-	EnterParamDeclaration(c *ParamDeclarationContext)
 
 	// EnterAssignment is called when entering the assignment production.
 	EnterAssignment(c *AssignmentContext)
@@ -146,17 +149,20 @@ type BistatListener interface {
 	// ExitVarDeclaration is called when exiting the varDeclaration production.
 	ExitVarDeclaration(c *VarDeclarationContext)
 
+	// ExitVar_type is called when exiting the var_type production.
+	ExitVar_type(c *Var_typeContext)
+
 	// ExitFuncDef is called when exiting the funcDef production.
 	ExitFuncDef(c *FuncDefContext)
+
+	// ExitParamDeclaration is called when exiting the paramDeclaration production.
+	ExitParamDeclaration(c *ParamDeclarationContext)
 
 	// ExitMain is called when exiting the main production.
 	ExitMain(c *MainContext)
 
 	// ExitStmt is called when exiting the stmt production.
 	ExitStmt(c *StmtContext)
-
-	// ExitParamDeclaration is called when exiting the paramDeclaration production.
-	ExitParamDeclaration(c *ParamDeclarationContext)
 
 	// ExitAssignment is called when exiting the assignment production.
 	ExitAssignment(c *AssignmentContext)

@@ -2,12 +2,14 @@ Program Hello;
 
 var int num;
 var float flt;
+var int[5] ls;
+var int[3][5] lss;
 
 func myfunc(): void {
   print("hola");
 }
 
-func myfun(var int w;): float
+func myfun(var int[] w;): float
   var int x;
   var float y;
  {
