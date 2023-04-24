@@ -27,8 +27,9 @@ func (l *bistatListener) EnterVarDeclaration(ctx *parser.VarDeclarationContext) 
 	fmt.Println(ctx.ID())
 	var vt = ctx.Var_type()
 	var resolved = utils.ResolveType(vt)
-	fmt.Println(resolved)
 	fmt.Println(vt.TYPE_PRIMITIVE())
+	fmt.Println(vt.CARDINALITY())
+	fmt.Println(resolved)
 
 }
 
@@ -36,7 +37,10 @@ func (l *bistatListener) EnterParamDeclaration(ctx *parser.ParamDeclarationConte
 	fmt.Println("Entered param declaration")
 	fmt.Println(ctx.ID())
 	var vt = ctx.Var_type()
+	var resolved = utils.ResolveType(vt)
 	fmt.Println(vt.TYPE_PRIMITIVE())
+	fmt.Println(vt.CARDINALITY())
+	fmt.Println(resolved)
 
 }
 
@@ -54,7 +58,10 @@ func (l *bistatListener) EnterFuncDef(ctx *parser.FuncDefContext) {
 	fmt.Println("Entered function definition")
 	fmt.Println(ctx.ID())
 	var vt = ctx.Var_type()
+	var resolved = utils.ResolveType(vt)
 	fmt.Println(vt.TYPE_PRIMITIVE())
+	fmt.Println(vt.CARDINALITY())
+	fmt.Println(resolved)
 
 }
 

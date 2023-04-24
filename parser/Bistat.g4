@@ -106,7 +106,7 @@ expression: exp (LOGIC_OPERATOR exp)?;
 exp: term (OP_SEC exp)?;
 term: factor ( OP_FIRST term)?;
 factor:
-	OP_SEC? (
+	'-'? (
 		( '(' expression ')')
 		| indexing
 		| specialFunction
