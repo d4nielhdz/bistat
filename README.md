@@ -25,5 +25,6 @@ Archivos creados: main.go y parser/Bistat.g4
 - Se creó una estructura PCtx (program context) que contiene los scopes, el directorio de funciones y la tabla de variables
 - Se creó la tabla de variables
 - Se creó el directorio de funciones
+- Se aregó el código para agregar el main al directorio de funciones y las variables a la tabla de variables
 
 Archivos creados: utils/type_helpers.go
