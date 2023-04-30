@@ -3,28 +3,7 @@ package utils
 import (
 	parser "bistat/parser"
 	"fmt"
-
-	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
 )
-
-type CustomSyntaxError struct {
-	error
-	line, column int
-	msg          string
-}
-
-type CustomErrorListener struct {
-	*antlr.DefaultErrorListener // Embed default which ensures we fit the interface
-	Errors                      []error
-}
-
-func (c *CustomErrorListener) SyntaxError(recognizer antlr.Recognizer, offendingSymbol interface{}, line, column int, msg string, e antlr.RecognitionException) {
-	c.Errors = append(c.Errors, &CustomSyntaxError{
-		line:   line,
-		column: column,
-		msg:    msg,
-	})
-}
 
 type bistatListener struct {
 	*parser.BaseBistatListener
@@ -45,6 +24,7 @@ func (l *bistatListener) EnterProgram(ctx *parser.ProgramContext) {
 }
 
 func (l *bistatListener) EnterVarDeclaration(ctx *parser.VarDeclarationContext) {
+	// todo: catch type errors
 	fmt.Println("Entered variable declaration")
 	currScope := l.pCtx.GetCurrentScope()
 	fmt.Println(ctx.ID())
@@ -63,6 +43,7 @@ func (l *bistatListener) EnterVarDeclaration(ctx *parser.VarDeclarationContext) 
 }
 
 func (l *bistatListener) EnterParamDeclaration(ctx *parser.ParamDeclarationContext) {
+	// todo: catch type errors
 	fmt.Println("Entered param declaration")
 	fmt.Println(ctx.ID())
 	var vt = ctx.Var_type()

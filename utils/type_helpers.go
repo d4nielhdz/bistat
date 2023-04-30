@@ -50,6 +50,28 @@ const (
 	Le
 	Eq
 	Ne
+	InputRead
+	Print
+	ListAdd
+	ListPop
+	Length
+	Range
+	Plot
+	ListSum
+	Min
+	Prod
+	Avg
+	SMode
+	Median
+	Sin
+	Cos
+	Tan
+	Sort
+	Sqrt
+	Floor
+	Ceil
+	Abs
+	Not
 	UndefinedOp
 )
 
@@ -129,6 +151,7 @@ type RType struct {
 	firstDim int
 	// indicates size of second dimension. -1 for params, 0 for non arrays
 	secondDim int
+	address   int
 }
 
 func NewRType(pType PType) RType {
@@ -140,6 +163,7 @@ func (rType RType) print() {
 	fmt.Println(rType.pType)
 	fmt.Println(rType.firstDim)
 	fmt.Println(rType.secondDim)
+	fmt.Println(rType.address)
 }
 
 func ResolveType(vt parser.IVar_typeContext) RType {

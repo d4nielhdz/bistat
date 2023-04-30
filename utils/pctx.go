@@ -1,16 +1,18 @@
 package utils
 
 type PCtx struct {
-	scopes   []string
-	funcDir  map[string]RType
-	varTable map[string]map[string]RType
+	scopes    []string
+	funcDir   map[string]RType
+	varTable  map[string]map[string]RType
+	consTable map[string]RType
 }
 
 func NewPCtx() PCtx {
 	return PCtx{
-		scopes:   make([]string, 0),
-		funcDir:  make(map[string]RType),
-		varTable: make(map[string]map[string]RType),
+		scopes:    make([]string, 0),
+		funcDir:   make(map[string]RType),
+		varTable:  make(map[string]map[string]RType),
+		consTable: make(map[string]RType),
 	}
 }
 
