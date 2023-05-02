@@ -14,6 +14,8 @@ type PCtx struct {
 	varTable       map[string]map[string]RType
 	consTable      map[string]RType
 	semanticErrors []string
+	pO             []int
+	pOper          []int
 	vm             VM
 }
 
@@ -26,6 +28,8 @@ func NewPCtx() PCtx {
 		semanticErrors: make([]string, 0),
 		vm:             NewVM(),
 		addrTable:      make(map[int]string),
+		pO:             make([]int, 0),
+		pOper:          make([]int, 0),
 	}
 }
 
@@ -51,6 +55,67 @@ func (pCtx *PCtx) PrintAddrTable() {
 				fmt.Println("_____")
 			}
 		}
+	}
+}
+
+func (pCtx *PCtx) GetVarnameAtAddress(addr int) string {
+	vn, ok := pCtx.addrTable[addr]
+	if !ok {
+		return strconv.Itoa(addr)
+	}
+	return vn
+}
+
+func (pCtx *PCtx) PO() []int {
+	return pCtx.pO
+}
+
+func (pCtx *PCtx) POper() []int {
+	return pCtx.pOper
+}
+
+func (pCtx *PCtx) POTop() int {
+	return pCtx.pO[len(pCtx.pO)]
+}
+
+func (pCtx *PCtx) POperTop() int {
+	return pCtx.pOper[len(pCtx.pOper)]
+}
+
+func (pCtx *PCtx) POPop() {
+	pO := pCtx.pO
+	popped := pO[:len(pO)-1]
+	pCtx.pO = popped
+}
+
+func (pCtx *PCtx) POperPop() {
+	pOper := pCtx.pOper
+	popped := pOper[:len(pOper)-1]
+	pCtx.pOper = popped
+}
+
+func (pCtx *PCtx) POPush(op int) {
+	pCtx.pO = append(pCtx.pO, op)
+}
+
+func (pCtx *PCtx) POperPush(op int) {
+	pCtx.pOper = append(pCtx.pOper, op)
+}
+
+func (pCtx *PCtx) POIsEmpty() bool {
+	return len(pCtx.pO) == 0
+}
+
+func (pCtx *PCtx) POperIsEmpty() bool {
+	return len(pCtx.pOper) == 0
+}
+
+func (pCtx *PCtx) PrintQuads() {
+	for i, quad := range pCtx.vm.Quads() {
+		op1 := pCtx.GetVarnameAtAddress(quad.op1)
+		op2 := pCtx.GetVarnameAtAddress(quad.op2)
+		des := pCtx.GetVarnameAtAddress(quad.destination)
+		fmt.Println(i, ". ", OpToString(quad.op), op1, op2, des)
 	}
 }
 

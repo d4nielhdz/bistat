@@ -40,8 +40,6 @@ func (l *bistatListener) EnterVarDeclaration(ctx *parser.VarDeclarationContext) 
 		l.pCtx.AddVarToScope(currScope, varName, resolved)
 		l.pCtx.AddToAddrTable(resolved.address, ctx.ID().GetText())
 	}
-	fmt.Println(vt.TYPE_PRIMITIVE())
-	fmt.Println(vt.CARDINALITY())
 }
 
 func (l *bistatListener) EnterParamDeclaration(ctx *parser.ParamDeclarationContext) {
@@ -52,6 +50,7 @@ func (l *bistatListener) EnterParamDeclaration(ctx *parser.ParamDeclarationConte
 	pType := PTypeFromString(vt.TYPE_PRIMITIVE().GetText())
 	addrMgr := l.pCtx.GetCorrespondingAddressManager(pType)
 	resolved := l.pCtx.ResolveType(vt, addrMgr)
+	l.pCtx.AddVarToScope(l.pCtx.GetCurrentScope(), ctx.ID().GetText(), resolved)
 	l.pCtx.AddToAddrTable(resolved.address, ctx.ID().GetText())
 	fmt.Println(vt.TYPE_PRIMITIVE())
 	fmt.Println(vt.CARDINALITY())

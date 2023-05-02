@@ -107,6 +107,89 @@ func OpFromString(str string) Op {
 	}
 }
 
+func OpToString(op Op) string {
+	switch op {
+	case Sum:
+		return "Sum"
+	case Subtraction:
+		return "Subtraction"
+	case Multiplication:
+		return "Multiplication"
+	case Division:
+		return "Division"
+	case Modulus:
+		return "Modulus"
+	case And:
+		return "And"
+	case Or:
+		return "Or"
+	case Gt:
+		return "Gt"
+	case Lt:
+		return "Lt"
+	case Ge:
+		return "Ge"
+	case Le:
+		return "Le"
+	case Eq:
+		return "Eq"
+	case Ne:
+		return "Ne"
+	case Assign:
+		return "Assign"
+	case InputRead:
+		return "InputRead"
+	case Print:
+		return "Print"
+	case ListAdd:
+		return "ListAdd"
+	case ListPop:
+		return "ListPop"
+	case Length:
+		return "Length"
+	case Range:
+		return "Range"
+	case Plot:
+		return "Plot"
+	case ListSum:
+		return "ListSum"
+	case Min:
+		return "Min"
+	case Prod:
+		return "Prod"
+	case Avg:
+		return "Avg"
+	case SMode:
+		return "SMode"
+	case Median:
+		return "Median"
+	case Sin:
+		return "Sin"
+	case Cos:
+		return "Cos"
+	case Tan:
+		return "Tan"
+	case Sort:
+		return "Sort"
+	case Sqrt:
+		return "Sqrt"
+	case Floor:
+		return "Floor"
+	case Ceil:
+		return "Ceil"
+	case Abs:
+		return "Abs"
+	case Not:
+		return "Not"
+	case UnaryMinus:
+		return "UnaryMinus"
+	case UndefinedOp:
+		return "UndefinedOp"
+	default:
+		return ""
+	}
+}
+
 var semanticCube = [3][3][13]PType{
 	{
 		// Int Op Int
