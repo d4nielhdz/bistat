@@ -1,10 +1,7 @@
 package utils
 
 import (
-	parser "bistat/parser"
 	"fmt"
-	"regexp"
-	"strconv"
 )
 
 type PType int
@@ -50,6 +47,7 @@ const (
 	Le
 	Eq
 	Ne
+	Assign
 	InputRead
 	Print
 	ListAdd
@@ -72,6 +70,7 @@ const (
 	Ceil
 	Abs
 	Not
+	UnaryMinus
 	UndefinedOp
 )
 
@@ -159,40 +158,9 @@ func NewRType(pType PType) RType {
 }
 
 func (rType RType) print() {
-	fmt.Println("print")
+	fmt.Println("RType:")
 	fmt.Println(rType.pType)
-	fmt.Println(rType.firstDim)
-	fmt.Println(rType.secondDim)
-	fmt.Println(rType.address)
-}
-
-func ResolveType(vt parser.IVar_typeContext) RType {
-	fmt.Println("resolving")
-	var pType = PTypeFromString(vt.TYPE_PRIMITIVE().GetText())
-	var rType = RType{pType: pType}
-	var card = ""
-	if vt.CARDINALITY() != nil {
-		card = vt.CARDINALITY().GetText()
-		re := regexp.MustCompile(`(\[)(\d*)\](\[)?(\d*)\]?`)
-		match := re.FindStringSubmatch(card)
-		if match[1] != "" {
-			if match[2] != "" {
-				intV, _ := strconv.Atoi(match[2])
-				rType.firstDim = intV
-			} else {
-				rType.firstDim = -1
-			}
-		}
-		if match[3] != "" {
-			if match[4] != "" {
-				intV, _ := strconv.Atoi(match[4])
-				rType.secondDim = intV
-			} else {
-				rType.secondDim = -1
-			}
-		}
-	}
-	fmt.Println(card)
-	rType.print()
-	return rType
+	fmt.Println("first dim", rType.firstDim)
+	fmt.Println("second dim", rType.secondDim)
+	fmt.Println("address #", rType.address)
 }

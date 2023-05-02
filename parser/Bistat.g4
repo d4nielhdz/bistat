@@ -31,11 +31,10 @@ stmt: (
 	| comment;
 
 assignment:
-	ID '=' (var_cons | listAssignment | matrixAssignment);
+	ID '=' (expression | listAssignment | matrixAssignment);
 nested_stmt: (
 		(
 			assignment
-			| print
 			| specialFunction
 			| functionCall
 			| returnStmt
@@ -46,7 +45,8 @@ nested_stmt: (
 	| comment;
 
 matrixAssignment: '[' listAssignment (',' listAssignment)* ']';
-listAssignment: '[' var_cons (',' var_cons)* ']';
+listAssignment:
+	'[' (var_cons | expression) (',' (var_cons | expression))* ']';
 
 comment: '#' (~'#')+ '#';
 forLoop: 'for' '(' ID 'in' expression ')' '{' nested_stmt+ '}';

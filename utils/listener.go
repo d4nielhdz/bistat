@@ -29,29 +29,33 @@ func (l *bistatListener) EnterVarDeclaration(ctx *parser.VarDeclarationContext) 
 	currScope := l.pCtx.GetCurrentScope()
 	fmt.Println(ctx.ID())
 	vt := ctx.Var_type()
-	resolved := ResolveType(vt)
+	pType := PTypeFromString(vt.TYPE_PRIMITIVE().GetText())
+	addrMgr := l.pCtx.GetCorrespondingAddressManager(pType)
+	resolved := l.pCtx.ResolveType(vt, addrMgr)
 	varName := ctx.ID().GetText()
 	_, exists := l.pCtx.GetVarInScope(currScope, varName)
 	if exists {
 		fmt.Println("variable already exists")
 	} else {
 		l.pCtx.AddVarToScope(currScope, varName, resolved)
+		l.pCtx.AddToAddrTable(resolved.address, ctx.ID().GetText())
 	}
 	fmt.Println(vt.TYPE_PRIMITIVE())
 	fmt.Println(vt.CARDINALITY())
-	fmt.Println(resolved)
 }
 
 func (l *bistatListener) EnterParamDeclaration(ctx *parser.ParamDeclarationContext) {
 	// todo: catch type errors
 	fmt.Println("Entered param declaration")
 	fmt.Println(ctx.ID())
-	var vt = ctx.Var_type()
-	var resolved = ResolveType(vt)
+	vt := ctx.Var_type()
+	pType := PTypeFromString(vt.TYPE_PRIMITIVE().GetText())
+	addrMgr := l.pCtx.GetCorrespondingAddressManager(pType)
+	resolved := l.pCtx.ResolveType(vt, addrMgr)
+	l.pCtx.AddToAddrTable(resolved.address, ctx.ID().GetText())
 	fmt.Println(vt.TYPE_PRIMITIVE())
 	fmt.Println(vt.CARDINALITY())
 	fmt.Println(resolved)
-
 }
 
 // func (this *bistatListener) EnterEveryRule(ctx antlr.ParserRuleContext) {
@@ -68,8 +72,11 @@ func (l *bistatListener) EnterFuncDef(ctx *parser.FuncDefContext) {
 	fmt.Println("Entered function definition")
 	fmt.Println(ctx.ID())
 	funcName := ctx.ID().GetText()
-	var vt = ctx.Var_type()
-	var resolved = ResolveType(vt)
+	vt := ctx.Var_type()
+	pType := PTypeFromString(vt.TYPE_PRIMITIVE().GetText())
+	addrMgr := l.pCtx.GetCorrespondingAddressManager(pType)
+	resolved := l.pCtx.ResolveType(vt, addrMgr)
+	l.pCtx.AddToAddrTable(resolved.address, ctx.ID().GetText())
 	l.pCtx.AddScope(funcName)
 	l.pCtx.AddFunction(funcName, resolved)
 	fmt.Println(vt.TYPE_PRIMITIVE())
@@ -105,6 +112,7 @@ func (l *bistatListener) EnterFuncEnd(ctx *parser.FuncEndContext) {
 // 	fmt.Println("Entered print")
 // }
 
-// func (l *bistatListener) ExitProgram(ctx *parser.ProgramContext) {
-// 	fmt.Println("Exited program")
-// }
+func (l *bistatListener) ExitProgram(ctx *parser.ProgramContext) {
+	fmt.Println("Exited program")
+	l.pCtx.PrintAddrTable()
+}

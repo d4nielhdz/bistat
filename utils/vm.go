@@ -21,74 +21,74 @@ const CONST_BOOL_END = 159999
 
 type VM struct {
 	quads                                                                                                                                                                                                                                                                                                                                                  []Quad
-	globalIntAddressMgr, localIntAddressMgr, tempIntAddressMgr, constIntAddressMgr, globalFloatAddressMgr, localFloatAddressMgr, tempFloatAddressMgr, constFloatAddressMgr, globalStringAddressMgr, localStringAddressMgr, tempStringAddressMgr, constStringAddressMgr, globalBoolAddressMgr, localBoolAddressMgr, tempBoolAddressMgr, constBoolAddressMgr AddressManager
+	globalIntAddressMgr, localIntAddressMgr, tempIntAddressMgr, constIntAddressMgr, globalFloatAddressMgr, localFloatAddressMgr, tempFloatAddressMgr, constFloatAddressMgr, globalStringAddressMgr, localStringAddressMgr, tempStringAddressMgr, constStringAddressMgr, globalBoolAddressMgr, localBoolAddressMgr, tempBoolAddressMgr, constBoolAddressMgr *AddressManager
 }
 
 func (vm *VM) Quads() []Quad {
 	return vm.quads
 }
 
-func (vm *VM) GlobalIntAddressMgr() AddressManager {
+func (vm *VM) GlobalIntAddressMgr() *AddressManager {
 	return vm.globalIntAddressMgr
 }
 
-func (vm *VM) LocalIntAddressMgr() AddressManager {
+func (vm *VM) LocalIntAddressMgr() *AddressManager {
 	return vm.localIntAddressMgr
 }
 
-func (vm *VM) TempIntAddressMgr() AddressManager {
+func (vm *VM) TempIntAddressMgr() *AddressManager {
 	return vm.tempIntAddressMgr
 }
 
-func (vm *VM) ConstIntAddressMgr() AddressManager {
+func (vm *VM) ConstIntAddressMgr() *AddressManager {
 	return vm.constIntAddressMgr
 }
 
-func (vm *VM) GlobalFloatAddressMgr() AddressManager {
+func (vm *VM) GlobalFloatAddressMgr() *AddressManager {
 	return vm.globalFloatAddressMgr
 }
 
-func (vm *VM) LocalFloatAddressMgr() AddressManager {
+func (vm *VM) LocalFloatAddressMgr() *AddressManager {
 	return vm.localFloatAddressMgr
 }
 
-func (vm *VM) TempFloatAddressMgr() AddressManager {
+func (vm *VM) TempFloatAddressMgr() *AddressManager {
 	return vm.tempFloatAddressMgr
 }
 
-func (vm *VM) ConstFloatAddressMgr() AddressManager {
+func (vm *VM) ConstFloatAddressMgr() *AddressManager {
 	return vm.constFloatAddressMgr
 }
 
-func (vm *VM) GlobalStringAddressMgr() AddressManager {
+func (vm *VM) GlobalStringAddressMgr() *AddressManager {
 	return vm.globalStringAddressMgr
 }
 
-func (vm *VM) LocalStringAddressMgr() AddressManager {
+func (vm *VM) LocalStringAddressMgr() *AddressManager {
 	return vm.localStringAddressMgr
 }
 
-func (vm *VM) TempStringAddressMgr() AddressManager {
+func (vm *VM) TempStringAddressMgr() *AddressManager {
 	return vm.tempStringAddressMgr
 }
 
-func (vm *VM) ConstStringAddressMgr() AddressManager {
+func (vm *VM) ConstStringAddressMgr() *AddressManager {
 	return vm.constStringAddressMgr
 }
 
-func (vm *VM) GlobalBoolAddressMgr() AddressManager {
+func (vm *VM) GlobalBoolAddressMgr() *AddressManager {
 	return vm.globalBoolAddressMgr
 }
 
-func (vm *VM) LocalBoolAddressMgr() AddressManager {
+func (vm *VM) LocalBoolAddressMgr() *AddressManager {
 	return vm.localBoolAddressMgr
 }
 
-func (vm *VM) TempBoolAddressMgr() AddressManager {
+func (vm *VM) TempBoolAddressMgr() *AddressManager {
 	return vm.tempBoolAddressMgr
 }
 
-func (vm *VM) ConstBoolAddressMgr() AddressManager {
+func (vm *VM) ConstBoolAddressMgr() *AddressManager {
 	return vm.constBoolAddressMgr
 }
 
@@ -129,8 +129,8 @@ type AddressManager struct {
 	first, curr, last int
 }
 
-func NewAddressManager(first int, last int) AddressManager {
-	return AddressManager{first: first, last: last, curr: first}
+func NewAddressManager(first int, last int) *AddressManager {
+	return &AddressManager{first: first, last: last, curr: first}
 }
 
 func (am *AddressManager) GetNext() (int, bool) {
