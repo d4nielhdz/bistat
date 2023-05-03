@@ -140,14 +140,29 @@ type BistatListener interface {
 	// EnterFactor is called when entering the factor production.
 	EnterFactor(c *FactorContext)
 
+	// EnterUnaryMinus is called when entering the unaryMinus production.
+	EnterUnaryMinus(c *UnaryMinusContext)
+
+	// EnterNestedExpression is called when entering the nestedExpression production.
+	EnterNestedExpression(c *NestedExpressionContext)
+
 	// EnterFunctionCall is called when entering the functionCall production.
 	EnterFunctionCall(c *FunctionCallContext)
 
 	// EnterIndexing is called when entering the indexing production.
 	EnterIndexing(c *IndexingContext)
 
-	// EnterVar_cons is called when entering the var_cons production.
-	EnterVar_cons(c *Var_consContext)
+	// EnterVarCons is called when entering the varCons production.
+	EnterVarCons(c *VarConsContext)
+
+	// EnterOpSec is called when entering the opSec production.
+	EnterOpSec(c *OpSecContext)
+
+	// EnterOpFirst is called when entering the opFirst production.
+	EnterOpFirst(c *OpFirstContext)
+
+	// EnterLogicOperator is called when entering the logicOperator production.
+	EnterLogicOperator(c *LogicOperatorContext)
 
 	// ExitProgram is called when exiting the program production.
 	ExitProgram(c *ProgramContext)
@@ -281,12 +296,27 @@ type BistatListener interface {
 	// ExitFactor is called when exiting the factor production.
 	ExitFactor(c *FactorContext)
 
+	// ExitUnaryMinus is called when exiting the unaryMinus production.
+	ExitUnaryMinus(c *UnaryMinusContext)
+
+	// ExitNestedExpression is called when exiting the nestedExpression production.
+	ExitNestedExpression(c *NestedExpressionContext)
+
 	// ExitFunctionCall is called when exiting the functionCall production.
 	ExitFunctionCall(c *FunctionCallContext)
 
 	// ExitIndexing is called when exiting the indexing production.
 	ExitIndexing(c *IndexingContext)
 
-	// ExitVar_cons is called when exiting the var_cons production.
-	ExitVar_cons(c *Var_consContext)
+	// ExitVarCons is called when exiting the varCons production.
+	ExitVarCons(c *VarConsContext)
+
+	// ExitOpSec is called when exiting the opSec production.
+	ExitOpSec(c *OpSecContext)
+
+	// ExitOpFirst is called when exiting the opFirst production.
+	ExitOpFirst(c *OpFirstContext)
+
+	// ExitLogicOperator is called when exiting the logicOperator production.
+	ExitLogicOperator(c *LogicOperatorContext)
 }

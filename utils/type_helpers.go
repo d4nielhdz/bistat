@@ -72,6 +72,7 @@ const (
 	Not
 	UnaryMinus
 	UndefinedOp
+	Other
 )
 
 func OpFromString(str string) Op {
@@ -185,6 +186,8 @@ func OpToString(op Op) string {
 		return "UnaryMinus"
 	case UndefinedOp:
 		return "UndefinedOp"
+	case Other:
+		return "Other"
 	default:
 		return ""
 	}

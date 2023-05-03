@@ -90,6 +90,128 @@ func (l *bistatListener) EnterFuncEnd(ctx *parser.FuncEndContext) {
 	// l.pCtx.RemoveFunction()
 }
 
+func (l *bistatListener) EnterExpression(ctx *parser.ExpressionContext) {
+	fmt.Println("entered expression")
+	fmt.Println(ctx.Exp(0))
+}
+
+func (l *bistatListener) EnterLogicOperator(ctx *parser.LogicOperatorContext) {
+	fmt.Println("entered logic operator")
+	fmt.Println(ctx.GetText())
+	l.pCtx.POperPush(int(OpFromString(ctx.GetText())))
+}
+
+func (l *bistatListener) ExitExp(ctx *parser.ExpContext) {
+	fmt.Println("entered exp")
+	// fmt.Println(ctx.Exp())
+}
+
+func (l *bistatListener) EnterOpSec(ctx *parser.OpSecContext) {
+	fmt.Println("entered opSec")
+	fmt.Println(ctx.GetText())
+	l.pCtx.POperPush(int(OpFromString(ctx.GetText())))
+}
+
+func (l *bistatListener) ExitTerm(ctx *parser.TermContext) {
+	fmt.Println("exited term")
+	fmt.Println(ctx.GetText())
+	if !l.pCtx.POperIsEmpty() {
+		oper := Op(l.pCtx.POperTop())
+		if oper == Sum || oper == Subtraction || oper == UnaryMinus {
+			fmt.Println("Generating quad")
+			o1 := l.pCtx.POTop()
+			l.pCtx.POPop()
+			o2 := l.pCtx.POTop()
+			l.pCtx.POPop()
+			des, ok := l.pCtx.vm.tempBoolAddressMgr.GetNext()
+			if !ok {
+				l.pCtx.SemanticError("Out of memory")
+			}
+			quad := NewQuad(oper, o2, o1, des)
+			l.pCtx.vm.PushQuad(quad)
+			l.pCtx.POperPop()
+			l.pCtx.POPush(des)
+		}
+	}
+}
+
+func (l *bistatListener) EnterOpFirst(ctx *parser.OpFirstContext) {
+	fmt.Println("entered op first")
+	fmt.Println(ctx.GetText())
+	l.pCtx.POperPush(int(OpFromString(ctx.GetText())))
+}
+
+func (l *bistatListener) ExitFactor(ctx *parser.FactorContext) {
+	fmt.Println("entered factor")
+	fmt.Println(ctx.GetText())
+	if !l.pCtx.POperIsEmpty() {
+		oper := Op(l.pCtx.POperTop())
+		if oper == Multiplication || oper == Division || oper == Modulus || oper == UnaryMinus {
+			fmt.Println("Generating quad")
+			o1 := l.pCtx.POTop()
+			l.pCtx.POPop()
+			o2 := l.pCtx.POTop()
+			l.pCtx.POPop()
+			des, ok := l.pCtx.vm.tempBoolAddressMgr.GetNext()
+			if !ok {
+				l.pCtx.SemanticError("Out of memory")
+			}
+			quad := NewQuad(oper, o2, o1, des)
+			l.pCtx.vm.PushQuad(quad)
+			l.pCtx.POperPop()
+			l.pCtx.POPush(des)
+
+		}
+	}
+}
+
+func (l *bistatListener) EnterUnaryMinus(ctx *parser.UnaryMinusContext) {
+	fmt.Println("entered unary minus")
+	fmt.Println(ctx.GetText())
+	l.pCtx.POperPush(int(UnaryMinus))
+}
+
+func (l *bistatListener) EnterNestedExpression(ctx *parser.NestedExpressionContext) {
+	fmt.Println("entered nested expression")
+	fmt.Println(ctx.GetText())
+	l.pCtx.POperPush(int(UndefinedOp))
+}
+
+func (l *bistatListener) ExitNestedExpression(ctx *parser.NestedExpressionContext) {
+	fmt.Println("exited nested expression")
+	fmt.Println(ctx.GetText())
+	l.pCtx.POperPop()
+}
+
+func (l *bistatListener) EnterSpecialFunction(ctx *parser.SpecialFunctionContext) {
+	fmt.Println("entered special function")
+	fmt.Println(ctx.GetText())
+}
+
+func (l *bistatListener) EnterVarCons(ctx *parser.VarConsContext) {
+	fmt.Println("entered varCons")
+	addr := 0
+	if ctx.ID() != nil {
+		entry, ok := l.pCtx.GetRTypeFromVarName(ctx.ID().GetText())
+		if ok {
+			addr = entry.address
+		} else {
+			l.pCtx.SemanticError("Variable " + ctx.ID().GetText() + " not found in scope")
+		}
+	} else {
+		rType := l.pCtx.GetRTypeFromVarConsContext(ctx)
+		addr = rType.address
+	}
+
+	fmt.Println(ctx.ID())
+	l.pCtx.POPush(addr)
+}
+
+func (l *bistatListener) ExitAssignment(ctx *parser.AssignmentContext) {
+	fmt.Println("exited assignment")
+	fmt.Println(ctx.GetText())
+}
+
 // func (l *bistatListener) EnterSpecialFunction(ctx *parser.SpecialFunctionContext) {
 // 	fmt.Println("Entered special function")
 // }
@@ -114,4 +236,5 @@ func (l *bistatListener) EnterFuncEnd(ctx *parser.FuncEndContext) {
 func (l *bistatListener) ExitProgram(ctx *parser.ProgramContext) {
 	fmt.Println("Exited program")
 	l.pCtx.PrintAddrTable()
+	l.pCtx.PrintQuads()
 }

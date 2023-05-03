@@ -46,7 +46,7 @@ nested_stmt: (
 
 matrixAssignment: '[' listAssignment (',' listAssignment)* ']';
 listAssignment:
-	'[' (var_cons | expression) (',' (var_cons | expression))* ']';
+	'[' (varCons | expression) (',' (varCons | expression))* ']';
 
 comment: '#' (~'#')+ '#';
 forLoop: 'for' '(' ID 'in' expression ')' '{' nested_stmt+ '}';
@@ -103,30 +103,31 @@ ceil: 'ceil' '(' expression ')';
 abs: 'abs' '(' expression ')';
 not: 'not' '(' expression ')';
 
-expression: exp (LOGIC_OPERATOR exp)?;
-exp: term (OP_SEC exp)?;
-term: factor ( OP_FIRST term)?;
+expression: exp (logicOperator exp)?;
+exp: term (opSec term)*;
+term: factor ( opFirst factor)*;
 factor:
-	'-'? (
-		( '(' expression ')')
+	unaryMinus? (
+		nestedExpression
 		| indexing
 		| specialFunction
 		| functionCall
-		| var_cons
+		| varCons
 	);
-
+unaryMinus: '-';
+nestedExpression: '(' expression ')';
 functionCall: ID '(' (expression (',' expression)*)? ')';
 indexing: ID '[' expression ']' ('[' expression ']')?;
 ID: ('_' | Alpha)+ (Alpha | NUMBER | '_')*;
-var_cons: STRING_CONS | FLOAT_CONS | INT_CONS | BOOL_CONS | ID;
+varCons: STRING_CONS | FLOAT_CONS | INT_CONS | BOOL_CONS | ID;
 INT_CONS: NUMBER+;
 NUMBER: '0' .. '9';
 BOOL_CONS: 'true' | 'false';
 STRING_CONS: '"' (~'"')* '"';
 FLOAT_CONS: NUMBER+ '.' NUMBER+;
-OP_SEC: '+' | '-';
-OP_FIRST: '/' | '*' | '%';
-LOGIC_OPERATOR:
+opSec: '+' | '-';
+opFirst: '/' | '*' | '%';
+logicOperator:
 	'<'
 	| '>'
 	| '<='

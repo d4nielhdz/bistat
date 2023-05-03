@@ -66,6 +66,91 @@ func (pCtx *PCtx) GetVarnameAtAddress(addr int) string {
 	return vn
 }
 
+func (pCtx *PCtx) GetRTypeFromVarConsContext(ctx *parser.VarConsContext) RType {
+	if ctx.INT_CONS() != nil {
+		entry, found := pCtx.consTable[ctx.INT_CONS().GetText()]
+		if found {
+			return entry
+		}
+		next, okAddr := pCtx.vm.tempIntAddressMgr.GetNext()
+		if !okAddr {
+			pCtx.SemanticError("Out of memory")
+		}
+		rType := NewRType(Int)
+		rType.firstDim = 0
+		rType.secondDim = 0
+		rType.address = next
+		pCtx.consTable[ctx.INT_CONS().GetText()] = rType
+		pCtx.addrTable[rType.address] = ctx.INT_CONS().GetText()
+		return rType
+	} else if ctx.FLOAT_CONS() != nil {
+		entry, found := pCtx.consTable[ctx.FLOAT_CONS().GetText()]
+		if found {
+			return entry
+		}
+		next, okAddr := pCtx.vm.tempFloatAddressMgr.GetNext()
+		if !okAddr {
+			pCtx.SemanticError("Out of memory")
+		}
+		rType := NewRType(Float)
+		rType.firstDim = 0
+		rType.secondDim = 0
+		rType.address = next
+		pCtx.consTable[ctx.FLOAT_CONS().GetText()] = rType
+		pCtx.addrTable[rType.address] = ctx.FLOAT_CONS().GetText()
+		return rType
+	} else if ctx.STRING_CONS() != nil {
+		entry, found := pCtx.consTable[ctx.STRING_CONS().GetText()]
+		if found {
+			return entry
+		}
+		next, okAddr := pCtx.vm.tempStringAddressMgr.GetNext()
+		if !okAddr {
+			pCtx.SemanticError("Out of memory")
+		}
+		rType := NewRType(String)
+		rType.firstDim = 0
+		rType.secondDim = 0
+		rType.address = next
+		pCtx.consTable[ctx.STRING_CONS().GetText()] = rType
+		pCtx.addrTable[rType.address] = ctx.STRING_CONS().GetText()
+		return rType
+	}
+	entry, found := pCtx.consTable[ctx.BOOL_CONS().GetText()]
+	if found {
+		return entry
+	}
+	next, okAddr := pCtx.vm.tempBoolAddressMgr.GetNext()
+	if !okAddr {
+		pCtx.SemanticError("Out of memory")
+	}
+	rType := NewRType(Bool)
+	rType.firstDim = 0
+	rType.secondDim = 0
+	rType.address = next
+	pCtx.consTable[ctx.BOOL_CONS().GetText()] = rType
+	pCtx.addrTable[rType.address] = ctx.BOOL_CONS().GetText()
+
+	return rType
+}
+
+func (pCtx *PCtx) GetRTypeFromVarName(varName string) (RType, bool) {
+	currScope := pCtx.GetCurrentScope()
+	entry, ok := pCtx.varTable[currScope][varName]
+	if ok {
+		return entry, true
+	} else {
+		if len(pCtx.scopes) > 1 {
+			mainScope := pCtx.scopes[0]
+			entry, ok := pCtx.varTable[mainScope][varName]
+			if ok {
+				return entry, true
+			}
+		}
+		return NewRType(Int), false
+	}
+}
+
 func (pCtx *PCtx) PO() []int {
 	return pCtx.pO
 }
@@ -75,11 +160,11 @@ func (pCtx *PCtx) POper() []int {
 }
 
 func (pCtx *PCtx) POTop() int {
-	return pCtx.pO[len(pCtx.pO)]
+	return pCtx.pO[len(pCtx.pO)-1]
 }
 
 func (pCtx *PCtx) POperTop() int {
-	return pCtx.pOper[len(pCtx.pOper)]
+	return pCtx.pOper[len(pCtx.pOper)-1]
 }
 
 func (pCtx *PCtx) POPop() {

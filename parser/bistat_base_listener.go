@@ -285,6 +285,18 @@ func (s *BaseBistatListener) EnterFactor(ctx *FactorContext) {}
 // ExitFactor is called when production factor is exited.
 func (s *BaseBistatListener) ExitFactor(ctx *FactorContext) {}
 
+// EnterUnaryMinus is called when production unaryMinus is entered.
+func (s *BaseBistatListener) EnterUnaryMinus(ctx *UnaryMinusContext) {}
+
+// ExitUnaryMinus is called when production unaryMinus is exited.
+func (s *BaseBistatListener) ExitUnaryMinus(ctx *UnaryMinusContext) {}
+
+// EnterNestedExpression is called when production nestedExpression is entered.
+func (s *BaseBistatListener) EnterNestedExpression(ctx *NestedExpressionContext) {}
+
+// ExitNestedExpression is called when production nestedExpression is exited.
+func (s *BaseBistatListener) ExitNestedExpression(ctx *NestedExpressionContext) {}
+
 // EnterFunctionCall is called when production functionCall is entered.
 func (s *BaseBistatListener) EnterFunctionCall(ctx *FunctionCallContext) {}
 
@@ -297,8 +309,26 @@ func (s *BaseBistatListener) EnterIndexing(ctx *IndexingContext) {}
 // ExitIndexing is called when production indexing is exited.
 func (s *BaseBistatListener) ExitIndexing(ctx *IndexingContext) {}
 
-// EnterVar_cons is called when production var_cons is entered.
-func (s *BaseBistatListener) EnterVar_cons(ctx *Var_consContext) {}
+// EnterVarCons is called when production varCons is entered.
+func (s *BaseBistatListener) EnterVarCons(ctx *VarConsContext) {}
 
-// ExitVar_cons is called when production var_cons is exited.
-func (s *BaseBistatListener) ExitVar_cons(ctx *Var_consContext) {}
+// ExitVarCons is called when production varCons is exited.
+func (s *BaseBistatListener) ExitVarCons(ctx *VarConsContext) {}
+
+// EnterOpSec is called when production opSec is entered.
+func (s *BaseBistatListener) EnterOpSec(ctx *OpSecContext) {}
+
+// ExitOpSec is called when production opSec is exited.
+func (s *BaseBistatListener) ExitOpSec(ctx *OpSecContext) {}
+
+// EnterOpFirst is called when production opFirst is entered.
+func (s *BaseBistatListener) EnterOpFirst(ctx *OpFirstContext) {}
+
+// ExitOpFirst is called when production opFirst is exited.
+func (s *BaseBistatListener) ExitOpFirst(ctx *OpFirstContext) {}
+
+// EnterLogicOperator is called when production logicOperator is entered.
+func (s *BaseBistatListener) EnterLogicOperator(ctx *LogicOperatorContext) {}
+
+// ExitLogicOperator is called when production logicOperator is exited.
+func (s *BaseBistatListener) ExitLogicOperator(ctx *LogicOperatorContext) {}

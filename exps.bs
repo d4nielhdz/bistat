@@ -1,0 +1,12 @@
+Program Hello;
+
+var int num;
+var float flt;
+var float res;
+
+main () {
+  num = 5;
+  flt = num * 5 + 14 - 6;
+  res = (num + 5) - flt * num;
+}
+
