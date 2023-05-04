@@ -14,7 +14,7 @@ type PCtx struct {
 	varTable       map[string]map[string]RType
 	consTable      map[string]RType
 	semanticErrors []string
-	pO             []int
+	pO             []RType
 	pOper          []int
 	vm             VM
 }
@@ -28,7 +28,7 @@ func NewPCtx() PCtx {
 		semanticErrors: make([]string, 0),
 		vm:             NewVM(),
 		addrTable:      make(map[int]string),
-		pO:             make([]int, 0),
+		pO:             make([]RType, 0),
 		pOper:          make([]int, 0),
 	}
 }
@@ -72,7 +72,7 @@ func (pCtx *PCtx) GetRTypeFromVarConsContext(ctx *parser.VarConsContext) RType {
 		if found {
 			return entry
 		}
-		next, okAddr := pCtx.vm.tempIntAddressMgr.GetNext()
+		next, okAddr := pCtx.vm.constIntAddressMgr.GetNext()
 		if !okAddr {
 			pCtx.SemanticError("Out of memory")
 		}
@@ -88,7 +88,7 @@ func (pCtx *PCtx) GetRTypeFromVarConsContext(ctx *parser.VarConsContext) RType {
 		if found {
 			return entry
 		}
-		next, okAddr := pCtx.vm.tempFloatAddressMgr.GetNext()
+		next, okAddr := pCtx.vm.constFloatAddressMgr.GetNext()
 		if !okAddr {
 			pCtx.SemanticError("Out of memory")
 		}
@@ -104,7 +104,7 @@ func (pCtx *PCtx) GetRTypeFromVarConsContext(ctx *parser.VarConsContext) RType {
 		if found {
 			return entry
 		}
-		next, okAddr := pCtx.vm.tempStringAddressMgr.GetNext()
+		next, okAddr := pCtx.vm.constStringAddressMgr.GetNext()
 		if !okAddr {
 			pCtx.SemanticError("Out of memory")
 		}
@@ -120,7 +120,7 @@ func (pCtx *PCtx) GetRTypeFromVarConsContext(ctx *parser.VarConsContext) RType {
 	if found {
 		return entry
 	}
-	next, okAddr := pCtx.vm.tempBoolAddressMgr.GetNext()
+	next, okAddr := pCtx.vm.constBoolAddressMgr.GetNext()
 	if !okAddr {
 		pCtx.SemanticError("Out of memory")
 	}
@@ -151,7 +151,7 @@ func (pCtx *PCtx) GetRTypeFromVarName(varName string) (RType, bool) {
 	}
 }
 
-func (pCtx *PCtx) PO() []int {
+func (pCtx *PCtx) PO() []RType {
 	return pCtx.pO
 }
 
@@ -159,7 +159,7 @@ func (pCtx *PCtx) POper() []int {
 	return pCtx.pOper
 }
 
-func (pCtx *PCtx) POTop() int {
+func (pCtx *PCtx) POTop() RType {
 	return pCtx.pO[len(pCtx.pO)-1]
 }
 
@@ -179,7 +179,7 @@ func (pCtx *PCtx) POperPop() {
 	pCtx.pOper = popped
 }
 
-func (pCtx *PCtx) POPush(op int) {
+func (pCtx *PCtx) POPush(op RType) {
 	pCtx.pO = append(pCtx.pO, op)
 }
 
@@ -267,6 +267,43 @@ func (pCtx *PCtx) GetCorrespondingAddressManager(pType PType) *AddressManager {
 	default:
 		return pCtx.vm.localBoolAddressMgr
 	}
+}
+
+func (pCtx *PCtx) GetCorrespondingTempAddressManager(pType PType) *AddressManager {
+	switch pType {
+	case Int:
+		return pCtx.vm.tempIntAddressMgr
+	case Float:
+		return pCtx.vm.tempFloatAddressMgr
+	case String:
+		return pCtx.vm.tempStringAddressMgr
+	default:
+		return pCtx.vm.tempBoolAddressMgr
+	}
+}
+
+func (pCtx *PCtx) HandleGenerateQuadForExpression() {
+	oper := Op(pCtx.POperTop())
+	fmt.Println("Generating quad")
+	o1 := pCtx.POTop()
+	pCtx.POPop()
+	o2 := pCtx.POTop()
+	pCtx.POPop()
+	resultingType := SemanticCubeLookup(o1.pType, o2.pType, oper)
+	if resultingType == Undefined {
+		pCtx.SemanticError("Cannot perform " + OpToString(oper) + " on " + PTypeToString(o1.pType) + " and " + PTypeToString(o2.pType))
+		return
+	}
+	des, ok := pCtx.GetCorrespondingTempAddressManager(resultingType).GetNext()
+	if !ok {
+		pCtx.SemanticError("Out of memory")
+	}
+	quad := NewQuad(oper, o2.address, o1.address, des)
+	pCtx.vm.PushQuad(quad)
+	pCtx.POperPop()
+	rType := NewRType(resultingType)
+	rType.address = des
+	pCtx.POPush(rType)
 }
 
 func (pCtx *PCtx) SemanticError(err string) {

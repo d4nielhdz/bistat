@@ -33,6 +33,23 @@ func PTypeFromString(str string) PType {
 	}
 }
 
+func PTypeToString(pType PType) string {
+	switch pType {
+	case Int:
+		return "int"
+	case Float:
+		return "float"
+	case Bool:
+		return "bool"
+	case String:
+		return "string"
+	case Void:
+		return "void"
+	default:
+		return "undefined"
+	}
+}
+
 const (
 	Sum Op = iota
 	Subtraction

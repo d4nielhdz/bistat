@@ -57,16 +57,6 @@ func (l *bistatListener) EnterParamDeclaration(ctx *parser.ParamDeclarationConte
 	fmt.Println(resolved)
 }
 
-// func (this *bistatListener) EnterEveryRule(ctx antlr.ParserRuleContext) {
-// 	fmt.Println("every rule")
-// 	fmt.Println(ctx.G)
-// 	fmt.Println("end")
-// }
-
-// func (l *bistatListener) EnterStmt(ctx *parser.StmtContext) {
-// 	fmt.Println("Entered statement")
-// }
-
 func (l *bistatListener) EnterFuncDef(ctx *parser.FuncDefContext) {
 	fmt.Println("Entered function definition")
 	fmt.Println(ctx.ID())
@@ -90,11 +80,6 @@ func (l *bistatListener) EnterFuncEnd(ctx *parser.FuncEndContext) {
 	// l.pCtx.RemoveFunction()
 }
 
-func (l *bistatListener) EnterExpression(ctx *parser.ExpressionContext) {
-	fmt.Println("entered expression")
-	fmt.Println(ctx.Exp(0))
-}
-
 func (l *bistatListener) EnterLogicOperator(ctx *parser.LogicOperatorContext) {
 	fmt.Println("entered logic operator")
 	fmt.Println(ctx.GetText())
@@ -102,8 +87,14 @@ func (l *bistatListener) EnterLogicOperator(ctx *parser.LogicOperatorContext) {
 }
 
 func (l *bistatListener) ExitExp(ctx *parser.ExpContext) {
-	fmt.Println("entered exp")
-	// fmt.Println(ctx.Exp())
+	fmt.Println("exited exp")
+	fmt.Println(ctx.GetText())
+	if !l.pCtx.POperIsEmpty() {
+		oper := Op(l.pCtx.POperTop())
+		if oper == And || oper == Or || oper == Gt || oper == Lt || oper == Ge || oper == Le || oper == Eq || oper == Ne {
+			l.pCtx.HandleGenerateQuadForExpression()
+		}
+	}
 }
 
 func (l *bistatListener) EnterOpSec(ctx *parser.OpSecContext) {
@@ -118,19 +109,7 @@ func (l *bistatListener) ExitTerm(ctx *parser.TermContext) {
 	if !l.pCtx.POperIsEmpty() {
 		oper := Op(l.pCtx.POperTop())
 		if oper == Sum || oper == Subtraction || oper == UnaryMinus {
-			fmt.Println("Generating quad")
-			o1 := l.pCtx.POTop()
-			l.pCtx.POPop()
-			o2 := l.pCtx.POTop()
-			l.pCtx.POPop()
-			des, ok := l.pCtx.vm.tempBoolAddressMgr.GetNext()
-			if !ok {
-				l.pCtx.SemanticError("Out of memory")
-			}
-			quad := NewQuad(oper, o2, o1, des)
-			l.pCtx.vm.PushQuad(quad)
-			l.pCtx.POperPop()
-			l.pCtx.POPush(des)
+			l.pCtx.HandleGenerateQuadForExpression()
 		}
 	}
 }
@@ -147,20 +126,7 @@ func (l *bistatListener) ExitFactor(ctx *parser.FactorContext) {
 	if !l.pCtx.POperIsEmpty() {
 		oper := Op(l.pCtx.POperTop())
 		if oper == Multiplication || oper == Division || oper == Modulus || oper == UnaryMinus {
-			fmt.Println("Generating quad")
-			o1 := l.pCtx.POTop()
-			l.pCtx.POPop()
-			o2 := l.pCtx.POTop()
-			l.pCtx.POPop()
-			des, ok := l.pCtx.vm.tempBoolAddressMgr.GetNext()
-			if !ok {
-				l.pCtx.SemanticError("Out of memory")
-			}
-			quad := NewQuad(oper, o2, o1, des)
-			l.pCtx.vm.PushQuad(quad)
-			l.pCtx.POperPop()
-			l.pCtx.POPush(des)
-
+			l.pCtx.HandleGenerateQuadForExpression()
 		}
 	}
 }
@@ -190,21 +156,20 @@ func (l *bistatListener) EnterSpecialFunction(ctx *parser.SpecialFunctionContext
 
 func (l *bistatListener) EnterVarCons(ctx *parser.VarConsContext) {
 	fmt.Println("entered varCons")
-	addr := 0
+	rType := NewRType(Bool)
 	if ctx.ID() != nil {
 		entry, ok := l.pCtx.GetRTypeFromVarName(ctx.ID().GetText())
 		if ok {
-			addr = entry.address
+			rType = entry
 		} else {
 			l.pCtx.SemanticError("Variable " + ctx.ID().GetText() + " not found in scope")
 		}
 	} else {
-		rType := l.pCtx.GetRTypeFromVarConsContext(ctx)
-		addr = rType.address
+		rType = l.pCtx.GetRTypeFromVarConsContext(ctx)
 	}
 
 	fmt.Println(ctx.ID())
-	l.pCtx.POPush(addr)
+	l.pCtx.POPush(rType)
 }
 
 func (l *bistatListener) ExitAssignment(ctx *parser.AssignmentContext) {
@@ -219,18 +184,6 @@ func (l *bistatListener) ExitAssignment(ctx *parser.AssignmentContext) {
 // func (l *bistatListener) EnterAssignment(ctx *parser.AssignmentContext) {
 // 	fmt.Println("Entered assignment")
 // 	fmt.Println(ctx.VAR_CONS())
-// }
-
-// func (l *bistatListener) EnterReturnStmt(ctx *parser.ReturnStmtContext) {
-// 	fmt.Println("Entered return stmt")
-// }
-
-// func (l *bistatListener) EnterFunctionCall(ctx *parser.FunctionCallContext) {
-// 	fmt.Println("Entered function call")
-// }
-
-// func (l *bistatListener) EnterPrint(ctx *parser.PrintContext) {
-// 	fmt.Println("Entered print")
 // }
 
 func (l *bistatListener) ExitProgram(ctx *parser.ProgramContext) {
