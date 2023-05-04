@@ -66,6 +66,12 @@ func (pCtx *PCtx) GetVarnameAtAddress(addr int) string {
 	return vn
 }
 
+func (pCtx *PCtx) PrintErrors() {
+	for _, err := range pCtx.semanticErrors {
+		fmt.Println(err)
+	}
+}
+
 func (pCtx *PCtx) GetRTypeFromVarConsContext(ctx *parser.VarConsContext) RType {
 	if ctx.INT_CONS() != nil {
 		entry, found := pCtx.consTable[ctx.INT_CONS().GetText()]
@@ -282,8 +288,18 @@ func (pCtx *PCtx) GetCorrespondingTempAddressManager(pType PType) *AddressManage
 	}
 }
 
+func (pCtx *PCtx) PrintPo() {
+	fmt.Println("print po start")
+	for _, po := range pCtx.pO {
+		po.print()
+	}
+	fmt.Println("print po end")
+}
+
 func (pCtx *PCtx) HandleGenerateQuadForExpression() {
 	oper := Op(pCtx.POperTop())
+	pCtx.PrintPo()
+	pCtx.POperPop()
 	fmt.Println("Generating quad")
 	o1 := pCtx.POTop()
 	pCtx.POPop()
@@ -300,7 +316,6 @@ func (pCtx *PCtx) HandleGenerateQuadForExpression() {
 	}
 	quad := NewQuad(oper, o2.address, o1.address, des)
 	pCtx.vm.PushQuad(quad)
-	pCtx.POperPop()
 	rType := NewRType(resultingType)
 	rType.address = des
 	pCtx.POPush(rType)

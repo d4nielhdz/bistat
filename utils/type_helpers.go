@@ -238,10 +238,11 @@ var semanticCube = [3][3][13]PType{
 }
 
 func SemanticCubeLookup(op1 PType, op2 PType, op Op) PType {
-	if len(semanticCube) >= int(op1) {
+	fmt.Println("Checking cube ", int(op1), int(op2))
+	if int(op1) >= len(semanticCube) {
 		return Undefined
 	}
-	if len(semanticCube[op1]) >= int(op2) {
+	if int(op2) >= len(semanticCube[op1]) {
 		return Undefined
 	}
 	return semanticCube[op1][op2][op]
