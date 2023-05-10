@@ -35,9 +35,6 @@ type BistatListener interface {
 	// EnterAssignment is called when entering the assignment production.
 	EnterAssignment(c *AssignmentContext)
 
-	// EnterNested_stmt is called when entering the nested_stmt production.
-	EnterNested_stmt(c *Nested_stmtContext)
-
 	// EnterMatrixAssignment is called when entering the matrixAssignment production.
 	EnterMatrixAssignment(c *MatrixAssignmentContext)
 
@@ -55,6 +52,18 @@ type BistatListener interface {
 
 	// EnterConditional is called when entering the conditional production.
 	EnterConditional(c *ConditionalContext)
+
+	// EnterIfStmt is called when entering the ifStmt production.
+	EnterIfStmt(c *IfStmtContext)
+
+	// EnterElseIfStmt is called when entering the elseIfStmt production.
+	EnterElseIfStmt(c *ElseIfStmtContext)
+
+	// EnterCondExprEnd is called when entering the condExprEnd production.
+	EnterCondExprEnd(c *CondExprEndContext)
+
+	// EnterElseStmt is called when entering the elseStmt production.
+	EnterElseStmt(c *ElseStmtContext)
 
 	// EnterReturnStmt is called when entering the returnStmt production.
 	EnterReturnStmt(c *ReturnStmtContext)
@@ -191,9 +200,6 @@ type BistatListener interface {
 	// ExitAssignment is called when exiting the assignment production.
 	ExitAssignment(c *AssignmentContext)
 
-	// ExitNested_stmt is called when exiting the nested_stmt production.
-	ExitNested_stmt(c *Nested_stmtContext)
-
 	// ExitMatrixAssignment is called when exiting the matrixAssignment production.
 	ExitMatrixAssignment(c *MatrixAssignmentContext)
 
@@ -211,6 +217,18 @@ type BistatListener interface {
 
 	// ExitConditional is called when exiting the conditional production.
 	ExitConditional(c *ConditionalContext)
+
+	// ExitIfStmt is called when exiting the ifStmt production.
+	ExitIfStmt(c *IfStmtContext)
+
+	// ExitElseIfStmt is called when exiting the elseIfStmt production.
+	ExitElseIfStmt(c *ElseIfStmtContext)
+
+	// ExitCondExprEnd is called when exiting the condExprEnd production.
+	ExitCondExprEnd(c *CondExprEndContext)
+
+	// ExitElseStmt is called when exiting the elseStmt production.
+	ExitElseStmt(c *ElseStmtContext)
 
 	// ExitReturnStmt is called when exiting the returnStmt production.
 	ExitReturnStmt(c *ReturnStmtContext)

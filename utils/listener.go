@@ -334,6 +334,7 @@ func (l *bistatListener) ExitSpecialFunction(ctx *parser.SpecialFunctionContext)
 		l.pCtx.vm.PushQuad(quad)
 		l.pCtx.POPush(rType)
 	}
+	// todo: handle missing functions
 }
 
 func (l *bistatListener) EnterVarCons(ctx *parser.VarConsContext) {
@@ -378,6 +379,73 @@ func (l *bistatListener) ExitAssignment(ctx *parser.AssignmentContext) {
 	}
 	quad := NewQuad(Assign, rRType.address, -1, lRType.address)
 	l.pCtx.vm.PushQuad(quad)
+}
+
+func (l *bistatListener) EnterConditional(ctx *parser.ConditionalContext) {
+	l.pCtx.PushCondJumps()
+}
+
+func (l *bistatListener) ExitCondExprEnd(ctx *parser.CondExprEndContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+
+	po := l.pCtx.POTop()
+	l.pCtx.POPop()
+
+	if po.pType != Bool {
+		l.pCtx.SemanticError("Expression type must be a boolean")
+	}
+
+	currQuad := len(l.pCtx.vm.Quads())
+
+	l.pCtx.vm.PushQuad(NewQuad(GotoF, po.address, 0, 0))
+	l.pCtx.CondJumpsPush(currQuad)
+}
+
+func (l *bistatListener) EnterElseIfStmt(ctx *parser.ElseIfStmtContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+
+	l.pCtx.vm.PushQuad(NewQuad(Goto, 0, 0, 0))
+
+	jump := l.pCtx.CondJumpsTop()
+	currQuad := len(l.pCtx.vm.Quads())
+	l.pCtx.CondJumpsPop()
+	l.pCtx.vm.Quads()[jump].destination = currQuad
+
+	l.pCtx.CondJumpsPush(currQuad - 1)
+}
+
+func (l *bistatListener) EnterElseStmt(ctx *parser.ElseStmtContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+
+	l.pCtx.vm.PushQuad(NewQuad(Goto, 0, 0, 0))
+
+	jump := l.pCtx.CondJumpsTop()
+	currQuad := len(l.pCtx.vm.Quads())
+	l.pCtx.CondJumpsPop()
+	l.pCtx.vm.Quads()[jump].destination = currQuad
+
+	l.pCtx.CondJumpsPush(currQuad - 1)
+}
+
+func (l *bistatListener) ExitConditional(ctx *parser.ConditionalContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+
+	currQuad := len(l.pCtx.vm.Quads())
+	for !l.pCtx.CondJumpsIsEmpty() {
+		jump := l.pCtx.CondJumpsTop()
+		l.pCtx.CondJumpsPop()
+		l.pCtx.vm.Quads()[jump].destination = currQuad
+	}
+
+	l.pCtx.PopCondJumps()
 }
 
 func (l *bistatListener) ExitProgram(ctx *parser.ProgramContext) {

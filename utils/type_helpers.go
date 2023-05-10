@@ -88,6 +88,9 @@ const (
 	Abs
 	Not
 	UnaryMinus
+	Goto
+	GotoT
+	GotoF
 	UndefinedOp
 	Other
 )
@@ -203,6 +206,12 @@ func OpToString(op Op) string {
 		return "UnaryMinus"
 	case UndefinedOp:
 		return "UndefinedOp"
+	case Goto:
+		return "Goto"
+	case GotoF:
+		return "GotoF"
+	case GotoT:
+		return "GotoT"
 	case Other:
 		return "Other"
 	default:

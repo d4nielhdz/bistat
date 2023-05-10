@@ -75,12 +75,6 @@ func (s *BaseBistatListener) EnterAssignment(ctx *AssignmentContext) {}
 // ExitAssignment is called when production assignment is exited.
 func (s *BaseBistatListener) ExitAssignment(ctx *AssignmentContext) {}
 
-// EnterNested_stmt is called when production nested_stmt is entered.
-func (s *BaseBistatListener) EnterNested_stmt(ctx *Nested_stmtContext) {}
-
-// ExitNested_stmt is called when production nested_stmt is exited.
-func (s *BaseBistatListener) ExitNested_stmt(ctx *Nested_stmtContext) {}
-
 // EnterMatrixAssignment is called when production matrixAssignment is entered.
 func (s *BaseBistatListener) EnterMatrixAssignment(ctx *MatrixAssignmentContext) {}
 
@@ -116,6 +110,30 @@ func (s *BaseBistatListener) EnterConditional(ctx *ConditionalContext) {}
 
 // ExitConditional is called when production conditional is exited.
 func (s *BaseBistatListener) ExitConditional(ctx *ConditionalContext) {}
+
+// EnterIfStmt is called when production ifStmt is entered.
+func (s *BaseBistatListener) EnterIfStmt(ctx *IfStmtContext) {}
+
+// ExitIfStmt is called when production ifStmt is exited.
+func (s *BaseBistatListener) ExitIfStmt(ctx *IfStmtContext) {}
+
+// EnterElseIfStmt is called when production elseIfStmt is entered.
+func (s *BaseBistatListener) EnterElseIfStmt(ctx *ElseIfStmtContext) {}
+
+// ExitElseIfStmt is called when production elseIfStmt is exited.
+func (s *BaseBistatListener) ExitElseIfStmt(ctx *ElseIfStmtContext) {}
+
+// EnterCondExprEnd is called when production condExprEnd is entered.
+func (s *BaseBistatListener) EnterCondExprEnd(ctx *CondExprEndContext) {}
+
+// ExitCondExprEnd is called when production condExprEnd is exited.
+func (s *BaseBistatListener) ExitCondExprEnd(ctx *CondExprEndContext) {}
+
+// EnterElseStmt is called when production elseStmt is entered.
+func (s *BaseBistatListener) EnterElseStmt(ctx *ElseStmtContext) {}
+
+// ExitElseStmt is called when production elseStmt is exited.
+func (s *BaseBistatListener) ExitElseStmt(ctx *ElseStmtContext) {}
 
 // EnterReturnStmt is called when production returnStmt is entered.
 func (s *BaseBistatListener) EnterReturnStmt(ctx *ReturnStmtContext) {}

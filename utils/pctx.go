@@ -17,6 +17,8 @@ type PCtx struct {
 	pO             []RType
 	pOper          []int
 	vm             VM
+	jumps          []int
+	condJumps      [][]int
 }
 
 func NewPCtx() PCtx {
@@ -30,6 +32,7 @@ func NewPCtx() PCtx {
 		addrTable:      make(map[int]string),
 		pO:             make([]RType, 0),
 		pOper:          make([]int, 0),
+		jumps:          make([]int, 0),
 	}
 }
 
@@ -199,6 +202,69 @@ func (pCtx *PCtx) POIsEmpty() bool {
 
 func (pCtx *PCtx) POperIsEmpty() bool {
 	return len(pCtx.pOper) == 0
+}
+
+func (pCtx *PCtx) JumpsTop() int {
+	return pCtx.jumps[len(pCtx.jumps)-1]
+}
+
+func (pCtx *PCtx) JumpsPop() {
+	jumps := pCtx.jumps
+	popped := jumps[:len(jumps)-1]
+	pCtx.jumps = popped
+}
+
+func (pCtx *PCtx) JumpsPush(op int) {
+	pCtx.jumps = append(pCtx.jumps, op)
+}
+
+func (pCtx *PCtx) JumpsIsEmpty() bool {
+	return len(pCtx.jumps) == 0
+}
+
+func (pCtx *PCtx) JumpsSize() int {
+	return len(pCtx.jumps)
+}
+
+func (pCtx *PCtx) CondJumpsTop() int {
+	last := len(pCtx.condJumps[len(pCtx.condJumps)-1]) - 1
+	return pCtx.condJumps[len(pCtx.condJumps)-1][last]
+}
+
+func (pCtx *PCtx) CondJumpsPop() {
+	condJumps := pCtx.condJumps[len(pCtx.condJumps)-1]
+	popped := condJumps[:len(condJumps)-1]
+	pCtx.condJumps[len(pCtx.condJumps)-1] = popped
+}
+
+func (pCtx *PCtx) CondJumpsPush(op int) {
+	curr := append(pCtx.condJumps[len(pCtx.condJumps)-1], op)
+	pCtx.condJumps[len(pCtx.condJumps)-1] = curr
+}
+
+func (pCtx *PCtx) PopCondJumps() {
+	condJumps := pCtx.condJumps
+	popped := condJumps[:len(condJumps)-1]
+	pCtx.condJumps = popped
+}
+
+func (pCtx *PCtx) PushCondJumps() {
+	curr := append(pCtx.condJumps, make([]int, 0))
+	pCtx.condJumps = curr
+}
+
+func (pCtx *PCtx) CondJumpsIsEmpty() bool {
+	if len(pCtx.condJumps) == 0 {
+		return false
+	}
+	return len(pCtx.condJumps[len(pCtx.condJumps)-1]) == 0
+}
+
+func (pCtx *PCtx) CondJumpsSize() int {
+	if len(pCtx.condJumps) == 0 {
+		return 0
+	}
+	return len(pCtx.condJumps[len(pCtx.condJumps)-1])
 }
 
 func (pCtx *PCtx) PrintQuads() {

@@ -1,13 +1,23 @@
 Program Hello;
 
-var int num;
-var int ans;
-var float flt;
-var float res;
+var int x;
+var int y;
+var int z;
+var int w;
 
 main () {
-  num = 5;
-  ans = num * 5 + 14 - 6;
-  res = (flt + 5.0) - flt * flt;
+  x = 4;
+  z = 2;
+  y = 1;
+  w = 0;
+  if (x * y < z) {
+    print(x);
+  } else if (y * x / z > w) {
+    print(w);
+  } else if (x < z) {
+    print(z, w);
+  } else {
+    print(y);
+  }
 }
 

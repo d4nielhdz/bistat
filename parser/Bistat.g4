@@ -32,29 +32,19 @@ stmt: (
 
 assignment:
 	ID '=' (expression | listAssignment | matrixAssignment);
-nested_stmt: (
-		(
-			assignment
-			| specialFunction
-			| functionCall
-			| returnStmt
-		) ';'
-	)
-	| conditional
-	| whileLoop
-	| comment;
-
 matrixAssignment: '[' listAssignment (',' listAssignment)* ']';
 listAssignment:
 	'[' (varCons | expression) (',' (varCons | expression))* ']';
 
 comment: '#' (~'#')+ '#';
-forLoop: 'for' '(' ID 'in' expression ')' '{' nested_stmt+ '}';
+forLoop: 'for' '(' ID 'in' expression ')' '{' stmt+ '}';
 whileLoop: 'while' '(' expression ')' '{' stmt+ '}';
-conditional:
-	'if' '(' expression ')' '{' stmt+ '}' (
-		'else' 'if' '(' expression ')' '{' stmt+ '}'
-	)* ('else' '{' stmt+ '}')?;
+conditional: ifStmt elseIfStmt* elseStmt?;
+ifStmt: 'if' '(' expression condExprEnd '{' stmt+ '}';
+elseIfStmt:
+	'else' 'if' '(' expression condExprEnd '{' stmt+ '}';
+condExprEnd: ')';
+elseStmt: 'else' '{' stmt+ '}';
 returnStmt: 'return' expression;
 
 specialFunction:
