@@ -47,6 +47,12 @@ type BistatListener interface {
 	// EnterForLoop is called when entering the forLoop production.
 	EnterForLoop(c *ForLoopContext)
 
+	// EnterForHeader is called when entering the forHeader production.
+	EnterForHeader(c *ForHeaderContext)
+
+	// EnterForExprEnd is called when entering the forExprEnd production.
+	EnterForExprEnd(c *ForExprEndContext)
+
 	// EnterWhileLoop is called when entering the whileLoop production.
 	EnterWhileLoop(c *WhileLoopContext)
 
@@ -214,6 +220,12 @@ type BistatListener interface {
 
 	// ExitForLoop is called when exiting the forLoop production.
 	ExitForLoop(c *ForLoopContext)
+
+	// ExitForHeader is called when exiting the forHeader production.
+	ExitForHeader(c *ForHeaderContext)
+
+	// ExitForExprEnd is called when exiting the forExprEnd production.
+	ExitForExprEnd(c *ForExprEndContext)
 
 	// ExitWhileLoop is called when exiting the whileLoop production.
 	ExitWhileLoop(c *WhileLoopContext)

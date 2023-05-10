@@ -99,6 +99,18 @@ func (s *BaseBistatListener) EnterForLoop(ctx *ForLoopContext) {}
 // ExitForLoop is called when production forLoop is exited.
 func (s *BaseBistatListener) ExitForLoop(ctx *ForLoopContext) {}
 
+// EnterForHeader is called when production forHeader is entered.
+func (s *BaseBistatListener) EnterForHeader(ctx *ForHeaderContext) {}
+
+// ExitForHeader is called when production forHeader is exited.
+func (s *BaseBistatListener) ExitForHeader(ctx *ForHeaderContext) {}
+
+// EnterForExprEnd is called when production forExprEnd is entered.
+func (s *BaseBistatListener) EnterForExprEnd(ctx *ForExprEndContext) {}
+
+// ExitForExprEnd is called when production forExprEnd is exited.
+func (s *BaseBistatListener) ExitForExprEnd(ctx *ForExprEndContext) {}
+
 // EnterWhileLoop is called when production whileLoop is entered.
 func (s *BaseBistatListener) EnterWhileLoop(ctx *WhileLoopContext) {}
 

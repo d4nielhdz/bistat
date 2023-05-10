@@ -37,7 +37,11 @@ listAssignment:
 	'[' (varCons | expression) (',' (varCons | expression))* ']';
 
 comment: '#' (~'#')+ '#';
-forLoop: 'for' '(' ID 'in' expression ')' '{' stmt+ '}';
+
+forLoop: forHeader '{' stmt+ '}';
+forHeader: 'for' '(' ID 'in' expression ')';
+forExprEnd: ')';
+
 whileLoop: 'while' '(' expression whileExprEnd '{' stmt+ '}';
 whileExprEnd: ')';
 
@@ -47,6 +51,7 @@ elseIfStmt:
 	'else' 'if' '(' expression condExprEnd '{' stmt+ '}';
 condExprEnd: ')';
 elseStmt: 'else' '{' stmt+ '}';
+
 returnStmt: 'return' expression;
 
 specialFunction:
