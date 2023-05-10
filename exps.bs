@@ -19,5 +19,10 @@ main () {
   } else {
     print(y);
   }
+
+  while (x < 10) {
+    y = x * w * z;
+    x = x + 1;
+  }
 }
 

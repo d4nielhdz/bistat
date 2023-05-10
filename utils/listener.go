@@ -448,6 +448,43 @@ func (l *bistatListener) ExitConditional(ctx *parser.ConditionalContext) {
 	l.pCtx.PopCondJumps()
 }
 
+func (l *bistatListener) EnterWhileLoop(ctx *parser.WhileLoopContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+
+	l.pCtx.JumpsPush(len(l.pCtx.vm.Quads()))
+}
+
+func (l *bistatListener) ExitWhileExprEnd(ctx *parser.WhileExprEndContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+
+	o := l.pCtx.POTop()
+	l.pCtx.POPop()
+
+	if o.pType != Bool {
+		l.pCtx.SemanticError("Expression type must be boolean")
+		return
+	}
+
+	currQuad := len(l.pCtx.vm.Quads())
+	l.pCtx.vm.PushQuad(NewQuad(GotoF, o.address, -1, -1))
+	l.pCtx.JumpsPush(currQuad)
+}
+
+func (l *bistatListener) ExitWhileLoop(ctx *parser.WhileLoopContext) {
+	end := l.pCtx.JumpsTop()
+	l.pCtx.JumpsPop()
+	ret := l.pCtx.JumpsTop()
+	l.pCtx.JumpsPop()
+
+	l.pCtx.vm.PushQuad(NewQuad(Goto, -1, -1, ret))
+	l.pCtx.vm.quads[end].destination = len(l.pCtx.vm.quads)
+
+}
+
 func (l *bistatListener) ExitProgram(ctx *parser.ProgramContext) {
 	fmt.Println("Exited program")
 	l.pCtx.PrintAddrTable()

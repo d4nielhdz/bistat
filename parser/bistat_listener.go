@@ -50,6 +50,9 @@ type BistatListener interface {
 	// EnterWhileLoop is called when entering the whileLoop production.
 	EnterWhileLoop(c *WhileLoopContext)
 
+	// EnterWhileExprEnd is called when entering the whileExprEnd production.
+	EnterWhileExprEnd(c *WhileExprEndContext)
+
 	// EnterConditional is called when entering the conditional production.
 	EnterConditional(c *ConditionalContext)
 
@@ -214,6 +217,9 @@ type BistatListener interface {
 
 	// ExitWhileLoop is called when exiting the whileLoop production.
 	ExitWhileLoop(c *WhileLoopContext)
+
+	// ExitWhileExprEnd is called when exiting the whileExprEnd production.
+	ExitWhileExprEnd(c *WhileExprEndContext)
 
 	// ExitConditional is called when exiting the conditional production.
 	ExitConditional(c *ConditionalContext)

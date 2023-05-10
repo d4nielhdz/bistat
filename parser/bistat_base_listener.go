@@ -105,6 +105,12 @@ func (s *BaseBistatListener) EnterWhileLoop(ctx *WhileLoopContext) {}
 // ExitWhileLoop is called when production whileLoop is exited.
 func (s *BaseBistatListener) ExitWhileLoop(ctx *WhileLoopContext) {}
 
+// EnterWhileExprEnd is called when production whileExprEnd is entered.
+func (s *BaseBistatListener) EnterWhileExprEnd(ctx *WhileExprEndContext) {}
+
+// ExitWhileExprEnd is called when production whileExprEnd is exited.
+func (s *BaseBistatListener) ExitWhileExprEnd(ctx *WhileExprEndContext) {}
+
 // EnterConditional is called when production conditional is entered.
 func (s *BaseBistatListener) EnterConditional(ctx *ConditionalContext) {}
 

@@ -38,7 +38,9 @@ listAssignment:
 
 comment: '#' (~'#')+ '#';
 forLoop: 'for' '(' ID 'in' expression ')' '{' stmt+ '}';
-whileLoop: 'while' '(' expression ')' '{' stmt+ '}';
+whileLoop: 'while' '(' expression whileExprEnd '{' stmt+ '}';
+whileExprEnd: ')';
+
 conditional: ifStmt elseIfStmt* elseStmt?;
 ifStmt: 'if' '(' expression condExprEnd '{' stmt+ '}';
 elseIfStmt:
