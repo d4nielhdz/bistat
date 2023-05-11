@@ -4,12 +4,15 @@ var int x;
 var int y;
 var int z;
 var int w;
+var int[] arr;
+var int i;
 
 main () {
   x = 4;
   z = 2;
   y = 1;
   w = 0;
+  i = 0;
   if (x * y < z) {
     print(x);
   } else if (y * x / z > w) {
@@ -23,6 +26,10 @@ main () {
   while (x < 10) {
     y = x * w * z;
     x = x + 1;
+  }
+
+  for (i in arr) {
+    print(i);
   }
 }
 

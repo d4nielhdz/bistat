@@ -28,7 +28,8 @@ func (l *bistatListener) ExitSpecialFunction(ctx *parser.SpecialFunctionContext)
 			l.pCtx.SemanticError("Cannot use 'print' inside an expression")
 			return
 		}
-		for !l.pCtx.POIsEmpty() {
+		ctx.Print_().AllExpression()
+		for range ctx.Print_().AllExpression() {
 			o := l.pCtx.POTop()
 			quad := NewQuad(Print, o.address, -1, -1)
 			l.pCtx.vm.PushQuad(quad)
