@@ -1,4 +1,4 @@
-package utils
+package src
 
 import (
 	parser "bistat/parser"
@@ -9,7 +9,9 @@ import (
 
 type PCtx struct {
 	scopes         []string
-	funcDir        map[string]RType
+	functions      []string
+	funcDir        map[string]FuncData
+	paramTable     map[string][]RType
 	addrTable      map[int]string
 	varTable       map[string]map[string]RType
 	consTable      map[string]RType
@@ -24,7 +26,9 @@ type PCtx struct {
 func NewPCtx() PCtx {
 	return PCtx{
 		scopes:         make([]string, 0),
-		funcDir:        make(map[string]RType),
+		functions:      make([]string, 0),
+		funcDir:        make(map[string]FuncData),
+		paramTable:     make(map[string][]RType),
 		varTable:       make(map[string]map[string]RType),
 		consTable:      make(map[string]RType),
 		semanticErrors: make([]string, 0),
@@ -401,9 +405,13 @@ func (pCtx *PCtx) SetScope(scopes []string) {
 	pCtx.scopes = scopes
 }
 
-func (pCtx *PCtx) AddFunction(funcName string, rType RType) {
-	pCtx.funcDir[funcName] = rType
+func (pCtx *PCtx) AddFunction(funcName string, funcData FuncData) {
+	pCtx.funcDir[funcName] = funcData
 	pCtx.varTable[funcName] = make(map[string]RType)
+}
+
+func (pCtx *PCtx) AddParams(funcName string, params []RType) {
+	pCtx.paramTable[funcName] = params
 }
 
 func (pCtx *PCtx) GetVarInScope(scope string, varName string) (RType, bool) {
@@ -416,6 +424,6 @@ func (pCtx *PCtx) AddVarToScope(scope string, varName string, rType RType) {
 }
 
 func (pCtx *PCtx) RemoveFunction(funcName string) {
-	delete(pCtx.funcDir, funcName)
+	// delete(pCtx.funcDir, funcName)
 	delete(pCtx.varTable, funcName)
 }

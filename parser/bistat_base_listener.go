@@ -45,11 +45,17 @@ func (s *BaseBistatListener) EnterFuncDef(ctx *FuncDefContext) {}
 // ExitFuncDef is called when production funcDef is exited.
 func (s *BaseBistatListener) ExitFuncDef(ctx *FuncDefContext) {}
 
-// EnterFuncEnd is called when production funcEnd is entered.
-func (s *BaseBistatListener) EnterFuncEnd(ctx *FuncEndContext) {}
+// EnterFuncBlockStart is called when production funcBlockStart is entered.
+func (s *BaseBistatListener) EnterFuncBlockStart(ctx *FuncBlockStartContext) {}
 
-// ExitFuncEnd is called when production funcEnd is exited.
-func (s *BaseBistatListener) ExitFuncEnd(ctx *FuncEndContext) {}
+// ExitFuncBlockStart is called when production funcBlockStart is exited.
+func (s *BaseBistatListener) ExitFuncBlockStart(ctx *FuncBlockStartContext) {}
+
+// EnterFuncBlockEnd is called when production funcBlockEnd is entered.
+func (s *BaseBistatListener) EnterFuncBlockEnd(ctx *FuncBlockEndContext) {}
+
+// ExitFuncBlockEnd is called when production funcBlockEnd is exited.
+func (s *BaseBistatListener) ExitFuncBlockEnd(ctx *FuncBlockEndContext) {}
 
 // EnterParamDeclaration is called when production paramDeclaration is entered.
 func (s *BaseBistatListener) EnterParamDeclaration(ctx *ParamDeclarationContext) {}

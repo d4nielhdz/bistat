@@ -2,7 +2,7 @@ package main
 
 import (
 	parser "bistat/parser"
-	utils "bistat/utils"
+	src "bistat/src"
 	"os"
 
 	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
@@ -14,5 +14,5 @@ func main() {
 	stream := antlr.NewCommonTokenStream(lexer, 0)
 	p := parser.NewBistatParser(stream)
 	p.AddErrorListener(antlr.NewDiagnosticErrorListener(true))
-	antlr.ParseTreeWalkerDefault.Walk(utils.NewBistatListener(), p.Program())
+	antlr.ParseTreeWalkerDefault.Walk(src.NewBistatListener(), p.Program())
 }

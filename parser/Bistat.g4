@@ -10,8 +10,10 @@ CARDINALITY: ('[' (INT_CONS?) ']') ('[' (INT_CONS?) ']')?;
 TYPE_PRIMITIVE: 'int' | 'float' | 'string' | 'bool' | 'void';
 
 funcDef:
-	'func' ID '(' paramDeclaration* ')' ':' var_type varDeclaration* '{' stmt+ funcEnd;
-funcEnd: '}';
+	'func' ID '(' paramDeclaration* ')' ':' var_type varDeclaration* funcBlockStart stmt+
+		funcBlockEnd;
+funcBlockStart: '{';
+funcBlockEnd: '}';
 
 paramDeclaration: 'var' var_type ID ';';
 
@@ -115,11 +117,11 @@ unaryMinus: '-';
 nestedExpression: '(' expression ')';
 functionCall: ID '(' (expression (',' expression)*)? ')';
 indexing: ID '[' expression ']' ('[' expression ']')?;
+BOOL_CONS: 'true' | 'false';
 ID: ('_' | Alpha)+ (Alpha | NUMBER | '_')*;
 varCons: STRING_CONS | FLOAT_CONS | INT_CONS | BOOL_CONS | ID;
 INT_CONS: NUMBER+;
 NUMBER: '0' .. '9';
-BOOL_CONS: 'true' | 'false';
 STRING_CONS: '"' (~'"')* '"';
 FLOAT_CONS: NUMBER+ '.' NUMBER+;
 opSec: '+' | '-';

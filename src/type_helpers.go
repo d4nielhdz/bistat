@@ -1,4 +1,4 @@
-package utils
+package src
 
 import (
 	"fmt"
@@ -91,6 +91,10 @@ const (
 	Goto
 	GotoT
 	GotoF
+	GoSub
+	Era
+	Param
+	EndFunc
 	UndefinedOp
 	Other
 )
@@ -214,6 +218,14 @@ func OpToString(op Op) string {
 		return "GotoT"
 	case Other:
 		return "Other"
+	case GoSub:
+		return "GoSub"
+	case Era:
+		return "Era"
+	case Param:
+		return "Param"
+	case EndFunc:
+		return "EndFunc"
 	default:
 		return ""
 	}
@@ -266,8 +278,36 @@ type RType struct {
 	address   int
 }
 
+type FuncData struct {
+	pType PType
+	// indicates size of first dimension. -1 for params, 0 for non arrays
+	firstDim int
+	// indicates size of second dimension. -1 for params, 0 for non arrays
+	secondDim       int
+	address         int
+	params          int
+	localIntVars    int
+	tempIntVars     int
+	localFloatVars  int
+	tempFloatVars   int
+	localBoolVars   int
+	tempBoolVars    int
+	localStringVars int
+	tempStringVars  int
+	funcStart       int
+	idx             int
+}
+
+func NewFuncData(pType PType) FuncData {
+	return FuncData{pType: pType}
+}
+
 func NewRType(pType PType) RType {
 	return RType{pType: pType}
+}
+
+func RTypeToFuncData(rType RType) FuncData {
+	return FuncData{pType: rType.pType, firstDim: rType.firstDim, secondDim: rType.secondDim, address: rType.address}
 }
 
 func (rType RType) print() {

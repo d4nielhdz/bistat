@@ -1,4 +1,4 @@
-package utils
+package src
 
 import (
 	parser "bistat/parser"
@@ -20,7 +20,7 @@ func (l *bistatListener) EnterProgram(ctx *parser.ProgramContext) {
 	fmt.Println("Entered program")
 	fmt.Println(ctx.ID())
 	l.pCtx.AddScope(ctx.ID().GetText())
-	l.pCtx.AddFunction(ctx.ID().GetText(), NewRType(Void))
+	l.pCtx.AddFunction(ctx.ID().GetText(), NewFuncData(Void))
 }
 
 func (l *bistatListener) EnterVarDeclaration(ctx *parser.VarDeclarationContext) {

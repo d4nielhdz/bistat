@@ -1,4 +1,4 @@
-package utils
+package src
 
 const GLOBAL_INT_START = 0
 const GLOBAL_FLOAT_START = 10000
@@ -140,6 +140,14 @@ func (am *AddressManager) GetNext() (int, bool) {
 	}
 	am.curr = curr + 1
 	return curr, true
+}
+
+func (am *AddressManager) GetCurr() int {
+	return am.curr
+}
+
+func (am *AddressManager) GetSize() int {
+	return am.curr - am.first
 }
 
 func (am *AddressManager) Reset() {

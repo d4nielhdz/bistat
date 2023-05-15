@@ -20,8 +20,11 @@ type BistatListener interface {
 	// EnterFuncDef is called when entering the funcDef production.
 	EnterFuncDef(c *FuncDefContext)
 
-	// EnterFuncEnd is called when entering the funcEnd production.
-	EnterFuncEnd(c *FuncEndContext)
+	// EnterFuncBlockStart is called when entering the funcBlockStart production.
+	EnterFuncBlockStart(c *FuncBlockStartContext)
+
+	// EnterFuncBlockEnd is called when entering the funcBlockEnd production.
+	EnterFuncBlockEnd(c *FuncBlockEndContext)
 
 	// EnterParamDeclaration is called when entering the paramDeclaration production.
 	EnterParamDeclaration(c *ParamDeclarationContext)
@@ -194,8 +197,11 @@ type BistatListener interface {
 	// ExitFuncDef is called when exiting the funcDef production.
 	ExitFuncDef(c *FuncDefContext)
 
-	// ExitFuncEnd is called when exiting the funcEnd production.
-	ExitFuncEnd(c *FuncEndContext)
+	// ExitFuncBlockStart is called when exiting the funcBlockStart production.
+	ExitFuncBlockStart(c *FuncBlockStartContext)
+
+	// ExitFuncBlockEnd is called when exiting the funcBlockEnd production.
+	ExitFuncBlockEnd(c *FuncBlockEndContext)
 
 	// ExitParamDeclaration is called when exiting the paramDeclaration production.
 	ExitParamDeclaration(c *ParamDeclarationContext)

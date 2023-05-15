@@ -1,0 +1,26 @@
+Program Funcs;
+
+var int x;
+var int y;
+var float w;
+var bool z;
+var float ww;
+
+func myfunc(var int a; var float b; var float e;): float 
+  var int c;
+  var float d;
+  var float yy;
+{
+  d = e * b;
+  c = a + 2;
+  yy = 3.14 + e;
+  return yy;
+}
+
+main() {
+  x = 1;
+  z = true;
+  w = 2.1;
+  ww = 3.0
+  w = myfunc(x, w, ww);
+}

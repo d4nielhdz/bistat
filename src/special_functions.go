@@ -1,4 +1,4 @@
-package utils
+package src
 
 import (
 	parser "bistat/parser"
@@ -17,7 +17,7 @@ func (l *bistatListener) ExitSpecialFunction(ctx *parser.SpecialFunctionContext)
 			l.pCtx.SemanticError("Cannot use 'read' inside an expression")
 			return
 		}
-		for !l.pCtx.POIsEmpty() {
+		for range ctx.InputRead().AllID() {
 			o := l.pCtx.POTop()
 			quad := NewQuad(InputRead, o.address, -1, -1)
 			l.pCtx.vm.PushQuad(quad)

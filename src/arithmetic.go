@@ -1,4 +1,4 @@
-package utils
+package src
 
 import (
 	parser "bistat/parser"
