@@ -33,13 +33,13 @@ func (l *bistatListener) EnterFuncDef(ctx *parser.FuncDefContext) {
 		switch pType {
 		case Int:
 			localIntVars += 1
-			break
+			// break
 		case Float:
 			localFloatVars += 1
-			break
+			// break
 		case String:
 			localStringVars += 1
-			break
+			// break
 		default:
 			localBoolVars += 1
 		}
@@ -114,6 +114,22 @@ func (l *bistatListener) EnterFuncBlockEnd(ctx *parser.FuncBlockEndContext) {
 	l.pCtx.vm.tempFloatAddressMgr.Reset()
 }
 
+func (l *bistatListener) ExitReturnStmt(ctx *parser.ReturnStmtContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+	o := l.pCtx.POTop()
+	l.pCtx.POPop()
+	funcName := l.pCtx.GetCurrentScope()
+	fVar, _ := l.pCtx.GetVarInScope("main", funcName)
+	if o.pType != fVar.pType {
+		// todo: check array dimensions coherence
+		l.pCtx.SemanticError("Incorrect return type for function " + funcName + ", expected " + PTypeToString(o.pType) + ", found " + PTypeToString(fVar.pType))
+		return
+	}
+	l.pCtx.vm.PushQuad(NewQuad(Return, o.address, -1, fVar.address))
+}
+
 func (l *bistatListener) ExitFunctionCall(ctx *parser.FunctionCallContext) {
 	if len(l.pCtx.semanticErrors) > 0 {
 		return
@@ -145,6 +161,17 @@ func (l *bistatListener) ExitFunctionCall(ctx *parser.FunctionCallContext) {
 		l.pCtx.POPop()
 	}
 	l.pCtx.vm.PushQuad(NewQuad(GoSub, data.idx, -1, -1))
+	if data.pType != Void {
+		fVar, _ := l.pCtx.GetVarInScope("main", funcName)
+		addrMgr := l.pCtx.GetCorrespondingTempAddressManager(fVar.pType)
+		addr, _ := addrMgr.GetNext()
+		tmp := NewRType(fVar.pType)
+		tmp.firstDim = fVar.firstDim
+		tmp.secondDim = fVar.secondDim
+		tmp.address = addr
+		l.pCtx.vm.PushQuad(NewQuad(Assign, fVar.address, -1, addr))
+		l.pCtx.POPush(tmp)
+	}
 }
 
 // todo: handle return stmt
