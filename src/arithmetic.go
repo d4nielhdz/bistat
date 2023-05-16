@@ -5,6 +5,50 @@ import (
 	"fmt"
 )
 
+func (l *bistatListener) EnterVarCons(ctx *parser.VarConsContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+
+	rType := NewRType(Bool)
+	if ctx.ID() != nil {
+		entry, ok := l.pCtx.GetRTypeFromVarName(ctx.ID().GetText())
+		if ok {
+			rType = entry
+		} else {
+			l.pCtx.SemanticError("Variable " + ctx.ID().GetText() + " not found in scope")
+		}
+	} else {
+		rType = l.pCtx.GetRTypeFromVarConsContext(ctx)
+	}
+
+	fmt.Println(ctx.ID())
+	l.pCtx.POPush(rType)
+}
+
+func (l *bistatListener) ExitAssignment(ctx *parser.AssignmentContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+
+	fmt.Println("exited assignment")
+	fmt.Println(ctx.GetText())
+	rRType := l.pCtx.POTop()
+	l.pCtx.POPop()
+	lRType, found := l.pCtx.GetRTypeFromVarName(ctx.ID().GetText())
+	if !found {
+		l.pCtx.SemanticError("Variable " + ctx.ID().GetText() + " not defined")
+		return
+	}
+	if lRType.pType != rRType.pType {
+		// todo: cast where appropriate
+		l.pCtx.SemanticError("Cannot assign to " + ctx.ID().GetText() + " because of type mismatch: " + PTypeToString(rRType.pType) + " != " + PTypeToString(lRType.pType))
+		return
+	}
+	quad := NewQuad(Assign, rRType.address, -1, lRType.address)
+	l.pCtx.vm.PushQuad(quad)
+}
+
 func (l *bistatListener) EnterLogicOperator(ctx *parser.LogicOperatorContext) {
 	if len(l.pCtx.semanticErrors) > 0 {
 		return

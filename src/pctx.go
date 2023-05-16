@@ -26,7 +26,7 @@ type PCtx struct {
 func NewPCtx() PCtx {
 	return PCtx{
 		scopes:         make([]string, 0),
-		functions:      make([]string, 0),
+		functions:      []string{"main"},
 		funcDir:        make(map[string]FuncData),
 		paramTable:     make(map[string][]RType),
 		varTable:       make(map[string]map[string]RType),

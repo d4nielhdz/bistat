@@ -95,6 +95,8 @@ const (
 	Era
 	Param
 	EndFunc
+	End
+	Return
 	UndefinedOp
 	Other
 )
@@ -226,6 +228,10 @@ func OpToString(op Op) string {
 		return "Param"
 	case EndFunc:
 		return "EndFunc"
+	case End:
+		return "End"
+	case Return:
+		return "Return"
 	default:
 		return ""
 	}

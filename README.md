@@ -28,3 +28,18 @@ Archivos creados: main.go y parser/Bistat.g4
 - Se aregó el código para agregar el main al directorio de funciones y las variables a la tabla de variables
 
 Archivos creados: utils/type_helpers.go
+
+### Avance 3
+
+- Se creó la esctructura VM para la máquina virtual
+- Se creó la estructura pO y pOper para el manejo de operaciones y expresiones
+- Se crearon los address managers para el manejo de memoria
+
+### Avance 4
+
+- Se creó la lógica para la generación de cuádruplos de expresiones aritméticas
+
+### Avance 5
+
+- Se creó la lógica para la generación de cuádruplos de estatutos no lineales (for, if y while)
+- Se creó la lógica para la generación de cuádruplos de definición y llamadas de funciones

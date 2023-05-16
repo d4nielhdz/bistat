@@ -15,6 +15,7 @@ func (l *bistatListener) EnterFuncDef(ctx *parser.FuncDefContext) {
 	pType := PTypeFromString(vt.TYPE_PRIMITIVE().GetText())
 	addrMgr := l.pCtx.GetCorrespondingAddressManager(pType)
 	resolved := l.pCtx.ResolveType(vt, addrMgr)
+	l.pCtx.AddVarToScope("main", funcName, resolved)
 	l.pCtx.AddToAddrTable(resolved.address, ctx.ID().GetText())
 	l.pCtx.AddScope(funcName)
 	l.pCtx.AddFunction(funcName, RTypeToFuncData(resolved))
@@ -145,3 +146,5 @@ func (l *bistatListener) ExitFunctionCall(ctx *parser.FunctionCallContext) {
 	}
 	l.pCtx.vm.PushQuad(NewQuad(GoSub, data.idx, -1, -1))
 }
+
+// todo: handle return stmt
