@@ -2,7 +2,6 @@ package src
 
 import (
 	parser "bistat/parser"
-	"fmt"
 )
 
 type bistatListener struct {
@@ -32,9 +31,12 @@ func (l *bistatListener) EnterVarDeclaration(ctx *parser.VarDeclarationContext) 
 
 	// todo: catch type errors
 	currScope := l.pCtx.GetCurrentScope()
-	fmt.Println(ctx.ID())
 	vt := ctx.Var_type()
 	pType := PTypeFromString(vt.TYPE_PRIMITIVE().GetText())
+	if pType == Void {
+		l.pCtx.SemanticError("Can't declare void variables")
+		return
+	}
 	addrMgr := l.pCtx.GetCorrespondingAddressManager(pType)
 	resolved := l.pCtx.ResolveType(vt, addrMgr)
 	varName := ctx.ID().GetText()

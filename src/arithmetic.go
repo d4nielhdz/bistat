@@ -2,7 +2,6 @@ package src
 
 import (
 	parser "bistat/parser"
-	"fmt"
 )
 
 func (l *bistatListener) EnterVarCons(ctx *parser.VarConsContext) {
@@ -22,7 +21,6 @@ func (l *bistatListener) EnterVarCons(ctx *parser.VarConsContext) {
 		rType = l.pCtx.GetRTypeFromVarConsContext(ctx)
 	}
 
-	fmt.Println(ctx.ID())
 	l.pCtx.POPush(rType)
 }
 
@@ -31,8 +29,6 @@ func (l *bistatListener) ExitAssignment(ctx *parser.AssignmentContext) {
 		return
 	}
 
-	fmt.Println("exited assignment")
-	fmt.Println(ctx.GetText())
 	rRType := l.pCtx.POTop()
 	l.pCtx.POPop()
 	lRType, found := l.pCtx.GetRTypeFromVarName(ctx.ID().GetText())
@@ -54,8 +50,6 @@ func (l *bistatListener) EnterLogicOperator(ctx *parser.LogicOperatorContext) {
 		return
 	}
 
-	fmt.Println("entered logic operator")
-	fmt.Println(ctx.GetText())
 	l.pCtx.POperPush(int(OpFromString(ctx.GetText())))
 }
 
@@ -64,8 +58,6 @@ func (l *bistatListener) ExitExp(ctx *parser.ExpContext) {
 		return
 	}
 
-	fmt.Println("exited exp")
-	fmt.Println(ctx.GetText())
 	if !l.pCtx.POperIsEmpty() {
 		oper := Op(l.pCtx.POperTop())
 		if oper == And || oper == Or || oper == Gt || oper == Lt || oper == Ge || oper == Le || oper == Eq || oper == Ne {
@@ -79,8 +71,6 @@ func (l *bistatListener) EnterOpSec(ctx *parser.OpSecContext) {
 		return
 	}
 
-	fmt.Println("entered opSec")
-	fmt.Println(ctx.GetText())
 	l.pCtx.POperPush(int(OpFromString(ctx.GetText())))
 }
 
@@ -89,8 +79,6 @@ func (l *bistatListener) ExitTerm(ctx *parser.TermContext) {
 		return
 	}
 
-	fmt.Println("exited term")
-	fmt.Println(ctx.GetText())
 	if !l.pCtx.POperIsEmpty() {
 		oper := Op(l.pCtx.POperTop())
 		if oper == Sum || oper == Subtraction || oper == UnaryMinus {
@@ -104,8 +92,6 @@ func (l *bistatListener) EnterOpFirst(ctx *parser.OpFirstContext) {
 		return
 	}
 
-	fmt.Println("entered op first")
-	fmt.Println(ctx.GetText())
 	l.pCtx.POperPush(int(OpFromString(ctx.GetText())))
 }
 
@@ -114,8 +100,6 @@ func (l *bistatListener) ExitFactor(ctx *parser.FactorContext) {
 		return
 	}
 
-	fmt.Println("entered factor")
-	fmt.Println(ctx.GetText())
 	if !l.pCtx.POperIsEmpty() {
 		oper := Op(l.pCtx.POperTop())
 		if oper == Multiplication || oper == Division || oper == Modulus || oper == UnaryMinus {
@@ -129,8 +113,6 @@ func (l *bistatListener) EnterUnaryMinus(ctx *parser.UnaryMinusContext) {
 		return
 	}
 
-	fmt.Println("entered unary minus")
-	fmt.Println(ctx.GetText())
 	l.pCtx.POperPush(int(UnaryMinus))
 }
 
@@ -139,8 +121,6 @@ func (l *bistatListener) EnterNestedExpression(ctx *parser.NestedExpressionConte
 		return
 	}
 
-	fmt.Println("entered nested expression")
-	fmt.Println(ctx.GetText())
 	l.pCtx.POperPush(int(UndefinedOp))
 }
 
@@ -149,7 +129,5 @@ func (l *bistatListener) ExitNestedExpression(ctx *parser.NestedExpressionContex
 		return
 	}
 
-	fmt.Println("exited nested expression")
-	fmt.Println(ctx.GetText())
 	l.pCtx.POperPop()
 }

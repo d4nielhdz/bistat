@@ -276,12 +276,11 @@ func (pCtx *PCtx) PrintQuads() {
 		op1 := pCtx.GetVarnameAtAddress(quad.op1)
 		op2 := pCtx.GetVarnameAtAddress(quad.op2)
 		des := pCtx.GetVarnameAtAddress(quad.destination)
-		fmt.Println(i, ". ", OpToString(quad.op), op1, op2, des)
+		fmt.Println(i, OpToString(quad.op), op1, op2, des)
 	}
 }
 
 func (pCtx *PCtx) ResolveType(vt parser.IVar_typeContext, addrMgr *AddressManager) RType {
-	fmt.Println("resolving")
 	pType := PTypeFromString(vt.TYPE_PRIMITIVE().GetText())
 	rType := RType{pType: pType}
 	card := ""
@@ -306,12 +305,25 @@ func (pCtx *PCtx) ResolveType(vt parser.IVar_typeContext, addrMgr *AddressManage
 			}
 		}
 	}
-	// fmt.Println(card)
 	addr, ok := addrMgr.GetNext()
+	if rType.firstDim > 0 {
+		size := rType.firstDim
+		i := 0
+		if rType.secondDim > 0 {
+			size *= rType.secondDim
+		}
+		for i < size-1 {
+			_, ok := addrMgr.GetNext()
+			if !ok {
+				pCtx.SemanticError("Out of memory")
+			}
+		}
+	}
 	if !ok {
 		pCtx.SemanticError("Out of memory")
 	}
 	rType.address = addr
+	rType.endAddress = addrMgr.GetCurr()
 	rType.print()
 	return rType
 }
@@ -359,18 +371,15 @@ func (pCtx *PCtx) GetCorrespondingTempAddressManager(pType PType) *AddressManage
 }
 
 func (pCtx *PCtx) PrintPo() {
-	fmt.Println("print po start")
 	for _, po := range pCtx.pO {
 		po.print()
 	}
-	fmt.Println("print po end")
 }
 
 func (pCtx *PCtx) HandleGenerateQuadForExpression() {
 	oper := Op(pCtx.POperTop())
 	pCtx.PrintPo()
 	pCtx.POperPop()
-	fmt.Println("Generating quad")
 	o1 := pCtx.POTop()
 	pCtx.POPop()
 	o2 := pCtx.POTop()

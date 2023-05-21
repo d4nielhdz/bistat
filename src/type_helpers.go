@@ -280,8 +280,9 @@ type RType struct {
 	// indicates size of first dimension. -1 for params, 0 for non arrays
 	firstDim int
 	// indicates size of second dimension. -1 for params, 0 for non arrays
-	secondDim int
-	address   int
+	secondDim  int
+	address    int
+	endAddress int
 }
 
 type FuncData struct {

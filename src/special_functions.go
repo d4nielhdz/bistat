@@ -2,7 +2,6 @@ package src
 
 import (
 	parser "bistat/parser"
-	"fmt"
 )
 
 func (l *bistatListener) ExitSpecialFunction(ctx *parser.SpecialFunctionContext) {
@@ -10,8 +9,6 @@ func (l *bistatListener) ExitSpecialFunction(ctx *parser.SpecialFunctionContext)
 		return
 	}
 
-	fmt.Println("exited special function")
-	fmt.Println(ctx.GetText())
 	if ctx.InputRead() != nil {
 		if !l.pCtx.POperIsEmpty() {
 			l.pCtx.SemanticError("Cannot use 'read' inside an expression")
