@@ -1,5 +1,6 @@
 package src
 
+// todo: add memory for refs\
 const GLOBAL_INT_START = 0
 const GLOBAL_FLOAT_START = 10000
 const GLOBAL_STRING_START = 20000
@@ -17,7 +18,9 @@ const CONST_INT_START = 120000
 const CONST_FLOAT_START = 130000
 const CONST_STRING_START = 140000
 const CONST_BOOL_START = 150000
-const CONST_BOOL_END = 159999
+const CONST_BOOL_END = 150003
+
+// const GLOBAL_REF_START =
 
 type VM struct {
 	quads                                                                                                                                                                                                                                                                                                                                                  []Quad

@@ -95,7 +95,7 @@ func (l *bistatListener) ExitIndexing(ctx *parser.IndexingContext) {
 		l.pCtx.POPop()
 		l.pCtx.vm.PushQuad(NewQuad(Verify, idx.Address, arr.Address, arr.FirstDim))
 		// addr is a ref
-		addr, _ := l.pCtx.vm.tempIntAddressMgr.GetNext()
+		addr, _ := l.pCtx.GetCorrespondingTempAddressManager(arr.PType).GetNext()
 		indexed := NewRType(arr.PType)
 		if arr.SecondDim != 0 {
 			l.pCtx.vm.PushQuad(NewQuad(Multiplication, arr.Address, idx.Address, addr))
@@ -121,7 +121,7 @@ func (l *bistatListener) ExitIndexing(ctx *parser.IndexingContext) {
 		l.pCtx.vm.PushQuad(NewQuad(Verify, secondIdx.Address, arr.Address, arr.SecondDim))
 
 		// addr is a ref
-		addr, _ := l.pCtx.vm.tempIntAddressMgr.GetNext()
+		addr, _ := l.pCtx.GetCorrespondingTempAddressManager(arr.PType).GetNext()
 		l.pCtx.vm.PushQuad(NewQuad(Multiplication, arr.Address, firstIdx.Address, addr))
 		secondAddr, _ := l.pCtx.vm.tempIntAddressMgr.GetNext()
 		l.pCtx.vm.PushQuad(NewQuad(Sum, addr, secondIdx.Address, secondAddr))
@@ -153,6 +153,15 @@ func (l *bistatListener) ExitProgram(ctx *parser.ProgramContext) {
 		RegisterTypes()
 		file, err := os.Create("./obj.gob")
 		objCode := NewObjCode(l.pCtx.funcDir, l.pCtx.consTable, l.pCtx.vm.quads)
+		objCode.BoolSize = l.pCtx.vm.globalBoolAddressMgr.GetSize()
+		objCode.StringSize = l.pCtx.vm.globalStringAddressMgr.GetSize()
+		objCode.FloatSize = l.pCtx.vm.globalFloatAddressMgr.GetSize()
+		objCode.IntSize = l.pCtx.vm.globalIntAddressMgr.GetSize()
+		objCode.ConstBoolSize = l.pCtx.vm.constBoolAddressMgr.GetSize()
+		objCode.ConstStringSize = l.pCtx.vm.constStringAddressMgr.GetSize()
+		objCode.ConstFloatSize = l.pCtx.vm.constFloatAddressMgr.GetSize()
+		objCode.ConstIntSize = l.pCtx.vm.constIntAddressMgr.GetSize()
+
 		if err == nil {
 			encoder := gob.NewEncoder(file)
 			encoder.Encode(objCode)

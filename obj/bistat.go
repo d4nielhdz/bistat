@@ -17,10 +17,9 @@ func main() {
 		decErr := decoder.Decode(objCode)
 
 		if decErr == nil {
-			fmt.Println(len(objCode.Quads))
-			for _, quad := range objCode.Quads {
-				fmt.Println(src.OpToString(quad.Op))
-			}
+			eCtx := NewEctx(*objCode)
+			eCtx.Run()
+			eCtx.PrintErrors()
 		} else {
 			fmt.Println(decErr)
 		}
