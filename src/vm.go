@@ -113,12 +113,12 @@ func NewVM() VM {
 }
 
 type Quad struct {
-	op                    Op
-	op1, op2, destination int
+	Op                    Op
+	Op1, Op2, Destination int
 }
 
-func NewQuad(op Op, op1 int, op2 int, destination int) Quad {
-	return Quad{op: op, op1: op1, op2: op2, destination: destination}
+func NewQuad(Op Op, Op1 int, Op2 int, Destination int) Quad {
+	return Quad{Op: Op, Op1: Op1, Op2: Op2, Destination: Destination}
 }
 
 func (vm *VM) PushQuad(quad Quad) {

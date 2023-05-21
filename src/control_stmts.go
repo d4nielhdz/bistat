@@ -16,13 +16,13 @@ func (l *bistatListener) ExitCondExprEnd(ctx *parser.CondExprEndContext) {
 	po := l.pCtx.POTop()
 	l.pCtx.POPop()
 
-	if po.pType != Bool {
+	if po.PType != Bool {
 		l.pCtx.SemanticError("Expression type must be a boolean")
 	}
 
 	currQuad := len(l.pCtx.vm.Quads())
 
-	l.pCtx.vm.PushQuad(NewQuad(GotoF, po.address, 0, 0))
+	l.pCtx.vm.PushQuad(NewQuad(GotoF, po.Address, 0, 0))
 	l.pCtx.CondJumpsPush(currQuad)
 }
 
@@ -36,7 +36,7 @@ func (l *bistatListener) EnterElseIfStmt(ctx *parser.ElseIfStmtContext) {
 	jump := l.pCtx.CondJumpsTop()
 	currQuad := len(l.pCtx.vm.Quads())
 	l.pCtx.CondJumpsPop()
-	l.pCtx.vm.Quads()[jump].destination = currQuad
+	l.pCtx.vm.Quads()[jump].Destination = currQuad
 
 	l.pCtx.CondJumpsPush(currQuad - 1)
 }
@@ -51,7 +51,7 @@ func (l *bistatListener) EnterElseStmt(ctx *parser.ElseStmtContext) {
 	jump := l.pCtx.CondJumpsTop()
 	currQuad := len(l.pCtx.vm.Quads())
 	l.pCtx.CondJumpsPop()
-	l.pCtx.vm.Quads()[jump].destination = currQuad
+	l.pCtx.vm.Quads()[jump].Destination = currQuad
 
 	l.pCtx.CondJumpsPush(currQuad - 1)
 }
@@ -65,7 +65,7 @@ func (l *bistatListener) ExitConditional(ctx *parser.ConditionalContext) {
 	for !l.pCtx.CondJumpsIsEmpty() {
 		jump := l.pCtx.CondJumpsTop()
 		l.pCtx.CondJumpsPop()
-		l.pCtx.vm.Quads()[jump].destination = currQuad
+		l.pCtx.vm.Quads()[jump].Destination = currQuad
 	}
 
 	l.pCtx.PopCondJumps()
@@ -87,13 +87,13 @@ func (l *bistatListener) ExitWhileExprEnd(ctx *parser.WhileExprEndContext) {
 	o := l.pCtx.POTop()
 	l.pCtx.POPop()
 
-	if o.pType != Bool {
+	if o.PType != Bool {
 		l.pCtx.SemanticError("Expression type must be boolean")
 		return
 	}
 
 	currQuad := len(l.pCtx.vm.Quads())
-	l.pCtx.vm.PushQuad(NewQuad(GotoF, o.address, -1, -1))
+	l.pCtx.vm.PushQuad(NewQuad(GotoF, o.Address, -1, -1))
 	l.pCtx.JumpsPush(currQuad)
 }
 
@@ -108,14 +108,14 @@ func (l *bistatListener) ExitWhileLoop(ctx *parser.WhileLoopContext) {
 	l.pCtx.JumpsPop()
 
 	l.pCtx.vm.PushQuad(NewQuad(Goto, -1, -1, ret))
-	l.pCtx.vm.quads[end].destination = len(l.pCtx.vm.quads)
+	l.pCtx.vm.quads[end].Destination = len(l.pCtx.vm.quads)
 
 }
 
 func (l *bistatListener) EnterForHeader(ctx *parser.ForHeaderContext) {
 	idxAddr, _ := l.pCtx.vm.tempIntAddressMgr.GetNext()
 	rType := NewRType(Int)
-	rType.address = idxAddr
+	rType.Address = idxAddr
 	entry, found := l.pCtx.consTable["0"]
 	if !found {
 		next, okAddr := l.pCtx.vm.constIntAddressMgr.GetNext()
@@ -123,14 +123,14 @@ func (l *bistatListener) EnterForHeader(ctx *parser.ForHeaderContext) {
 			l.pCtx.SemanticError("Out of memory")
 		}
 		zero := NewRType(Int)
-		zero.firstDim = 0
-		zero.secondDim = 0
-		zero.address = next
+		zero.FirstDim = 0
+		zero.SecondDim = 0
+		zero.Address = next
 		l.pCtx.consTable["0"] = zero
-		l.pCtx.addrTable[zero.address] = "0"
+		l.pCtx.addrTable[zero.Address] = "0"
 		entry = zero
 	}
-	l.pCtx.vm.PushQuad(NewQuad(Assign, entry.address, -1, idxAddr))
+	l.pCtx.vm.PushQuad(NewQuad(Assign, entry.Address, -1, idxAddr))
 	l.pCtx.POPush(rType)
 }
 
@@ -148,7 +148,7 @@ func (l *bistatListener) ExitForHeader(ctx *parser.ForHeaderContext) {
 	o := l.pCtx.POTop()
 	l.pCtx.POPop()
 	vc := l.pCtx.POTop()
-	if o.pType != vc.pType {
+	if o.PType != vc.PType {
 		// todo: validate array type
 		l.pCtx.SemanticError("Control variable must be the same type as expression variable")
 		return
@@ -156,8 +156,8 @@ func (l *bistatListener) ExitForHeader(ctx *parser.ForHeaderContext) {
 	lenAddr, _ := l.pCtx.vm.tempIntAddressMgr.GetNext()
 	boolAddr, _ := l.pCtx.vm.tempBoolAddressMgr.GetNext()
 	l.pCtx.JumpsPush(len(l.pCtx.vm.Quads()))
-	l.pCtx.vm.PushQuad(NewQuad(Length, o.address, -1, lenAddr))
-	l.pCtx.vm.PushQuad(NewQuad(Lt, vc.address, lenAddr, boolAddr))
+	l.pCtx.vm.PushQuad(NewQuad(Length, o.Address, -1, lenAddr))
+	l.pCtx.vm.PushQuad(NewQuad(Lt, vc.Address, lenAddr, boolAddr))
 	currQuad := len(l.pCtx.vm.quads)
 	l.pCtx.JumpsPush(currQuad)
 	l.pCtx.vm.PushQuad(NewQuad(GotoF, boolAddr, -1, -1))
@@ -173,19 +173,19 @@ func (l *bistatListener) ExitForLoop(ctx *parser.ForLoopContext) {
 			l.pCtx.SemanticError("Out of memory")
 		}
 		one := NewRType(Int)
-		one.firstDim = 0
-		one.secondDim = 0
-		one.address = next
+		one.FirstDim = 0
+		one.SecondDim = 0
+		one.Address = next
 		l.pCtx.consTable["1"] = one
-		l.pCtx.addrTable[one.address] = "1"
+		l.pCtx.addrTable[one.Address] = "1"
 		entry = one
 	}
-	l.pCtx.vm.PushQuad(NewQuad(Sum, vc.address, entry.address, vc.address))
+	l.pCtx.vm.PushQuad(NewQuad(Sum, vc.Address, entry.Address, vc.Address))
 	l.pCtx.POPop()
 	end := l.pCtx.JumpsTop()
 	l.pCtx.JumpsPop()
 	ret := l.pCtx.JumpsTop()
 	l.pCtx.JumpsPop()
 	l.pCtx.vm.PushQuad(NewQuad(Goto, -1, -1, ret))
-	l.pCtx.vm.quads[end].destination = len(l.pCtx.vm.Quads())
+	l.pCtx.vm.quads[end].Destination = len(l.pCtx.vm.Quads())
 }

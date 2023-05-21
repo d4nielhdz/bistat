@@ -16,7 +16,7 @@ func (l *bistatListener) ExitSpecialFunction(ctx *parser.SpecialFunctionContext)
 		}
 		for range ctx.InputRead().AllID() {
 			o := l.pCtx.POTop()
-			quad := NewQuad(InputRead, o.address, -1, -1)
+			quad := NewQuad(InputRead, o.Address, -1, -1)
 			l.pCtx.vm.PushQuad(quad)
 			l.pCtx.POPop()
 		}
@@ -28,7 +28,7 @@ func (l *bistatListener) ExitSpecialFunction(ctx *parser.SpecialFunctionContext)
 		ctx.Print_().AllExpression()
 		for range ctx.Print_().AllExpression() {
 			o := l.pCtx.POTop()
-			quad := NewQuad(Print, o.address, -1, -1)
+			quad := NewQuad(Print, o.Address, -1, -1)
 			l.pCtx.vm.PushQuad(quad)
 			l.pCtx.POPop()
 		}
@@ -41,7 +41,7 @@ func (l *bistatListener) ExitSpecialFunction(ctx *parser.SpecialFunctionContext)
 		l.pCtx.POPop()
 		o2 := l.pCtx.POTop()
 		l.pCtx.POPop()
-		quad := NewQuad(ListAdd, o2.address, o1.address, o2.address)
+		quad := NewQuad(ListAdd, o2.Address, o1.Address, o2.Address)
 		l.pCtx.vm.PushQuad(quad)
 	} else if ctx.ListPop() != nil {
 		if !l.pCtx.POperIsEmpty() {
@@ -50,7 +50,7 @@ func (l *bistatListener) ExitSpecialFunction(ctx *parser.SpecialFunctionContext)
 		}
 		o1 := l.pCtx.POTop()
 		l.pCtx.POPop()
-		quad := NewQuad(ListPop, o1.address, -1, o1.address)
+		quad := NewQuad(ListPop, o1.Address, -1, o1.Address)
 		l.pCtx.vm.PushQuad(quad)
 	} else if ctx.Length() != nil {
 		// todo: verify array type
@@ -58,8 +58,8 @@ func (l *bistatListener) ExitSpecialFunction(ctx *parser.SpecialFunctionContext)
 		l.pCtx.POPop()
 		addr, _ := l.pCtx.vm.tempIntAddressMgr.GetNext()
 		rType := NewRType(Int)
-		rType.address = addr
-		quad := NewQuad(Length, o1.address, -1, addr)
+		rType.Address = addr
+		quad := NewQuad(Length, o1.Address, -1, addr)
 		l.pCtx.vm.PushQuad(quad)
 		l.pCtx.POPush(rType)
 	} else if ctx.Range_() != nil {
@@ -70,8 +70,8 @@ func (l *bistatListener) ExitSpecialFunction(ctx *parser.SpecialFunctionContext)
 		l.pCtx.POPop()
 		addr, _ := l.pCtx.vm.tempIntAddressMgr.GetNext()
 		rType := NewRType(Int)
-		rType.address = addr
-		quad := NewQuad(Length, o2.address, o1.address, addr)
+		rType.Address = addr
+		quad := NewQuad(Length, o2.Address, o1.Address, addr)
 		l.pCtx.vm.PushQuad(quad)
 		l.pCtx.POPush(rType)
 	} else if ctx.Plot() != nil {
@@ -81,58 +81,58 @@ func (l *bistatListener) ExitSpecialFunction(ctx *parser.SpecialFunctionContext)
 		}
 		o1 := l.pCtx.POTop()
 		l.pCtx.POPop()
-		quad := NewQuad(Plot, o1.address, -1, -1)
+		quad := NewQuad(Plot, o1.Address, -1, -1)
 		l.pCtx.vm.PushQuad(quad)
 	} else if ctx.Sum() != nil {
 		// todo: verify array type
 		o1 := l.pCtx.POTop()
 		l.pCtx.POPop()
-		if o1.pType != Int && o1.pType != Float {
-			l.pCtx.SemanticError("Cannot perform sum on " + PTypeToString(o1.pType))
+		if o1.PType != Int && o1.PType != Float {
+			l.pCtx.SemanticError("Cannot perform sum on " + PTypeToString(o1.PType))
 		}
-		addr, _ := l.pCtx.GetCorrespondingTempAddressManager(o1.pType).GetNext()
-		rType := NewRType(o1.pType)
-		rType.address = addr
-		quad := NewQuad(Sum, o1.address, -1, addr)
+		addr, _ := l.pCtx.GetCorrespondingTempAddressManager(o1.PType).GetNext()
+		rType := NewRType(o1.PType)
+		rType.Address = addr
+		quad := NewQuad(Sum, o1.Address, -1, addr)
 		l.pCtx.vm.PushQuad(quad)
 		l.pCtx.POPush(rType)
 	} else if ctx.Min() != nil {
 		// todo: verify array type
 		o1 := l.pCtx.POTop()
 		l.pCtx.POPop()
-		if o1.pType != Int && o1.pType != Float {
-			l.pCtx.SemanticError("Cannot perform min on " + PTypeToString(o1.pType))
+		if o1.PType != Int && o1.PType != Float {
+			l.pCtx.SemanticError("Cannot perform min on " + PTypeToString(o1.PType))
 		}
-		addr, _ := l.pCtx.GetCorrespondingTempAddressManager(o1.pType).GetNext()
-		rType := NewRType(o1.pType)
-		rType.address = addr
-		quad := NewQuad(Min, o1.address, -1, addr)
+		addr, _ := l.pCtx.GetCorrespondingTempAddressManager(o1.PType).GetNext()
+		rType := NewRType(o1.PType)
+		rType.Address = addr
+		quad := NewQuad(Min, o1.Address, -1, addr)
 		l.pCtx.vm.PushQuad(quad)
 		l.pCtx.POPush(rType)
 	} else if ctx.Avg() != nil {
 		// todo: verify array type
 		o1 := l.pCtx.POTop()
 		l.pCtx.POPop()
-		if o1.pType != Int && o1.pType != Float {
-			l.pCtx.SemanticError("Cannot perform avg on " + PTypeToString(o1.pType))
+		if o1.PType != Int && o1.PType != Float {
+			l.pCtx.SemanticError("Cannot perform avg on " + PTypeToString(o1.PType))
 		}
-		addr, _ := l.pCtx.GetCorrespondingTempAddressManager(o1.pType).GetNext()
-		rType := NewRType(o1.pType)
-		rType.address = addr
-		quad := NewQuad(Avg, o1.address, -1, addr)
+		addr, _ := l.pCtx.GetCorrespondingTempAddressManager(o1.PType).GetNext()
+		rType := NewRType(o1.PType)
+		rType.Address = addr
+		quad := NewQuad(Avg, o1.Address, -1, addr)
 		l.pCtx.vm.PushQuad(quad)
 		l.pCtx.POPush(rType)
 	} else if ctx.Prod() != nil {
 		// todo: verify array type
 		o1 := l.pCtx.POTop()
 		l.pCtx.POPop()
-		if o1.pType != Int && o1.pType != Float {
-			l.pCtx.SemanticError("Cannot perform prod on " + PTypeToString(o1.pType))
+		if o1.PType != Int && o1.PType != Float {
+			l.pCtx.SemanticError("Cannot perform prod on " + PTypeToString(o1.PType))
 		}
-		addr, _ := l.pCtx.GetCorrespondingTempAddressManager(o1.pType).GetNext()
-		rType := NewRType(o1.pType)
-		rType.address = addr
-		quad := NewQuad(Prod, o1.address, -1, addr)
+		addr, _ := l.pCtx.GetCorrespondingTempAddressManager(o1.PType).GetNext()
+		rType := NewRType(o1.PType)
+		rType.Address = addr
+		quad := NewQuad(Prod, o1.Address, -1, addr)
 		l.pCtx.vm.PushQuad(quad)
 		l.pCtx.POPush(rType)
 	}

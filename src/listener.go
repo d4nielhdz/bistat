@@ -2,6 +2,9 @@ package src
 
 import (
 	parser "bistat/parser"
+	"encoding/gob"
+	"fmt"
+	"os"
 )
 
 type bistatListener struct {
@@ -19,7 +22,7 @@ func (l *bistatListener) EnterProgram(ctx *parser.ProgramContext) {
 	l.pCtx.AddScope("main")
 	l.pCtx.AddFunction("main", NewFuncData(Void))
 	fData := l.pCtx.funcDir["main"]
-	fData.idx = 0
+	fData.Idx = 0
 	l.pCtx.funcDir["main"] = fData
 	l.pCtx.vm.PushQuad(NewQuad(Goto, 0, -1, -1))
 }
@@ -46,7 +49,7 @@ func (l *bistatListener) EnterVarDeclaration(ctx *parser.VarDeclarationContext) 
 		return
 	} else {
 		l.pCtx.AddVarToScope(currScope, varName, resolved)
-		l.pCtx.AddToAddrTable(resolved.address, ctx.ID().GetText())
+		l.pCtx.AddToAddrTable(resolved.Address, ctx.ID().GetText())
 	}
 }
 
@@ -62,12 +65,12 @@ func (l *bistatListener) ExitAssignment(ctx *parser.AssignmentContext) {
 		l.pCtx.SemanticError("Variable " + ctx.ID().GetText() + " not defined")
 		return
 	}
-	if lRType.pType != rRType.pType {
+	if lRType.PType != rRType.PType {
 		// todo: cast where appropriate
-		l.pCtx.SemanticError("Cannot assign to " + ctx.ID().GetText() + " because of type mismatch: " + PTypeToString(rRType.pType) + " != " + PTypeToString(lRType.pType))
+		l.pCtx.SemanticError("Cannot assign to " + ctx.ID().GetText() + " because of type mismatch: " + PTypeToString(rRType.PType) + " != " + PTypeToString(lRType.PType))
 		return
 	}
-	quad := NewQuad(Assign, rRType.address, -1, lRType.address)
+	quad := NewQuad(Assign, rRType.Address, -1, lRType.Address)
 	l.pCtx.vm.PushQuad(quad)
 }
 
@@ -82,7 +85,7 @@ func (l *bistatListener) ExitIndexing(ctx *parser.IndexingContext) {
 		l.pCtx.SemanticError("Variable " + varName + " was not declared")
 		return
 	}
-	if arr.firstDim == 0 {
+	if arr.FirstDim == 0 {
 		l.pCtx.SemanticError("Variable " + varName + " isn't a matrix or array")
 		return
 	}
@@ -90,23 +93,23 @@ func (l *bistatListener) ExitIndexing(ctx *parser.IndexingContext) {
 	if levels == 1 {
 		idx := l.pCtx.POTop()
 		l.pCtx.POPop()
-		l.pCtx.vm.PushQuad(NewQuad(Verify, idx.address, arr.address, arr.firstDim))
+		l.pCtx.vm.PushQuad(NewQuad(Verify, idx.Address, arr.Address, arr.FirstDim))
 		// addr is a ref
 		addr, _ := l.pCtx.vm.tempIntAddressMgr.GetNext()
-		indexed := NewRType(arr.pType)
-		if arr.secondDim != 0 {
-			l.pCtx.vm.PushQuad(NewQuad(Multiplication, arr.address, idx.address, addr))
-			indexed.firstDim = arr.secondDim
+		indexed := NewRType(arr.PType)
+		if arr.SecondDim != 0 {
+			l.pCtx.vm.PushQuad(NewQuad(Multiplication, arr.Address, idx.Address, addr))
+			indexed.FirstDim = arr.SecondDim
 		} else {
-			l.pCtx.vm.PushQuad(NewQuad(Sum, arr.address, idx.address, addr))
+			l.pCtx.vm.PushQuad(NewQuad(Sum, arr.Address, idx.Address, addr))
 		}
-		indexed.address = addr
-		indexed.isRef = true
+		indexed.Address = addr
+		indexed.IsRef = true
 
 		// todo: figure out how/when to calculate end address
 		l.pCtx.POPush(indexed)
 	} else {
-		if arr.secondDim == 0 {
+		if arr.SecondDim == 0 {
 			l.pCtx.SemanticError("Variable " + varName + " isn't a matrix")
 			return
 		}
@@ -114,18 +117,18 @@ func (l *bistatListener) ExitIndexing(ctx *parser.IndexingContext) {
 		l.pCtx.POPop()
 		firstIdx := l.pCtx.POTop()
 		l.pCtx.POPop()
-		l.pCtx.vm.PushQuad(NewQuad(Verify, firstIdx.address, arr.address, arr.firstDim))
-		l.pCtx.vm.PushQuad(NewQuad(Verify, secondIdx.address, arr.address, arr.secondDim))
+		l.pCtx.vm.PushQuad(NewQuad(Verify, firstIdx.Address, arr.Address, arr.FirstDim))
+		l.pCtx.vm.PushQuad(NewQuad(Verify, secondIdx.Address, arr.Address, arr.SecondDim))
 
 		// addr is a ref
 		addr, _ := l.pCtx.vm.tempIntAddressMgr.GetNext()
-		l.pCtx.vm.PushQuad(NewQuad(Multiplication, arr.address, firstIdx.address, addr))
+		l.pCtx.vm.PushQuad(NewQuad(Multiplication, arr.Address, firstIdx.Address, addr))
 		secondAddr, _ := l.pCtx.vm.tempIntAddressMgr.GetNext()
-		l.pCtx.vm.PushQuad(NewQuad(Sum, addr, secondIdx.address, secondAddr))
+		l.pCtx.vm.PushQuad(NewQuad(Sum, addr, secondIdx.Address, secondAddr))
 
-		indexed := NewRType(arr.pType)
-		indexed.address = addr
-		indexed.isRef = true
+		indexed := NewRType(arr.PType)
+		indexed.Address = addr
+		indexed.IsRef = true
 		// todo: figure out how/when to calculate end address
 		l.pCtx.POPush(indexed)
 	}
@@ -136,9 +139,9 @@ func (l *bistatListener) EnterMain(ctx *parser.MainContext) {
 		return
 	}
 	fData := l.pCtx.funcDir["main"]
-	fData.funcStart = len(l.pCtx.vm.Quads())
+	fData.FuncStart = len(l.pCtx.vm.Quads())
 	l.pCtx.funcDir["main"] = fData
-	l.pCtx.vm.quads[0].op1 = len(l.pCtx.vm.Quads())
+	l.pCtx.vm.quads[0].Op1 = len(l.pCtx.vm.Quads())
 }
 
 func (l *bistatListener) ExitProgram(ctx *parser.ProgramContext) {
@@ -146,4 +149,23 @@ func (l *bistatListener) ExitProgram(ctx *parser.ProgramContext) {
 	l.pCtx.PrintAddrTable()
 	l.pCtx.PrintQuads()
 	l.pCtx.PrintErrors()
+	if len(l.pCtx.semanticErrors) == 0 {
+		RegisterTypes()
+		file, err := os.Create("./obj.gob")
+		objCode := NewObjCode(l.pCtx.funcDir, l.pCtx.consTable, l.pCtx.vm.quads)
+		if err == nil {
+			encoder := gob.NewEncoder(file)
+			encoder.Encode(objCode)
+		} else {
+			fmt.Println(err)
+		}
+		file.Close()
+	}
+}
+
+func RegisterTypes() {
+	gob.Register(ObjCode{})
+	gob.Register(FuncData{})
+	gob.Register(RType{})
+	gob.Register(Quad{})
 }

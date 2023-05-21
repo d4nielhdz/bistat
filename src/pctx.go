@@ -90,11 +90,11 @@ func (pCtx *PCtx) GetRTypeFromVarConsContext(ctx *parser.VarConsContext) RType {
 			pCtx.SemanticError("Out of memory")
 		}
 		rType := NewRType(Int)
-		rType.firstDim = 0
-		rType.secondDim = 0
-		rType.address = next
+		rType.FirstDim = 0
+		rType.SecondDim = 0
+		rType.Address = next
 		pCtx.consTable[ctx.INT_CONS().GetText()] = rType
-		pCtx.addrTable[rType.address] = ctx.INT_CONS().GetText()
+		pCtx.addrTable[rType.Address] = ctx.INT_CONS().GetText()
 		return rType
 	} else if ctx.FLOAT_CONS() != nil {
 		entry, found := pCtx.consTable[ctx.FLOAT_CONS().GetText()]
@@ -106,11 +106,11 @@ func (pCtx *PCtx) GetRTypeFromVarConsContext(ctx *parser.VarConsContext) RType {
 			pCtx.SemanticError("Out of memory")
 		}
 		rType := NewRType(Float)
-		rType.firstDim = 0
-		rType.secondDim = 0
-		rType.address = next
+		rType.FirstDim = 0
+		rType.SecondDim = 0
+		rType.Address = next
 		pCtx.consTable[ctx.FLOAT_CONS().GetText()] = rType
-		pCtx.addrTable[rType.address] = ctx.FLOAT_CONS().GetText()
+		pCtx.addrTable[rType.Address] = ctx.FLOAT_CONS().GetText()
 		return rType
 	} else if ctx.STRING_CONS() != nil {
 		entry, found := pCtx.consTable[ctx.STRING_CONS().GetText()]
@@ -122,11 +122,11 @@ func (pCtx *PCtx) GetRTypeFromVarConsContext(ctx *parser.VarConsContext) RType {
 			pCtx.SemanticError("Out of memory")
 		}
 		rType := NewRType(String)
-		rType.firstDim = 0
-		rType.secondDim = 0
-		rType.address = next
+		rType.FirstDim = 0
+		rType.SecondDim = 0
+		rType.Address = next
 		pCtx.consTable[ctx.STRING_CONS().GetText()] = rType
-		pCtx.addrTable[rType.address] = ctx.STRING_CONS().GetText()
+		pCtx.addrTable[rType.Address] = ctx.STRING_CONS().GetText()
 		return rType
 	}
 	entry, found := pCtx.consTable[ctx.BOOL_CONS().GetText()]
@@ -138,11 +138,11 @@ func (pCtx *PCtx) GetRTypeFromVarConsContext(ctx *parser.VarConsContext) RType {
 		pCtx.SemanticError("Out of memory")
 	}
 	rType := NewRType(Bool)
-	rType.firstDim = 0
-	rType.secondDim = 0
-	rType.address = next
+	rType.FirstDim = 0
+	rType.SecondDim = 0
+	rType.Address = next
 	pCtx.consTable[ctx.BOOL_CONS().GetText()] = rType
-	pCtx.addrTable[rType.address] = ctx.BOOL_CONS().GetText()
+	pCtx.addrTable[rType.Address] = ctx.BOOL_CONS().GetText()
 
 	return rType
 }
@@ -273,16 +273,16 @@ func (pCtx *PCtx) CondJumpsSize() int {
 
 func (pCtx *PCtx) PrintQuads() {
 	for i, quad := range pCtx.vm.Quads() {
-		op1 := pCtx.GetVarnameAtAddress(quad.op1)
-		op2 := pCtx.GetVarnameAtAddress(quad.op2)
-		des := pCtx.GetVarnameAtAddress(quad.destination)
-		fmt.Println(i, OpToString(quad.op), op1, op2, des)
+		Op1 := pCtx.GetVarnameAtAddress(quad.Op1)
+		Op2 := pCtx.GetVarnameAtAddress(quad.Op2)
+		des := pCtx.GetVarnameAtAddress(quad.Destination)
+		fmt.Println(i, OpToString(quad.Op), Op1, Op2, des)
 	}
 }
 
 func (pCtx *PCtx) ResolveType(vt parser.IVar_typeContext, addrMgr *AddressManager) RType {
 	pType := PTypeFromString(vt.TYPE_PRIMITIVE().GetText())
-	rType := RType{pType: pType}
+	rType := RType{PType: pType}
 	card := ""
 	if vt.CARDINALITY() != nil {
 		card = vt.CARDINALITY().GetText()
@@ -291,26 +291,26 @@ func (pCtx *PCtx) ResolveType(vt parser.IVar_typeContext, addrMgr *AddressManage
 		if match[1] != "" {
 			if match[2] != "" {
 				intV, _ := strconv.Atoi(match[2])
-				rType.firstDim = intV
+				rType.FirstDim = intV
 			} else {
-				rType.firstDim = -1
+				rType.FirstDim = -1
 			}
 		}
 		if match[3] != "" {
 			if match[4] != "" {
 				intV, _ := strconv.Atoi(match[4])
-				rType.secondDim = intV
+				rType.SecondDim = intV
 			} else {
-				rType.secondDim = -1
+				rType.SecondDim = -1
 			}
 		}
 	}
 	addr, ok := addrMgr.GetNext()
-	if rType.firstDim > 0 {
-		size := rType.firstDim
+	if rType.FirstDim > 0 {
+		size := rType.FirstDim
 		i := 0
-		if rType.secondDim > 0 {
-			size *= rType.secondDim
+		if rType.SecondDim > 0 {
+			size *= rType.SecondDim
 		}
 		for i < size-1 {
 			_, ok := addrMgr.GetNext()
@@ -322,8 +322,8 @@ func (pCtx *PCtx) ResolveType(vt parser.IVar_typeContext, addrMgr *AddressManage
 	if !ok {
 		pCtx.SemanticError("Out of memory")
 	}
-	rType.address = addr
-	rType.endAddress = addrMgr.GetCurr()
+	rType.Address = addr
+	rType.EndAddress = addrMgr.GetCurr()
 	rType.print()
 	return rType
 }
@@ -384,19 +384,19 @@ func (pCtx *PCtx) HandleGenerateQuadForExpression() {
 	pCtx.POPop()
 	o2 := pCtx.POTop()
 	pCtx.POPop()
-	resultingType := SemanticCubeLookup(o1.pType, o2.pType, oper)
+	resultingType := SemanticCubeLookup(o1.PType, o2.PType, oper)
 	if resultingType == Undefined {
-		pCtx.SemanticError("Cannot perform " + OpToString(oper) + " on " + PTypeToString(o1.pType) + " and " + PTypeToString(o2.pType))
+		pCtx.SemanticError("Cannot perform " + OpToString(oper) + " on " + PTypeToString(o1.PType) + " and " + PTypeToString(o2.PType))
 		return
 	}
 	des, ok := pCtx.GetCorrespondingTempAddressManager(resultingType).GetNext()
 	if !ok {
 		pCtx.SemanticError("Out of memory")
 	}
-	quad := NewQuad(oper, o2.address, o1.address, des)
+	quad := NewQuad(oper, o2.Address, o1.Address, des)
 	pCtx.vm.PushQuad(quad)
 	rType := NewRType(resultingType)
-	rType.address = des
+	rType.Address = des
 	pCtx.POPush(rType)
 }
 

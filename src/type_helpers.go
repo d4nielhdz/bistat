@@ -279,52 +279,52 @@ func SemanticCubeLookup(op1 PType, op2 PType, op Op) PType {
 }
 
 type RType struct {
-	pType PType
+	PType PType
 	// indicates size of first dimension. -1 for params, 0 for non arrays
-	firstDim int
+	FirstDim int
 	// indicates size of second dimension. -1 for params, 0 for non arrays
-	secondDim  int
-	address    int
-	endAddress int
-	isRef      bool
+	SecondDim  int
+	Address    int
+	EndAddress int
+	IsRef      bool
 }
 
 type FuncData struct {
-	pType PType
+	PType PType
 	// indicates size of first dimension. -1 for params, 0 for non arrays
-	firstDim int
+	FirstDim int
 	// indicates size of second dimension. -1 for params, 0 for non arrays
-	secondDim       int
-	address         int
-	params          int
-	localIntVars    int
-	tempIntVars     int
-	localFloatVars  int
-	tempFloatVars   int
-	localBoolVars   int
-	tempBoolVars    int
-	localStringVars int
-	tempStringVars  int
-	funcStart       int
-	idx             int
+	SecondDim       int
+	Address         int
+	Params          int
+	LocalIntVars    int
+	TempIntVars     int
+	LocalFloatVars  int
+	TempFloatVars   int
+	LocalBoolVars   int
+	TempBoolVars    int
+	LocalStringVars int
+	TempStringVars  int
+	FuncStart       int
+	Idx             int
 }
 
 func NewFuncData(pType PType) FuncData {
-	return FuncData{pType: pType}
+	return FuncData{PType: pType}
 }
 
 func NewRType(pType PType) RType {
-	return RType{pType: pType, isRef: false}
+	return RType{PType: pType, IsRef: false}
 }
 
 func RTypeToFuncData(rType RType) FuncData {
-	return FuncData{pType: rType.pType, firstDim: rType.firstDim, secondDim: rType.secondDim, address: rType.address}
+	return FuncData{PType: rType.PType, FirstDim: rType.FirstDim, SecondDim: rType.SecondDim, Address: rType.Address}
 }
 
 func (rType RType) print() {
 	fmt.Println("RType:")
-	fmt.Println(rType.pType)
-	fmt.Println("first dim", rType.firstDim)
-	fmt.Println("second dim", rType.secondDim)
-	fmt.Println("address #", rType.address)
+	fmt.Println(rType.PType)
+	fmt.Println("first dim", rType.FirstDim)
+	fmt.Println("second dim", rType.SecondDim)
+	fmt.Println("address #", rType.Address)
 }

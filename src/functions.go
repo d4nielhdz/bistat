@@ -16,7 +16,7 @@ func (l *bistatListener) EnterFuncDef(ctx *parser.FuncDefContext) {
 	addrMgr := l.pCtx.GetCorrespondingAddressManager(pType)
 	resolved := l.pCtx.ResolveType(vt, addrMgr)
 	l.pCtx.AddVarToScope("main", funcName, resolved)
-	l.pCtx.AddToAddrTable(resolved.address, ctx.ID().GetText())
+	l.pCtx.AddToAddrTable(resolved.Address, ctx.ID().GetText())
 	l.pCtx.AddScope(funcName)
 	l.pCtx.AddFunction(funcName, RTypeToFuncData(resolved))
 	params := make([]RType, 0)
@@ -47,12 +47,12 @@ func (l *bistatListener) EnterFuncDef(ctx *parser.FuncDefContext) {
 
 	l.pCtx.AddParams(funcName, params)
 	data := l.pCtx.funcDir[funcName]
-	data.params = len(params)
-	data.localStringVars = localStringVars
-	data.localBoolVars = localBoolVars
-	data.localFloatVars = localFloatVars
-	data.localIntVars = localIntVars
-	data.idx = len(l.pCtx.functions)
+	data.Params = len(params)
+	data.LocalStringVars = localStringVars
+	data.LocalBoolVars = localBoolVars
+	data.LocalFloatVars = localFloatVars
+	data.LocalIntVars = localIntVars
+	data.Idx = len(l.pCtx.functions)
 	l.pCtx.functions = append(l.pCtx.functions, funcName)
 	l.pCtx.funcDir[funcName] = data
 }
@@ -71,7 +71,7 @@ func (l *bistatListener) EnterParamDeclaration(ctx *parser.ParamDeclarationConte
 	addrMgr := l.pCtx.GetCorrespondingAddressManager(pType)
 	resolved := l.pCtx.ResolveType(vt, addrMgr)
 	l.pCtx.AddVarToScope(l.pCtx.GetCurrentScope(), ctx.ID().GetText(), resolved)
-	l.pCtx.AddToAddrTable(resolved.address, ctx.ID().GetText())
+	l.pCtx.AddToAddrTable(resolved.Address, ctx.ID().GetText())
 }
 
 func (l *bistatListener) EnterFuncBlockStart(ctx *parser.FuncBlockStartContext) {
@@ -80,12 +80,12 @@ func (l *bistatListener) EnterFuncBlockStart(ctx *parser.FuncBlockStartContext) 
 	}
 	funcName := l.pCtx.GetCurrentScope()
 	data := l.pCtx.funcDir[funcName]
-	data.localIntVars = data.localIntVars + l.pCtx.vm.localIntAddressMgr.GetSize()
-	data.localFloatVars = data.localFloatVars + l.pCtx.vm.localFloatAddressMgr.GetSize()
-	data.localBoolVars = data.localBoolVars + l.pCtx.vm.localBoolAddressMgr.GetSize()
-	data.localStringVars = data.localStringVars + l.pCtx.vm.localStringAddressMgr.GetSize()
+	data.LocalIntVars = data.LocalIntVars + l.pCtx.vm.localIntAddressMgr.GetSize()
+	data.LocalFloatVars = data.LocalFloatVars + l.pCtx.vm.localFloatAddressMgr.GetSize()
+	data.LocalBoolVars = data.LocalBoolVars + l.pCtx.vm.localBoolAddressMgr.GetSize()
+	data.LocalStringVars = data.LocalStringVars + l.pCtx.vm.localStringAddressMgr.GetSize()
 
-	data.funcStart = len(l.pCtx.vm.Quads())
+	data.FuncStart = len(l.pCtx.vm.Quads())
 	l.pCtx.funcDir[funcName] = data
 }
 
@@ -95,10 +95,10 @@ func (l *bistatListener) EnterFuncBlockEnd(ctx *parser.FuncBlockEndContext) {
 	}
 	funcName := l.pCtx.GetCurrentScope()
 	data := l.pCtx.funcDir[funcName]
-	data.tempIntVars = data.tempIntVars + l.pCtx.vm.tempIntAddressMgr.GetSize()
-	data.tempFloatVars = data.tempFloatVars + l.pCtx.vm.tempFloatAddressMgr.GetSize()
-	data.tempBoolVars = data.tempBoolVars + l.pCtx.vm.tempBoolAddressMgr.GetSize()
-	data.tempStringVars = data.tempStringVars + l.pCtx.vm.tempStringAddressMgr.GetSize()
+	data.TempIntVars = data.TempIntVars + l.pCtx.vm.tempIntAddressMgr.GetSize()
+	data.TempFloatVars = data.TempFloatVars + l.pCtx.vm.tempFloatAddressMgr.GetSize()
+	data.TempBoolVars = data.TempBoolVars + l.pCtx.vm.tempBoolAddressMgr.GetSize()
+	data.TempStringVars = data.TempStringVars + l.pCtx.vm.tempStringAddressMgr.GetSize()
 	l.pCtx.funcDir[funcName] = data
 
 	l.pCtx.RemoveFunction(funcName)
@@ -122,12 +122,12 @@ func (l *bistatListener) ExitReturnStmt(ctx *parser.ReturnStmtContext) {
 	l.pCtx.POPop()
 	funcName := l.pCtx.GetCurrentScope()
 	fVar, _ := l.pCtx.GetVarInScope("main", funcName)
-	if o.pType != fVar.pType {
+	if o.PType != fVar.PType {
 		// todo: check array dimensions coherence
-		l.pCtx.SemanticError("Incorrect return type for function " + funcName + ", expected " + PTypeToString(o.pType) + ", found " + PTypeToString(fVar.pType))
+		l.pCtx.SemanticError("Incorrect return type for function " + funcName + ", expected " + PTypeToString(o.PType) + ", found " + PTypeToString(fVar.PType))
 		return
 	}
-	l.pCtx.vm.PushQuad(NewQuad(Return, o.address, -1, fVar.address))
+	l.pCtx.vm.PushQuad(NewQuad(Return, o.Address, -1, fVar.Address))
 }
 
 func (l *bistatListener) ExitFunctionCall(ctx *parser.FunctionCallContext) {
@@ -141,10 +141,10 @@ func (l *bistatListener) ExitFunctionCall(ctx *parser.FunctionCallContext) {
 		l.pCtx.SemanticError("Function " + funcName + " was not defined")
 		return
 	}
-	l.pCtx.vm.PushQuad(NewQuad(Era, data.idx, -1, -1))
+	l.pCtx.vm.PushQuad(NewQuad(Era, data.Idx, -1, -1))
 
 	numArgs := len(ctx.AllExpression())
-	if numArgs != data.params {
+	if numArgs != data.Params {
 		l.pCtx.SemanticError("Number of arguments in function call to " + funcName + " doesn't match the number of parameters with which it was defined")
 		return
 	}
@@ -152,24 +152,24 @@ func (l *bistatListener) ExitFunctionCall(ctx *parser.FunctionCallContext) {
 		rType := l.pCtx.POTop()
 		paramtype := l.pCtx.paramTable[funcName][numArgs-1]
 		// todo: check array coherence
-		if paramtype.pType != rType.pType {
+		if paramtype.PType != rType.PType {
 			l.pCtx.SemanticError("Type mismatch between argument and parameter in argument #" + strconv.Itoa(numArgs) + " in function call to " + funcName)
 			return
 		}
-		l.pCtx.vm.PushQuad(NewQuad(Param, rType.address, numArgs-1, -1))
+		l.pCtx.vm.PushQuad(NewQuad(Param, rType.Address, numArgs-1, -1))
 		numArgs--
 		l.pCtx.POPop()
 	}
-	l.pCtx.vm.PushQuad(NewQuad(GoSub, data.idx, -1, -1))
-	if data.pType != Void {
+	l.pCtx.vm.PushQuad(NewQuad(GoSub, data.Idx, -1, -1))
+	if data.PType != Void {
 		fVar, _ := l.pCtx.GetVarInScope("main", funcName)
-		addrMgr := l.pCtx.GetCorrespondingTempAddressManager(fVar.pType)
+		addrMgr := l.pCtx.GetCorrespondingTempAddressManager(fVar.PType)
 		addr, _ := addrMgr.GetNext()
-		tmp := NewRType(fVar.pType)
-		tmp.firstDim = fVar.firstDim
-		tmp.secondDim = fVar.secondDim
-		tmp.address = addr
-		l.pCtx.vm.PushQuad(NewQuad(Assign, fVar.address, -1, addr))
+		tmp := NewRType(fVar.PType)
+		tmp.FirstDim = fVar.FirstDim
+		tmp.SecondDim = fVar.SecondDim
+		tmp.Address = addr
+		l.pCtx.vm.PushQuad(NewQuad(Assign, fVar.Address, -1, addr))
 		l.pCtx.POPush(tmp)
 	}
 }
