@@ -24,27 +24,6 @@ func (l *bistatListener) EnterVarCons(ctx *parser.VarConsContext) {
 	l.pCtx.POPush(rType)
 }
 
-func (l *bistatListener) ExitAssignment(ctx *parser.AssignmentContext) {
-	if len(l.pCtx.semanticErrors) > 0 {
-		return
-	}
-
-	rRType := l.pCtx.POTop()
-	l.pCtx.POPop()
-	lRType, found := l.pCtx.GetRTypeFromVarName(ctx.ID().GetText())
-	if !found {
-		l.pCtx.SemanticError("Variable " + ctx.ID().GetText() + " not defined")
-		return
-	}
-	if lRType.pType != rRType.pType {
-		// todo: cast where appropriate
-		l.pCtx.SemanticError("Cannot assign to " + ctx.ID().GetText() + " because of type mismatch: " + PTypeToString(rRType.pType) + " != " + PTypeToString(lRType.pType))
-		return
-	}
-	quad := NewQuad(Assign, rRType.address, -1, lRType.address)
-	l.pCtx.vm.PushQuad(quad)
-}
-
 func (l *bistatListener) EnterLogicOperator(ctx *parser.LogicOperatorContext) {
 	if len(l.pCtx.semanticErrors) > 0 {
 		return

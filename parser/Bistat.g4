@@ -33,10 +33,13 @@ stmt: (
 	| comment;
 
 assignment:
-	ID '=' (expression | listAssignment | matrixAssignment);
+	(indexing | ID) '=' (
+		expression
+		| listAssignment
+		| matrixAssignment
+	);
 matrixAssignment: '[' listAssignment (',' listAssignment)* ']';
-listAssignment:
-	'[' (varCons | expression) (',' (varCons | expression))* ']';
+listAssignment: '[' (expression) (',' (expression))* ']';
 
 comment: '#' (~'#')+ '#';
 

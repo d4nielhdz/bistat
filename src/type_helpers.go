@@ -98,6 +98,7 @@ const (
 	End
 	Return
 	UndefinedOp
+	Verify
 	Other
 )
 
@@ -232,6 +233,8 @@ func OpToString(op Op) string {
 		return "End"
 	case Return:
 		return "Return"
+	case Verify:
+		return "Verify"
 	default:
 		return ""
 	}
@@ -283,6 +286,7 @@ type RType struct {
 	secondDim  int
 	address    int
 	endAddress int
+	isRef      bool
 }
 
 type FuncData struct {
@@ -310,7 +314,7 @@ func NewFuncData(pType PType) FuncData {
 }
 
 func NewRType(pType PType) RType {
-	return RType{pType: pType}
+	return RType{pType: pType, isRef: false}
 }
 
 func RTypeToFuncData(rType RType) FuncData {
