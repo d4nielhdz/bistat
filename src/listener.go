@@ -161,7 +161,10 @@ func (l *bistatListener) ExitProgram(ctx *parser.ProgramContext) {
 		objCode.ConstStringSize = l.pCtx.vm.constStringAddressMgr.GetSize()
 		objCode.ConstFloatSize = l.pCtx.vm.constFloatAddressMgr.GetSize()
 		objCode.ConstIntSize = l.pCtx.vm.constIntAddressMgr.GetSize()
-
+		objCode.TempBoolSize = l.pCtx.vm.tempBoolAddressMgr.GetSize()
+		objCode.TempStringSize = l.pCtx.vm.tempStringAddressMgr.GetSize()
+		objCode.TempFloatSize = l.pCtx.vm.tempFloatAddressMgr.GetSize()
+		objCode.TempIntSize = l.pCtx.vm.tempIntAddressMgr.GetSize()
 		if err == nil {
 			encoder := gob.NewEncoder(file)
 			encoder.Encode(objCode)

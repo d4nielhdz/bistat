@@ -8,6 +8,10 @@ type ObjCode struct {
 	ConstFloatSize  int
 	ConstBoolSize   int
 	ConstStringSize int
+	TempIntSize     int
+	TempFloatSize   int
+	TempBoolSize    int
+	TempStringSize  int
 	IntSize         int
 	FloatSize       int
 	BoolSize        int

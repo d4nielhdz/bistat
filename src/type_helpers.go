@@ -50,6 +50,7 @@ func PTypeToString(pType PType) string {
 	}
 }
 
+// todo: add arrayAssign, arrayPrint, matrixAssign, matrixPrint
 const (
 	Sum Op = iota
 	Subtraction

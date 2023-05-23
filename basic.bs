@@ -1,0 +1,26 @@
+Program Basic;
+
+var int x;
+var int y;
+var float a;
+var float b;
+var float c;
+var bool ans;
+var string str;
+
+main() {
+  x = 1;
+  y = 2;
+  a = 3.14;
+  b = 5.5;
+  c = 8.9;
+  x = x * 2 + y / 1 + 27;
+  c = c + b * 3 - 3.14;
+  ans = x > 10;
+  str = "output";
+  print(str);
+  print(x);
+  print(c);
+  print(ans);
+  print("EOP");
+}

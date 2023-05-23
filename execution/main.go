@@ -11,7 +11,6 @@ func main() {
 	file, err := os.Open("./obj.gob")
 	objCode := new(src.ObjCode)
 	if err == nil {
-		fmt.Println("decoding")
 		src.RegisterTypes()
 		decoder := gob.NewDecoder(file)
 		decErr := decoder.Decode(objCode)
