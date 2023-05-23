@@ -75,6 +75,16 @@ func (eCtx *ECtx) HandleQuad() {
 		return
 	case src.Assign:
 		eCtx.HandleAssign()
+	case src.Sum:
+		eCtx.HandleSum()
+	case src.Subtraction:
+		eCtx.HandleSubtraction()
+	case src.Multiplication:
+		eCtx.HandleMultiplication()
+	case src.Division:
+		eCtx.HandleDivision()
+	case src.Modulus:
+		eCtx.HandleModulus()
 	default:
 		fmt.Println("Unhandled ", src.OpToString(quad.Op))
 	}
