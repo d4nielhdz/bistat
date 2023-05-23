@@ -129,8 +129,12 @@ func (l *bistatListener) ExitReturnStmt(ctx *parser.ReturnStmtContext) {
 	}
 	l.pCtx.vm.PushQuad(NewQuad(Return, o.Address, -1, fVar.Address))
 }
+func (l *bistatListener) EnterFunctionCall(ctx *parser.FunctionCallContext) {
+	l.pCtx.POperPush(int(Other))
+}
 
 func (l *bistatListener) ExitFunctionCall(ctx *parser.FunctionCallContext) {
+	l.pCtx.POperPop()
 	if len(l.pCtx.semanticErrors) > 0 {
 		return
 	}

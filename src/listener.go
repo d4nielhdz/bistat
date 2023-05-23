@@ -75,7 +75,12 @@ func (l *bistatListener) ExitAssignment(ctx *parser.AssignmentContext) {
 	l.pCtx.vm.PushQuad(quad)
 }
 
+func (l *bistatListener) EnterIndexing(ctx *parser.IndexingContext) {
+	l.pCtx.POperPush(int(Other))
+}
+
 func (l *bistatListener) ExitIndexing(ctx *parser.IndexingContext) {
+	l.pCtx.POperPop()
 	if len(l.pCtx.semanticErrors) > 0 {
 		return
 	}
