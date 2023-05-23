@@ -2,7 +2,6 @@ package main
 
 import (
 	src "bistat/src"
-	"fmt"
 )
 
 func (eCtx *ECtx) HandleAnd() {
@@ -55,7 +54,6 @@ func (eCtx *ECtx) HandleGt() {
 		val1 := eCtx.GetIntFromAddress(addr1)
 		val2 := eCtx.GetIntFromAddress(addr2)
 		result := val1 > val2
-		fmt.Println("gt result", result)
 		eCtx.StoreBoolAtAddress(result, quad.Destination)
 	}
 }

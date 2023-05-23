@@ -43,19 +43,19 @@ func (eCtx *ECtx) PrintErrors() {
 
 func (eCtx *ECtx) Run() {
 	eCtx.LoadConstMemory()
-	eCtx.ConstMemory.Print()
+	// eCtx.ConstMemory.Print()
 	for eCtx.IP < len(eCtx.Quads) {
 		if len(eCtx.Errors) > 0 {
 			return
 		}
-		fmt.Println("Running quad", eCtx.IP)
+		// fmt.Println("Running quad", eCtx.IP)
 		eCtx.HandleQuad()
 	}
-	fmt.Println("Global")
-	eCtx.GlobalMemory.Print()
-	fmt.Println("Temp")
+	// fmt.Println("Global")
+	// eCtx.GlobalMemory.Print()
+	// fmt.Println("Temp")
 
-	eCtx.TempMemory.Print()
+	// eCtx.TempMemory.Print()
 
 }
 
@@ -97,6 +97,10 @@ func (eCtx *ECtx) HandleQuad() {
 		eCtx.HandleEq()
 	case src.Ne:
 		eCtx.HandleNe()
+	case src.Print:
+		eCtx.HandlePrint()
+	case src.PrintN:
+		eCtx.HandlePrintN()
 	default:
 		fmt.Println("Unhandled ", src.OpToString(quad.Op))
 	}

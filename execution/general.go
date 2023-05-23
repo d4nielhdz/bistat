@@ -2,7 +2,6 @@ package main
 
 import (
 	src "bistat/src"
-	"fmt"
 )
 
 func (eCtx *ECtx) HandleAssign() {
@@ -10,7 +9,6 @@ func (eCtx *ECtx) HandleAssign() {
 	lAddr := quad.Destination
 	rAddr := quad.Op1
 	pType := GetPTypeFromAddress(lAddr)
-	fmt.Println(lAddr, rAddr, src.PTypeToString(pType))
 	if pType == src.Int {
 		val := eCtx.GetIntFromAddress(rAddr)
 		eCtx.StoreIntAtAddress(val, lAddr)

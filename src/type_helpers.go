@@ -68,6 +68,7 @@ const (
 	Assign
 	InputRead
 	Print
+	PrintN
 	ListAdd
 	ListPop
 	Length
@@ -170,6 +171,8 @@ func OpToString(op Op) string {
 		return "InputRead"
 	case Print:
 		return "Print"
+	case PrintN:
+		return "PrintN"
 	case ListAdd:
 		return "ListAdd"
 	case ListPop:

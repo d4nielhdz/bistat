@@ -32,6 +32,7 @@ func (l *bistatListener) ExitSpecialFunction(ctx *parser.SpecialFunctionContext)
 			l.pCtx.vm.PushQuad(quad)
 			l.pCtx.POPop()
 		}
+		l.pCtx.vm.PushQuad(NewQuad(PrintN, -1, -1, -1))
 	} else if ctx.ListAdd() != nil {
 		if !l.pCtx.POperIsEmpty() {
 			l.pCtx.SemanticError("Cannot use 'listAdd' inside an arithmetic expression")

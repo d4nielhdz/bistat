@@ -2,7 +2,6 @@ package main
 
 import (
 	src "bistat/src"
-	"fmt"
 )
 
 func (eCtx *ECtx) HandleSum() {
@@ -10,7 +9,6 @@ func (eCtx *ECtx) HandleSum() {
 	destination := quad.Destination
 	addr1 := quad.Op1
 	addr2 := quad.Op2
-	fmt.Println(addr1, addr2, destination)
 
 	pType1 := GetPTypeFromAddress(addr1)
 	pType2 := GetPTypeFromAddress(addr2)
@@ -45,7 +43,6 @@ func (eCtx *ECtx) HandleSubtraction() {
 	destination := quad.Destination
 	addr1 := quad.Op1
 	addr2 := quad.Op2
-	fmt.Println(addr1, addr2, destination)
 
 	pType1 := GetPTypeFromAddress(addr1)
 	pType2 := GetPTypeFromAddress(addr2)
@@ -80,7 +77,6 @@ func (eCtx *ECtx) HandleMultiplication() {
 	destination := quad.Destination
 	addr1 := quad.Op1
 	addr2 := quad.Op2
-	fmt.Println(addr1, addr2, destination)
 
 	pType1 := GetPTypeFromAddress(addr1)
 	pType2 := GetPTypeFromAddress(addr2)
@@ -115,7 +111,6 @@ func (eCtx *ECtx) HandleDivision() {
 	destination := quad.Destination
 	addr1 := quad.Op1
 	addr2 := quad.Op2
-	fmt.Println(addr1, addr2, destination)
 
 	pType1 := GetPTypeFromAddress(addr1)
 	pType2 := GetPTypeFromAddress(addr2)
