@@ -52,11 +52,11 @@ func (pCtx *PCtx) PopCurrentScope() {
 
 func (pCtx *PCtx) PrintAddrTable() {
 	fmt.Println("-------")
-	fmt.Println("printing adrr table")
+	fmt.Println("printing addr table")
 	for addr, varName := range pCtx.addrTable {
 		fmt.Println(varName)
 		fmt.Println(addr)
-		for k, _ := range pCtx.varTable {
+		for k := range pCtx.varTable {
 			if rType, ok := pCtx.varTable[k][varName]; ok {
 				rType.print()
 				fmt.Println("_____")

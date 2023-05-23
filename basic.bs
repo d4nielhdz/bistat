@@ -6,6 +6,7 @@ var float a;
 var float b;
 var float c;
 var bool ans;
+var bool another;
 var string str;
 
 main() {
@@ -17,6 +18,7 @@ main() {
   x = x * 2 + y / 1 + 27;
   c = c + b * 3 - 3.14;
   ans = x > 10;
+  another = x < 0;
   str = "output";
   print(str);
   print(x);

@@ -85,6 +85,18 @@ func (eCtx *ECtx) HandleQuad() {
 		eCtx.HandleDivision()
 	case src.Modulus:
 		eCtx.HandleModulus()
+	case src.Gt:
+		eCtx.HandleGt()
+	case src.Lt:
+		eCtx.HandleLt()
+	case src.Ge:
+		eCtx.HandleGe()
+	case src.Le:
+		eCtx.HandleLe()
+	case src.Eq:
+		eCtx.HandleEq()
+	case src.Ne:
+		eCtx.HandleNe()
 	default:
 		fmt.Println("Unhandled ", src.OpToString(quad.Op))
 	}

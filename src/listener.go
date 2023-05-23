@@ -1,5 +1,6 @@
 package src
 
+// todo: add fake bottom for array access and function calls
 import (
 	parser "bistat/parser"
 	"encoding/gob"
