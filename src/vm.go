@@ -19,12 +19,14 @@ const CONST_FLOAT_START = 130000
 const CONST_STRING_START = 140000
 const CONST_BOOL_START = 150000
 const CONST_BOOL_END = 150003
-
-// const GLOBAL_REF_START =
+const GLOBAL_REF_START = 150003
+const TEMP_REF_START = 160003
+const LOCAL_REF_START = 170003
+const LOCAL_REF_END = 180003
 
 type VM struct {
-	quads                                                                                                                                                                                                                                                                                                                                                  []Quad
-	globalIntAddressMgr, localIntAddressMgr, tempIntAddressMgr, constIntAddressMgr, globalFloatAddressMgr, localFloatAddressMgr, tempFloatAddressMgr, constFloatAddressMgr, globalStringAddressMgr, localStringAddressMgr, tempStringAddressMgr, constStringAddressMgr, globalBoolAddressMgr, localBoolAddressMgr, tempBoolAddressMgr, constBoolAddressMgr *AddressManager
+	quads                                                                                                                                                                                                                                                                                                                                                                                                              []Quad
+	globalIntAddressMgr, localIntAddressMgr, tempIntAddressMgr, constIntAddressMgr, globalFloatAddressMgr, localFloatAddressMgr, tempFloatAddressMgr, constFloatAddressMgr, globalStringAddressMgr, localStringAddressMgr, tempStringAddressMgr, constStringAddressMgr, globalBoolAddressMgr, localBoolAddressMgr, tempBoolAddressMgr, constBoolAddressMgr, tempRefAddressMgr, globalRefAddressMgr, localRefAddressMgr *AddressManager
 }
 
 func (vm *VM) Quads() []Quad {
@@ -95,6 +97,15 @@ func (vm *VM) ConstBoolAddressMgr() *AddressManager {
 	return vm.constBoolAddressMgr
 }
 
+func (vm *VM) LocalRefAddressMgr() *AddressManager {
+	return vm.localRefAddressMgr
+}
+func (vm *VM) GlobalRefAddressMgr() *AddressManager {
+	return vm.globalRefAddressMgr
+}
+func (vm *VM) TempRefAddressMgr() *AddressManager {
+	return vm.tempRefAddressMgr
+}
 func NewVM() VM {
 	return VM{
 		quads:                 make([]Quad, 0),
@@ -112,6 +123,9 @@ func NewVM() VM {
 		constFloatAddressMgr:  NewAddressManager(CONST_FLOAT_START, CONST_STRING_START-1),
 		constStringAddressMgr: NewAddressManager(CONST_STRING_START, CONST_BOOL_START-1),
 		constBoolAddressMgr:   NewAddressManager(CONST_BOOL_START, CONST_BOOL_END),
+		globalRefAddressMgr:   NewAddressManager(GLOBAL_REF_START, TEMP_REF_START-1),
+		tempRefAddressMgr:     NewAddressManager(TEMP_REF_START, LOCAL_REF_END-1),
+		localRefAddressMgr:    NewAddressManager(LOCAL_REF_START, LOCAL_REF_END-1),
 	}
 }
 

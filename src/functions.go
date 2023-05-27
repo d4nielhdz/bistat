@@ -11,10 +11,15 @@ func (l *bistatListener) EnterFuncDef(ctx *parser.FuncDefContext) {
 	}
 
 	funcName := ctx.ID().GetText()
-	vt := ctx.Var_type()
-	pType := PTypeFromString(vt.TYPE_PRIMITIVE().GetText())
+	pType := PTypeFromString(ctx.TYPE_PRIMITIVE().GetText())
 	addrMgr := l.pCtx.GetCorrespondingAddressManager(pType)
-	resolved := l.pCtx.ResolveType(vt, addrMgr)
+	resolved := NewRType(pType)
+	addr, ok := addrMgr.GetNext()
+	if !ok {
+		l.pCtx.SemanticError("Out of memory")
+		return
+	}
+	resolved.Address = addr
 	l.pCtx.AddVarToScope("main", funcName, resolved)
 	l.pCtx.AddToAddrTable(resolved.Address, ctx.ID().GetText())
 	l.pCtx.AddScope(funcName)
@@ -26,9 +31,15 @@ func (l *bistatListener) EnterFuncDef(ctx *parser.FuncDefContext) {
 	localStringVars := 0
 
 	for _, p := range ctx.AllParamDeclaration() {
-		pType := PTypeFromString(p.Var_type().TYPE_PRIMITIVE().GetText())
+		pType := PTypeFromString(p.TYPE_PRIMITIVE().GetText())
 		addrMgr := l.pCtx.GetCorrespondingAddressManager(pType)
-		resolved := l.pCtx.ResolveType(p.Var_type(), addrMgr)
+		resolved := NewRType(pType)
+		addr, ok := addrMgr.GetNext()
+		if !ok {
+			l.pCtx.SemanticError("Out of memory")
+			return
+		}
+		resolved.Address = addr
 		params = append(params, resolved)
 		switch pType {
 		case Int:
@@ -62,14 +73,19 @@ func (l *bistatListener) EnterParamDeclaration(ctx *parser.ParamDeclarationConte
 		return
 	}
 
-	vt := ctx.Var_type()
-	pType := PTypeFromString(vt.TYPE_PRIMITIVE().GetText())
+	pType := PTypeFromString(ctx.TYPE_PRIMITIVE().GetText())
 	if pType == Void {
 		l.pCtx.SemanticError("Can't have void parameters (" + ctx.ID().GetText() + ")")
 		return
 	}
 	addrMgr := l.pCtx.GetCorrespondingAddressManager(pType)
-	resolved := l.pCtx.ResolveType(vt, addrMgr)
+	resolved := NewRType(pType)
+	addr, ok := addrMgr.GetNext()
+	if !ok {
+		l.pCtx.SemanticError("Out of memory")
+		return
+	}
+	resolved.Address = addr
 	l.pCtx.AddVarToScope(l.pCtx.GetCurrentScope(), ctx.ID().GetText(), resolved)
 	l.pCtx.AddToAddrTable(resolved.Address, ctx.ID().GetText())
 }

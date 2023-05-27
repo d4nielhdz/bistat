@@ -6,16 +6,16 @@ program: 'Program' ID ';' varDeclaration* funcDef* main EOF;
 
 varDeclaration: 'var' var_type ID ';';
 var_type: TYPE_PRIMITIVE (CARDINALITY?);
-CARDINALITY: ('[' (INT_CONS?) ']') ('[' (INT_CONS?) ']')?;
+CARDINALITY: ('[' (INT_CONS) ']') ('[' (INT_CONS) ']')?;
 TYPE_PRIMITIVE: 'int' | 'float' | 'string' | 'bool' | 'void';
 
 funcDef:
-	'func' ID '(' paramDeclaration* ')' ':' var_type varDeclaration* funcBlockStart stmt+
+	'func' ID '(' paramDeclaration* ')' ':' TYPE_PRIMITIVE varDeclaration* funcBlockStart stmt+
 		funcBlockEnd;
 funcBlockStart: '{';
 funcBlockEnd: '}';
 
-paramDeclaration: 'var' var_type ID ';';
+paramDeclaration: 'var' TYPE_PRIMITIVE ID ';';
 
 main: 'main' '(' ')' '{' stmt+ '}';
 

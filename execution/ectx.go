@@ -71,7 +71,7 @@ func (eCtx *ECtx) HandleQuad() {
 	quad := eCtx.GetCurrentQuad()
 	switch quad.Op {
 	case src.Goto:
-		eCtx.IP = quad.Op1
+		eCtx.IP = quad.Destination
 		return
 	case src.Assign:
 		eCtx.HandleAssign()
@@ -101,6 +101,12 @@ func (eCtx *ECtx) HandleQuad() {
 		eCtx.HandlePrint()
 	case src.PrintN:
 		eCtx.HandlePrintN()
+	case src.GotoF:
+		eCtx.HandleGotoF()
+		return
+	case src.GotoT:
+		eCtx.HandleGotoT()
+		return
 	default:
 		fmt.Println("Unhandled ", src.OpToString(quad.Op))
 	}

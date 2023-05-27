@@ -25,7 +25,7 @@ func (l *bistatListener) EnterProgram(ctx *parser.ProgramContext) {
 	fData := l.pCtx.funcDir["main"]
 	fData.Idx = 0
 	l.pCtx.funcDir["main"] = fData
-	l.pCtx.vm.PushQuad(NewQuad(Goto, 0, -1, -1))
+	l.pCtx.vm.PushQuad(NewQuad(Goto, -1, -1, 0))
 }
 
 func (l *bistatListener) EnterVarDeclaration(ctx *parser.VarDeclarationContext) {
@@ -101,7 +101,7 @@ func (l *bistatListener) ExitIndexing(ctx *parser.IndexingContext) {
 		l.pCtx.POPop()
 		l.pCtx.vm.PushQuad(NewQuad(Verify, idx.Address, arr.Address, arr.FirstDim))
 		// addr is a ref
-		addr, _ := l.pCtx.GetCorrespondingTempAddressManager(arr.PType).GetNext()
+		addr, _ := l.pCtx.vm.tempRefAddressMgr.GetNext()
 		indexed := NewRType(arr.PType)
 		if arr.SecondDim != 0 {
 			l.pCtx.vm.PushQuad(NewQuad(Multiplication, arr.Address, idx.Address, addr))
@@ -110,7 +110,6 @@ func (l *bistatListener) ExitIndexing(ctx *parser.IndexingContext) {
 			l.pCtx.vm.PushQuad(NewQuad(Sum, arr.Address, idx.Address, addr))
 		}
 		indexed.Address = addr
-		indexed.IsRef = true
 
 		// todo: figure out how/when to calculate end address
 		l.pCtx.POPush(indexed)
@@ -127,14 +126,13 @@ func (l *bistatListener) ExitIndexing(ctx *parser.IndexingContext) {
 		l.pCtx.vm.PushQuad(NewQuad(Verify, secondIdx.Address, arr.Address, arr.SecondDim))
 
 		// addr is a ref
-		addr, _ := l.pCtx.GetCorrespondingTempAddressManager(arr.PType).GetNext()
+		addr, _ := l.pCtx.vm.tempRefAddressMgr.GetNext()
 		l.pCtx.vm.PushQuad(NewQuad(Multiplication, arr.Address, firstIdx.Address, addr))
 		secondAddr, _ := l.pCtx.vm.tempIntAddressMgr.GetNext()
 		l.pCtx.vm.PushQuad(NewQuad(Sum, addr, secondIdx.Address, secondAddr))
 
 		indexed := NewRType(arr.PType)
 		indexed.Address = addr
-		indexed.IsRef = true
 		// todo: figure out how/when to calculate end address
 		l.pCtx.POPush(indexed)
 	}
@@ -147,12 +145,12 @@ func (l *bistatListener) EnterMain(ctx *parser.MainContext) {
 	fData := l.pCtx.funcDir["main"]
 	fData.FuncStart = len(l.pCtx.vm.Quads())
 	l.pCtx.funcDir["main"] = fData
-	l.pCtx.vm.quads[0].Op1 = len(l.pCtx.vm.Quads())
+	l.pCtx.vm.quads[0].Destination = len(l.pCtx.vm.Quads())
 }
 
 func (l *bistatListener) ExitProgram(ctx *parser.ProgramContext) {
 	l.pCtx.vm.PushQuad(NewQuad(End, -1, -1, -1))
-	l.pCtx.PrintAddrTable()
+	// l.pCtx.PrintAddrTable()
 	l.pCtx.PrintQuads()
 	l.pCtx.PrintErrors()
 	if len(l.pCtx.semanticErrors) == 0 {

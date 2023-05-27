@@ -52,7 +52,7 @@ func PTypeToString(pType PType) string {
 
 // todo: add arrayAssign, arrayPrint, matrixAssign, matrixPrint
 const (
-	Sum Op = iota
+	Sum Op = iota //
 	Subtraction
 	Multiplication
 	Division
@@ -66,41 +66,41 @@ const (
 	Eq
 	Ne
 	Assign
-	InputRead
+	InputRead // 🔶
 	Print
 	PrintN
-	ListAdd
-	ListPop
-	Length
-	Range
-	Plot
-	ListSum
-	Min
-	Prod
-	Avg
-	SMode
-	Median
-	Sin
-	Cos
-	Tan
-	Sort
-	Sqrt
-	Floor
-	Ceil
-	Abs
-	Not
-	UnaryMinus
+	ListAdd    // 🔶
+	ListPop    // 🔶
+	Length     // 🔶
+	Range      // 🔶
+	Plot       // 🔶
+	ListSum    // 🔶
+	Min        // 🔶
+	Prod       // 🔶
+	Avg        // 🔶
+	SMode      // 🔶
+	Median     // 🔶
+	Sin        // 🔶
+	Cos        // 🔶
+	Tan        // 🔶
+	Sort       // 🔶
+	Sqrt       // 🔶
+	Floor      // 🔶
+	Ceil       // 🔶
+	Abs        // 🔶
+	Not        // 🔶
+	UnaryMinus // 🔶
 	Goto
-	GotoT
-	GotoF
-	GoSub
-	Era
-	Param
-	EndFunc
-	End
-	Return
-	UndefinedOp
-	Verify
+	GotoT       // 🔶
+	GotoF       // 🔶
+	GoSub       // 🔶
+	Era         // 🔶
+	Param       // 🔶
+	EndFunc     // 🔶
+	End         // 🔶
+	Return      // 🔶
+	UndefinedOp // 🔶
+	Verify      // 🔶
 	Other
 )
 
@@ -290,7 +290,6 @@ type RType struct {
 	SecondDim  int
 	Address    int
 	EndAddress int
-	IsRef      bool
 }
 
 type FuncData struct {
@@ -318,7 +317,7 @@ func NewFuncData(pType PType) FuncData {
 }
 
 func NewRType(pType PType) RType {
-	return RType{PType: pType, IsRef: false}
+	return RType{PType: pType}
 }
 
 func RTypeToFuncData(rType RType) FuncData {
