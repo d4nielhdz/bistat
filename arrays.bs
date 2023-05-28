@@ -1,0 +1,19 @@
+Program Hello;
+
+var int[5] arr;
+var int[2][2] lss;
+var int t1;
+var int t2;
+
+main () {
+  arr = [2, 3, 4, 5, 6];
+  lss = [[0, 9], [8, 7]];
+  t1 = 1;
+  t2 = 10;
+  arr[3] = t1;
+  lss[0][0] = t2;
+  lss[1] = [t2, t1];
+  print(arr);
+  print(lss);
+}
+

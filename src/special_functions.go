@@ -139,3 +139,11 @@ func (l *bistatListener) ExitSpecialFunction(ctx *parser.SpecialFunctionContext)
 	}
 	// todo: handle missing functions
 }
+
+func HandleListAssign() {
+
+}
+
+func HandleListAccess() {
+
+}

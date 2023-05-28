@@ -303,6 +303,18 @@ func (s *BaseBistatListener) EnterNot(ctx *NotContext) {}
 // ExitNot is called when production not is exited.
 func (s *BaseBistatListener) ExitNot(ctx *NotContext) {}
 
+// EnterListAccess is called when production listAccess is entered.
+func (s *BaseBistatListener) EnterListAccess(ctx *ListAccessContext) {}
+
+// ExitListAccess is called when production listAccess is exited.
+func (s *BaseBistatListener) ExitListAccess(ctx *ListAccessContext) {}
+
+// EnterListAssign is called when production listAssign is entered.
+func (s *BaseBistatListener) EnterListAssign(ctx *ListAssignContext) {}
+
+// ExitListAssign is called when production listAssign is exited.
+func (s *BaseBistatListener) ExitListAssign(ctx *ListAssignContext) {}
+
 // EnterExpression is called when production expression is entered.
 func (s *BaseBistatListener) EnterExpression(ctx *ExpressionContext) {}
 
@@ -344,12 +356,6 @@ func (s *BaseBistatListener) EnterFunctionCall(ctx *FunctionCallContext) {}
 
 // ExitFunctionCall is called when production functionCall is exited.
 func (s *BaseBistatListener) ExitFunctionCall(ctx *FunctionCallContext) {}
-
-// EnterIndexing is called when production indexing is entered.
-func (s *BaseBistatListener) EnterIndexing(ctx *IndexingContext) {}
-
-// ExitIndexing is called when production indexing is exited.
-func (s *BaseBistatListener) ExitIndexing(ctx *IndexingContext) {}
 
 // EnterVarCons is called when production varCons is entered.
 func (s *BaseBistatListener) EnterVarCons(ctx *VarConsContext) {}

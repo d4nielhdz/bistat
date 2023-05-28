@@ -164,6 +164,12 @@ func (pCtx *PCtx) GetRTypeFromVarName(varName string) (RType, bool) {
 	}
 }
 
+func (pCtx *PCtx) IsLocalVar(varName string) bool {
+	currScope := pCtx.GetCurrentScope()
+	_, ok := pCtx.varTable[currScope][varName]
+	return ok && len(pCtx.scopes) > 1
+}
+
 func (pCtx *PCtx) PO() []RType {
 	return pCtx.pO
 }
@@ -317,6 +323,7 @@ func (pCtx *PCtx) ResolveType(vt parser.IVar_typeContext, addrMgr *AddressManage
 			if !ok {
 				pCtx.SemanticError("Out of memory")
 			}
+			i += 1
 		}
 	}
 	if !ok {
@@ -324,7 +331,7 @@ func (pCtx *PCtx) ResolveType(vt parser.IVar_typeContext, addrMgr *AddressManage
 	}
 	rType.Address = addr
 	rType.EndAddress = addrMgr.GetCurr()
-	rType.print()
+	// rType.print()
 	return rType
 }
 

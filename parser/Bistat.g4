@@ -33,11 +33,7 @@ stmt: (
 	| comment;
 
 assignment:
-	(indexing | ID) '=' (
-		expression
-		| listAssignment
-		| matrixAssignment
-	);
+	ID '=' (expression | listAssignment | matrixAssignment);
 matrixAssignment: '[' listAssignment (',' listAssignment)* ']';
 listAssignment: '[' (expression) (',' (expression))* ']';
 
@@ -63,6 +59,8 @@ specialFunction:
 	inputRead
 	| print
 	| listAdd
+	| listAccess
+	| listAssign
 	| listPop
 	| length
 	| range
@@ -104,6 +102,12 @@ floor: 'floor' '(' expression ')';
 ceil: 'ceil' '(' expression ')';
 abs: 'abs' '(' expression ')';
 not: 'not' '(' expression ')';
+listAccess:
+	'listAccess' '(' expression ',' expression (',' expression)? ')';
+listAssign:
+	'listAssign' '(' expression ',' expression ',' expression (
+		',' expression
+	)? ')';
 
 expression: exp (logicOperator exp)?;
 exp: term (opSec term)*;
@@ -111,7 +115,6 @@ term: factor ( opFirst factor)*;
 factor:
 	unaryMinus? (
 		nestedExpression
-		| indexing
 		| specialFunction
 		| functionCall
 		| varCons
@@ -119,7 +122,6 @@ factor:
 unaryMinus: '-';
 nestedExpression: '(' expression ')';
 functionCall: ID '(' (expression (',' expression)*)? ')';
-indexing: ID '[' expression ']' ('[' expression ']')?;
 BOOL_CONS: 'true' | 'false';
 ID: ('_' | Alpha)+ (Alpha | NUMBER | '_')*;
 varCons: STRING_CONS | FLOAT_CONS | INT_CONS | BOOL_CONS | ID;

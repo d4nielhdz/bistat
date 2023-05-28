@@ -149,6 +149,12 @@ type BistatListener interface {
 	// EnterNot is called when entering the not production.
 	EnterNot(c *NotContext)
 
+	// EnterListAccess is called when entering the listAccess production.
+	EnterListAccess(c *ListAccessContext)
+
+	// EnterListAssign is called when entering the listAssign production.
+	EnterListAssign(c *ListAssignContext)
+
 	// EnterExpression is called when entering the expression production.
 	EnterExpression(c *ExpressionContext)
 
@@ -169,9 +175,6 @@ type BistatListener interface {
 
 	// EnterFunctionCall is called when entering the functionCall production.
 	EnterFunctionCall(c *FunctionCallContext)
-
-	// EnterIndexing is called when entering the indexing production.
-	EnterIndexing(c *IndexingContext)
 
 	// EnterVarCons is called when entering the varCons production.
 	EnterVarCons(c *VarConsContext)
@@ -326,6 +329,12 @@ type BistatListener interface {
 	// ExitNot is called when exiting the not production.
 	ExitNot(c *NotContext)
 
+	// ExitListAccess is called when exiting the listAccess production.
+	ExitListAccess(c *ListAccessContext)
+
+	// ExitListAssign is called when exiting the listAssign production.
+	ExitListAssign(c *ListAssignContext)
+
 	// ExitExpression is called when exiting the expression production.
 	ExitExpression(c *ExpressionContext)
 
@@ -346,9 +355,6 @@ type BistatListener interface {
 
 	// ExitFunctionCall is called when exiting the functionCall production.
 	ExitFunctionCall(c *FunctionCallContext)
-
-	// ExitIndexing is called when exiting the indexing production.
-	ExitIndexing(c *IndexingContext)
 
 	// ExitVarCons is called when exiting the varCons production.
 	ExitVarCons(c *VarConsContext)
