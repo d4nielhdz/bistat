@@ -103,11 +103,12 @@ ceil: 'ceil' '(' expression ')';
 abs: 'abs' '(' expression ')';
 not: 'not' '(' expression ')';
 listAccess:
-	'listAccess' '(' expression ',' expression (',' expression)? ')';
+	'listAccess' '(' ID ',' expression (',' expression)? ')';
 listAssign:
-	'listAssign' '(' expression ',' expression ',' expression (
-		',' expression
-	)? ')';
+	'listAssign' '(' ID ',' expression ',' (
+		expression
+		| listAssignment
+	) (',' expression)? ')';
 
 expression: exp (logicOperator exp)?;
 exp: term (opSec term)*;
