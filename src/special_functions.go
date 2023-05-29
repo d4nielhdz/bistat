@@ -159,11 +159,10 @@ func (l *bistatListener) ExitListAssign(ctx *parser.ListAssignContext) {
 
 	isLocal := l.pCtx.IsLocalVar(varName)
 	addrMgr := l.pCtx.vm.globalRefAddressMgr
-	iAddrMgr := l.pCtx.vm.globalIntAddressMgr
+	iAddrMgr := l.pCtx.vm.tempIntAddressMgr
 
 	if isLocal {
 		addrMgr = l.pCtx.vm.localRefAddressMgr
-		iAddrMgr = l.pCtx.vm.localIntAddressMgr
 	}
 
 	if ctx.ListAssignment() != nil {
@@ -182,19 +181,22 @@ func (l *bistatListener) ExitListAssign(ctx *parser.ListAssignContext) {
 		idx := l.pCtx.pO[len(l.pCtx.pO)-expectedSize-1]
 		iAddr, _ := iAddrMgr.GetNext()
 		l.pCtx.vm.PushQuad(NewQuad(Verify, rType.Address, idx.Address, rType.FirstDim))
-		l.pCtx.vm.PushQuad(NewQuad(Multiplication, rType.Address, idx.Address, iAddr))
-		startAddr := iAddr
+		l.pCtx.vm.PushQuad(NewQuad(Multiplication, l.pCtx.ConstIntUpsert(rType.FirstDim), idx.Address, iAddr))
+		secondAddr, _ := iAddrMgr.GetNext()
+		l.pCtx.vm.PushQuad(NewQuad(Sum, l.pCtx.ConstIntUpsert(rType.Address), iAddr, secondAddr))
+
+		startAddr := secondAddr
 		for i > 0 {
 			elem := l.pCtx.POTop()
 			l.pCtx.POPop()
 			if rType.PType != elem.PType {
-				// todo: cast where appropriate
+				// todo: csecondAddrst where appropriate
 				l.pCtx.SemanticError("Cannot assign to " + varName + " because of type mismatch: " + PTypeToString(elem.PType) + " != " + PTypeToString(rType.PType))
 				return
 			}
-			addr, _ := addrMgr.GetNext()
-			l.pCtx.vm.PushQuad(NewQuad(Sum, startAddr, i-1, addr))
-			l.pCtx.vm.PushQuad(NewQuad(Assign, addr, -1, elem.Address))
+			refAddr, _ := addrMgr.GetNext()
+			l.pCtx.vm.PushQuad(NewQuad(Sum, startAddr, l.pCtx.ConstIntUpsert(i-1), refAddr))
+			l.pCtx.vm.PushQuad(NewQuad(Assign, refAddr, -1, elem.Address))
 			i = i - 1
 		}
 		l.pCtx.POPop()
@@ -208,9 +210,9 @@ func (l *bistatListener) ExitListAssign(ctx *parser.ListAssignContext) {
 			idx := l.pCtx.POTop()
 			l.pCtx.POPop()
 			l.pCtx.vm.PushQuad(NewQuad(Verify, idx.Address, rType.Address, rType.FirstDim))
-			addr, _ := addrMgr.GetNext()
-			l.pCtx.vm.PushQuad(NewQuad(Sum, rType.Address, idx.Address, addr))
-			l.pCtx.vm.PushQuad(NewQuad(Assign, addr, -1, val.Address))
+			refAddr, _ := addrMgr.GetNext()
+			l.pCtx.vm.PushQuad(NewQuad(Sum, l.pCtx.ConstIntUpsert(rType.Address), idx.Address, refAddr))
+			l.pCtx.vm.PushQuad(NewQuad(Assign, refAddr, -1, val.Address))
 		} else if levels == 3 {
 			if rType.SecondDim == 0 {
 				l.pCtx.SemanticError("Variable " + varName + " isn't a matrix")
@@ -227,10 +229,12 @@ func (l *bistatListener) ExitListAssign(ctx *parser.ListAssignContext) {
 			l.pCtx.vm.PushQuad(NewQuad(Verify, secondIdx.Address, rType.Address, rType.SecondDim))
 
 			addr, _ := iAddrMgr.GetNext()
-			l.pCtx.vm.PushQuad(NewQuad(Multiplication, rType.Address, firstIdx.Address, addr))
-			secondAddr, _ := addrMgr.GetNext()
+			l.pCtx.vm.PushQuad(NewQuad(Multiplication, l.pCtx.ConstIntUpsert(rType.FirstDim), firstIdx.Address, addr))
+			secondAddr, _ := iAddrMgr.GetNext()
 			l.pCtx.vm.PushQuad(NewQuad(Sum, addr, secondIdx.Address, secondAddr))
-			l.pCtx.vm.PushQuad(NewQuad(Assign, secondAddr, -1, val.Address))
+			refAddr, _ := addrMgr.GetNext()
+			l.pCtx.vm.PushQuad(NewQuad(Sum, l.pCtx.ConstIntUpsert(rType.Address), secondAddr, refAddr))
+			l.pCtx.vm.PushQuad(NewQuad(Assign, refAddr, -1, val.Address))
 		}
 	}
 }
@@ -265,26 +269,30 @@ func (l *bistatListener) ExitListAccess(ctx *parser.ListAccessContext) {
 		// addr is a ref
 		isLocal := l.pCtx.IsLocalVar(varName)
 		addrMgr := l.pCtx.vm.globalRefAddressMgr
+		iAddrMgr := l.pCtx.vm.tempIntAddressMgr
 		if isLocal {
 			addrMgr = l.pCtx.vm.localRefAddressMgr
 		}
-		addr, _ := addrMgr.GetNext()
+		refAddr, _ := addrMgr.GetNext()
+		iAddr, _ := iAddrMgr.GetNext()
 		indexed := NewRType(arr.PType)
 		if arr.SecondDim != 0 {
 			// ref is array
-			l.pCtx.vm.PushQuad(NewQuad(Multiplication, arr.Address, idx.Address, addr))
+			l.pCtx.vm.PushQuad(NewQuad(Multiplication, l.pCtx.ConstIntUpsert(arr.FirstDim), idx.Address, iAddr))
+			l.pCtx.vm.PushQuad(NewQuad(Sum, l.pCtx.ConstIntUpsert(arr.Address), iAddr, refAddr))
+
 			indexed.FirstDim = arr.SecondDim
 		} else {
 			// ref is scalar
-			l.pCtx.vm.PushQuad(NewQuad(Sum, arr.Address, idx.Address, addr))
+			l.pCtx.vm.PushQuad(NewQuad(Sum, l.pCtx.ConstIntUpsert(arr.Address), idx.Address, refAddr))
 		}
-		indexed.Address = addr
+		indexed.Address = refAddr
 
 		// todo: figure out how/when to calculate end address
 		l.pCtx.POPush(indexed)
 		fmt.Println("pushed arr")
 	} else {
-		if arr.SecondDim == 0 {
+		if arr.SecondDim <= 0 {
 			l.pCtx.SemanticError("Variable " + varName + " isn't a matrix")
 			return
 		}
@@ -298,19 +306,20 @@ func (l *bistatListener) ExitListAccess(ctx *parser.ListAccessContext) {
 		// addr is a ref
 		isLocal := l.pCtx.IsLocalVar(varName)
 		addrMgr := l.pCtx.vm.globalRefAddressMgr
-		iAddrMgr := l.pCtx.vm.globalIntAddressMgr
+		iAddrMgr := l.pCtx.vm.tempIntAddressMgr
 
 		if isLocal {
 			addrMgr = l.pCtx.vm.localRefAddressMgr
-			iAddrMgr = l.pCtx.vm.localIntAddressMgr
 		}
 		addr, _ := iAddrMgr.GetNext()
-		l.pCtx.vm.PushQuad(NewQuad(Multiplication, arr.Address, firstIdx.Address, addr))
-		secondAddr, _ := addrMgr.GetNext()
+		l.pCtx.vm.PushQuad(NewQuad(Multiplication, l.pCtx.ConstIntUpsert(arr.FirstDim), firstIdx.Address, addr))
+		secondAddr, _ := iAddrMgr.GetNext()
 		l.pCtx.vm.PushQuad(NewQuad(Sum, addr, secondIdx.Address, secondAddr))
+		refAddr, _ := addrMgr.GetNext()
+		l.pCtx.vm.PushQuad(NewQuad(Sum, l.pCtx.ConstIntUpsert(arr.Address), secondAddr, refAddr))
 
 		indexed := NewRType(arr.PType)
-		indexed.Address = addr
+		indexed.Address = refAddr
 		// todo: figure out how/when to calculate end address
 		l.pCtx.POPush(indexed)
 		fmt.Println("pushed matr")

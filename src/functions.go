@@ -111,6 +111,7 @@ func (l *bistatListener) EnterFuncBlockEnd(ctx *parser.FuncBlockEndContext) {
 	}
 	funcName := l.pCtx.GetCurrentScope()
 	data := l.pCtx.funcDir[funcName]
+	data.LocalRefs = l.pCtx.vm.localRefAddressMgr.GetSize()
 	data.TempIntVars = data.TempIntVars + l.pCtx.vm.tempIntAddressMgr.GetSize()
 	data.TempFloatVars = data.TempFloatVars + l.pCtx.vm.tempFloatAddressMgr.GetSize()
 	data.TempBoolVars = data.TempBoolVars + l.pCtx.vm.tempBoolAddressMgr.GetSize()
@@ -128,6 +129,7 @@ func (l *bistatListener) EnterFuncBlockEnd(ctx *parser.FuncBlockEndContext) {
 	l.pCtx.vm.tempStringAddressMgr.Reset()
 	l.pCtx.vm.tempIntAddressMgr.Reset()
 	l.pCtx.vm.tempFloatAddressMgr.Reset()
+	l.pCtx.vm.localRefAddressMgr.Reset()
 }
 
 func (l *bistatListener) ExitReturnStmt(ctx *parser.ReturnStmtContext) {

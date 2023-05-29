@@ -102,9 +102,8 @@ func (l *bistatListener) ExitAssignment(ctx *parser.AssignmentContext) {
 			}
 			expectedSize = lRType.FirstDim
 		}
-		startAddr := 0
 		rType, _ := l.pCtx.GetRTypeFromVarName(varName)
-		startAddr = rType.Address
+		startAddr := rType.Address
 		i := expectedSize
 		isLocal := l.pCtx.IsLocalVar(varName)
 		addrMgr := l.pCtx.vm.globalRefAddressMgr
@@ -115,9 +114,10 @@ func (l *bistatListener) ExitAssignment(ctx *parser.AssignmentContext) {
 			fmt.Println(i)
 			elem := l.pCtx.POTop()
 			l.pCtx.POPop()
-			addr, _ := addrMgr.GetNext()
-			l.pCtx.vm.PushQuad(NewQuad(Sum, startAddr, i-1, addr))
-			l.pCtx.vm.PushQuad(NewQuad(Assign, addr, -1, elem.Address))
+			refAddr, _ := addrMgr.GetNext()
+			// todo: store i-1 as const
+			l.pCtx.vm.PushQuad(NewQuad(Sum, l.pCtx.ConstIntUpsert(startAddr), l.pCtx.ConstIntUpsert(i-1), refAddr))
+			l.pCtx.vm.PushQuad(NewQuad(Assign, refAddr, -1, elem.Address))
 			i = i - 1
 		}
 		// if ctx.Indexing() != nil {
@@ -131,95 +131,10 @@ func (l *bistatListener) ExitAssignment(ctx *parser.AssignmentContext) {
 			l.pCtx.SemanticError("Cannot assign to " + varName + " because of type mismatch: " + PTypeToString(rRType.PType) + " != " + PTypeToString(lRType.PType))
 			return
 		}
-		quad := NewQuad(Assign, rRType.Address, -1, lRType.Address)
+		quad := NewQuad(Assign, lRType.Address, -1, rRType.Address)
 		l.pCtx.vm.PushQuad(quad)
 	}
 }
-
-// func (l *bistatListener) EnterIndexing(ctx *parser.IndexingContext) {
-// 	fmt.Println("Enter indexing")
-// 	l.pCtx.POperPush(int(Other))
-// }
-
-// func (l *bistatListener) ExitVariable(ctx *parser.VariableContext) {
-// 	fmt.Println("Exit indexing")
-
-// 	// l.pCtx.POperPop()
-// 	if len(l.pCtx.semanticErrors) > 0 {
-// 		return
-// 	}
-
-// 	varName := ctx.ID().GetText()
-// 	arr, found := l.pCtx.GetRTypeFromVarName(varName)
-// 	if !found {
-// 		l.pCtx.SemanticError("Variable " + varName + " was not declared")
-// 		return
-// 	}
-// 	if arr.FirstDim == 0 {
-// 		l.pCtx.SemanticError("Variable " + varName + " isn't a matrix or array")
-// 		return
-// 	}
-// 	levels := len(ctx.AllExpression())
-// 	fmt.Println("levels", levels)
-// 	if levels == 0 {
-// 		return
-// 	}
-// 	if levels == 1 {
-// 		idx := l.pCtx.POTop()
-// 		l.pCtx.POPop()
-// 		l.pCtx.vm.PushQuad(NewQuad(Verify, idx.Address, arr.Address, arr.FirstDim))
-// 		// addr is a ref
-// 		isLocal := l.pCtx.IsLocalVar(varName)
-// 		addrMgr := l.pCtx.vm.globalRefAddressMgr
-// 		if isLocal {
-// 			addrMgr = l.pCtx.vm.localRefAddressMgr
-// 		}
-// 		addr, _ := addrMgr.GetNext()
-// 		indexed := NewRType(arr.PType)
-// 		if arr.SecondDim != 0 {
-// 			// ref is array
-// 			l.pCtx.vm.PushQuad(NewQuad(Multiplication, arr.Address, idx.Address, addr))
-// 			indexed.FirstDim = arr.SecondDim
-// 		} else {
-// 			// ref is scalar
-// 			l.pCtx.vm.PushQuad(NewQuad(Sum, arr.Address, idx.Address, addr))
-// 		}
-// 		indexed.Address = addr
-
-// 		// todo: figure out how/when to calculate end address
-// 		l.pCtx.POPush(indexed)
-// 	} else {
-// 		if arr.SecondDim == 0 {
-// 			l.pCtx.SemanticError("Variable " + varName + " isn't a matrix")
-// 			return
-// 		}
-// 		secondIdx := l.pCtx.POTop()
-// 		l.pCtx.POPop()
-// 		firstIdx := l.pCtx.POTop()
-// 		l.pCtx.POPop()
-// 		l.pCtx.vm.PushQuad(NewQuad(Verify, firstIdx.Address, arr.Address, arr.FirstDim))
-// 		l.pCtx.vm.PushQuad(NewQuad(Verify, secondIdx.Address, arr.Address, arr.SecondDim))
-
-// 		// addr is a ref
-// 		isLocal := l.pCtx.IsLocalVar(varName)
-// 		addrMgr := l.pCtx.vm.globalRefAddressMgr
-// 		iAddrMgr := l.pCtx.vm.globalIntAddressMgr
-
-// 		if isLocal {
-// 			addrMgr = l.pCtx.vm.localRefAddressMgr
-// 			iAddrMgr = l.pCtx.vm.localIntAddressMgr
-// 		}
-// 		addr, _ := iAddrMgr.GetNext()
-// 		l.pCtx.vm.PushQuad(NewQuad(Multiplication, arr.Address, firstIdx.Address, addr))
-// 		secondAddr, _ := addrMgr.GetNext()
-// 		l.pCtx.vm.PushQuad(NewQuad(Sum, addr, secondIdx.Address, secondAddr))
-
-// 		indexed := NewRType(arr.PType)
-// 		indexed.Address = addr
-// 		// todo: figure out how/when to calculate end address
-// 		l.pCtx.POPush(indexed)
-// 	}
-// }
 
 func (l *bistatListener) EnterMain(ctx *parser.MainContext) {
 	fmt.Println("Enter main")
@@ -253,6 +168,8 @@ func (l *bistatListener) ExitProgram(ctx *parser.ProgramContext) {
 		objCode.TempStringSize = l.pCtx.vm.tempStringAddressMgr.GetSize()
 		objCode.TempFloatSize = l.pCtx.vm.tempFloatAddressMgr.GetSize()
 		objCode.TempIntSize = l.pCtx.vm.tempIntAddressMgr.GetSize()
+		objCode.GlobalRefSize = l.pCtx.vm.globalRefAddressMgr.GetSize()
+
 		if err == nil {
 			encoder := gob.NewEncoder(file)
 			encoder.Encode(objCode)

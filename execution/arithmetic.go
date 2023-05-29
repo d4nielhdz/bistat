@@ -7,8 +7,8 @@ import (
 func (eCtx *ECtx) HandleSum() {
 	quad := eCtx.GetCurrentQuad()
 	destination := quad.Destination
-	addr1 := quad.Op1
-	addr2 := quad.Op2
+	addr1 := eCtx.GetDerefed(quad.Op1)
+	addr2 := eCtx.GetDerefed(quad.Op2)
 
 	pType1 := GetPTypeFromAddress(addr1)
 	pType2 := GetPTypeFromAddress(addr2)
@@ -34,15 +34,20 @@ func (eCtx *ECtx) HandleSum() {
 		val1 := eCtx.GetIntFromAddress(addr1)
 		val2 := eCtx.GetIntFromAddress(addr2)
 		result := val1 + val2
-		eCtx.StoreIntAtAddress(result, destination)
+		if eCtx.AddrIsRef(destination) {
+			eCtx.StoreRefAtAddress(int(result), destination)
+			// fmt.Println(eCtx.IP, "- sum", addr1, addr2, val1, val2, result, destination)
+		} else {
+			eCtx.StoreIntAtAddress(result, destination)
+		}
 	}
 }
 
 func (eCtx *ECtx) HandleSubtraction() {
 	quad := eCtx.GetCurrentQuad()
-	destination := quad.Destination
-	addr1 := quad.Op1
-	addr2 := quad.Op2
+	destination := eCtx.GetDerefed(quad.Destination)
+	addr1 := eCtx.GetDerefed(quad.Op1)
+	addr2 := eCtx.GetDerefed(quad.Op2)
 
 	pType1 := GetPTypeFromAddress(addr1)
 	pType2 := GetPTypeFromAddress(addr2)
@@ -75,8 +80,8 @@ func (eCtx *ECtx) HandleSubtraction() {
 func (eCtx *ECtx) HandleMultiplication() {
 	quad := eCtx.GetCurrentQuad()
 	destination := quad.Destination
-	addr1 := quad.Op1
-	addr2 := quad.Op2
+	addr1 := eCtx.GetDerefed(quad.Op1)
+	addr2 := eCtx.GetDerefed(quad.Op2)
 
 	pType1 := GetPTypeFromAddress(addr1)
 	pType2 := GetPTypeFromAddress(addr2)
@@ -102,15 +107,20 @@ func (eCtx *ECtx) HandleMultiplication() {
 		val1 := eCtx.GetIntFromAddress(addr1)
 		val2 := eCtx.GetIntFromAddress(addr2)
 		result := val1 * val2
-		eCtx.StoreIntAtAddress(result, destination)
+		if eCtx.AddrIsRef(destination) {
+			eCtx.StoreRefAtAddress(int(result), destination)
+			// fmt.Println(eCtx.IP, "- mul", addr1, addr2, val1, val2, result, destination)
+		} else {
+			eCtx.StoreIntAtAddress(result, destination)
+		}
 	}
 }
 
 func (eCtx *ECtx) HandleDivision() {
 	quad := eCtx.GetCurrentQuad()
-	destination := quad.Destination
-	addr1 := quad.Op1
-	addr2 := quad.Op2
+	destination := eCtx.GetDerefed(quad.Destination)
+	addr1 := eCtx.GetDerefed(quad.Op1)
+	addr2 := eCtx.GetDerefed(quad.Op2)
 
 	pType1 := GetPTypeFromAddress(addr1)
 	pType2 := GetPTypeFromAddress(addr2)
@@ -142,9 +152,9 @@ func (eCtx *ECtx) HandleDivision() {
 
 func (eCtx *ECtx) HandleModulus() {
 	quad := eCtx.GetCurrentQuad()
-	destination := quad.Destination
-	addr1 := quad.Op1
-	addr2 := quad.Op2
+	destination := eCtx.GetDerefed(quad.Destination)
+	addr1 := eCtx.GetDerefed(quad.Op1)
+	addr2 := eCtx.GetDerefed(quad.Op2)
 
 	val1 := eCtx.GetIntFromAddress(addr1)
 	val2 := eCtx.GetIntFromAddress(addr2)

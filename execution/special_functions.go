@@ -12,18 +12,20 @@ func (eCtx *ECtx) HandlePrint() {
 	if printSpace {
 		fmt.Print(" ")
 	}
-	pType := GetPTypeFromAddress(quad.Op1)
+	addr := eCtx.GetDerefed(quad.Op1)
+	// fmt.Println("addr", addr)
+	pType := GetPTypeFromAddress(addr)
 	if pType == src.Int {
-		val := eCtx.GetIntFromAddress(quad.Op1)
+		val := eCtx.GetIntFromAddress(addr)
 		fmt.Print(val)
 	} else if pType == src.Float {
-		val := eCtx.GetFloatFromAddress(quad.Op1)
+		val := eCtx.GetFloatFromAddress(addr)
 		fmt.Print(val)
 	} else if pType == src.Bool {
-		val := eCtx.GetBoolFromAddress(quad.Op1)
+		val := eCtx.GetBoolFromAddress(addr)
 		fmt.Print(val)
 	} else if pType == src.String {
-		val := eCtx.GetStringFromAddress(quad.Op1)
+		val := eCtx.GetStringFromAddress(addr)
 		fmt.Print(val)
 	}
 }

@@ -6,11 +6,13 @@ import (
 
 func (eCtx *ECtx) HandleAssign() {
 	quad := eCtx.GetCurrentQuad()
-	lAddr := quad.Destination
-	rAddr := quad.Op1
+	rAddr := eCtx.GetDerefed(quad.Destination)
+	lAddr := eCtx.GetDerefed(quad.Op1)
+
 	pType := GetPTypeFromAddress(lAddr)
 	if pType == src.Int {
 		val := eCtx.GetIntFromAddress(rAddr)
+		// fmt.Println(quad.Op1, lAddr, rAddr, val)
 		eCtx.StoreIntAtAddress(val, lAddr)
 	} else if pType == src.Float {
 		val := eCtx.GetFloatFromAddress(rAddr)

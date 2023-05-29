@@ -16,6 +16,7 @@ type ObjCode struct {
 	FloatSize       int
 	BoolSize        int
 	StringSize      int
+	GlobalRefSize   int
 }
 
 func NewObjCode(funcDir map[string]FuncData,

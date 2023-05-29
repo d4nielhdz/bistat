@@ -164,6 +164,24 @@ func (pCtx *PCtx) GetRTypeFromVarName(varName string) (RType, bool) {
 	}
 }
 
+func (pCtx *PCtx) ConstIntUpsert(val int) int {
+	entry, found := pCtx.consTable[strconv.Itoa(val)]
+	if !found {
+		next, okAddr := pCtx.vm.constIntAddressMgr.GetNext()
+		if !okAddr {
+			pCtx.SemanticError("Out of memory")
+		}
+		rType := NewRType(Int)
+		rType.FirstDim = 0
+		rType.SecondDim = 0
+		rType.Address = next
+		pCtx.consTable[strconv.Itoa(val)] = rType
+		pCtx.addrTable[rType.Address] = strconv.Itoa(val)
+		entry = rType
+	}
+	return entry.Address
+}
+
 func (pCtx *PCtx) IsLocalVar(varName string) bool {
 	currScope := pCtx.GetCurrentScope()
 	_, ok := pCtx.varTable[currScope][varName]
@@ -282,7 +300,7 @@ func (pCtx *PCtx) PrintQuads() {
 		Op1 := pCtx.GetVarnameAtAddress(quad.Op1)
 		Op2 := pCtx.GetVarnameAtAddress(quad.Op2)
 		des := pCtx.GetVarnameAtAddress(quad.Destination)
-		fmt.Println(i, OpToString(quad.Op), Op1, Op2, des)
+		fmt.Println(i, OpToString(quad.Op), Op1, "#"+strconv.Itoa(quad.Op1), Op2, "#"+strconv.Itoa(quad.Op2), des, "#"+strconv.Itoa(quad.Destination))
 	}
 }
 
@@ -389,6 +407,24 @@ func (pCtx *PCtx) HandleGenerateQuadForExpression() {
 	pCtx.POperPop()
 	o1 := pCtx.POTop()
 	pCtx.POPop()
+	if oper == UnaryMinus {
+		if o1.PType != Int && o1.PType != Float {
+			pCtx.SemanticError("Can't use minus on type " + PTypeToString(o1.PType))
+			return
+		}
+		des, ok := pCtx.GetCorrespondingTempAddressManager(o1.PType).GetNext()
+		if !ok {
+			pCtx.SemanticError("Out of memory")
+			return
+		}
+
+		quad := NewQuad(oper, o1.Address, -1, des)
+		pCtx.vm.PushQuad(quad)
+		rType := NewRType(o1.PType)
+		rType.Address = des
+		pCtx.POPush(rType)
+		return
+	}
 	o2 := pCtx.POTop()
 	pCtx.POPop()
 	resultingType := SemanticCubeLookup(o1.PType, o2.PType, oper)
@@ -399,6 +435,7 @@ func (pCtx *PCtx) HandleGenerateQuadForExpression() {
 	des, ok := pCtx.GetCorrespondingTempAddressManager(resultingType).GetNext()
 	if !ok {
 		pCtx.SemanticError("Out of memory")
+		return
 	}
 	quad := NewQuad(oper, o2.Address, o1.Address, des)
 	pCtx.vm.PushQuad(quad)

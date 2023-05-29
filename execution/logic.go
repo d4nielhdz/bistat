@@ -6,13 +6,13 @@ import (
 
 func (eCtx *ECtx) HandleAnd() {
 	quad := eCtx.GetCurrentQuad()
-	addr1 := quad.Op1
-	addr2 := quad.Op2
+	addr1 := eCtx.GetDerefed(quad.Op1)
+	addr2 := eCtx.GetDerefed(quad.Op2)
 
 	val1 := eCtx.GetBoolFromAddress(addr1)
 	val2 := eCtx.GetBoolFromAddress(addr2)
 	result := val1 && val2
-	eCtx.StoreBoolAtAddress(result, quad.Destination)
+	eCtx.StoreBoolAtAddress(result, eCtx.GetDerefed(quad.Destination))
 }
 
 func (eCtx *ECtx) HandleOr() {

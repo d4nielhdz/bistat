@@ -1,6 +1,8 @@
 package main
 
-import src "bistat/src"
+import (
+	src "bistat/src"
+)
 
 func (eCtx *ECtx) LoadConstMemory() {
 	for val, rType := range eCtx.ConsTable {
@@ -74,6 +76,7 @@ func (eCtx *ECtx) GetBoolFromAddress(addr int) bool {
 }
 
 func (eCtx *ECtx) StoreIntAtAddress(val int64, addr int) {
+	// fmt.Println(eCtx.IP, "- storing int", val, "#"+strconv.Itoa(addr))
 	if addr >= src.CONST_INT_START && addr < src.CONST_FLOAT_START {
 		eCtx.ConstMemory.ints[addr-eCtx.ConstMemory.baseIntAddr] = val
 	} else if addr >= src.GLOBAL_INT_START && addr < src.GLOBAL_FLOAT_START {
@@ -131,4 +134,34 @@ func (eCtx *ECtx) StoreBoolAtAddress(val bool, addr int) {
 	} else {
 		eCtx.GetStackSegment().localMemory.bools[addr-eCtx.GetStackSegment().localMemory.baseBoolAddr] = val
 	}
+}
+
+func (eCtx *ECtx) StoreRefAtAddress(val int, addr int) {
+	if addr >= src.GLOBAL_REF_START && addr < src.LOCAL_REF_START {
+		eCtx.GlobalMemory.refs[addr-eCtx.GlobalMemory.baseRefAddr] = val
+	} else if addr >= src.LOCAL_REF_START && addr < src.LOCAL_REF_END {
+		eCtx.GetStackSegment().localMemory.refs[addr-eCtx.GetStackSegment().localMemory.baseRefAddr] = val
+	}
+}
+
+func (eCtx *ECtx) AddrIsRef(addr int) bool {
+	return (addr >= src.GLOBAL_REF_START && addr < src.LOCAL_REF_START) || (addr >= src.LOCAL_REF_START && addr < src.LOCAL_INT_START)
+}
+
+func (eCtx *ECtx) Deref(addr int) int {
+	if addr >= src.GLOBAL_REF_START && addr < src.LOCAL_REF_START {
+		return eCtx.GlobalMemory.refs[addr-eCtx.GlobalMemory.baseRefAddr]
+	} else {
+		if len(eCtx.StackSegment) > 0 {
+			return eCtx.GetStackSegment().localMemory.refs[addr-eCtx.GetStackSegment().localMemory.baseRefAddr]
+		}
+		return 0
+	}
+}
+
+func (eCtx *ECtx) GetDerefed(addr int) int {
+	if eCtx.AddrIsRef(addr) {
+		return eCtx.Deref(addr)
+	}
+	return addr
 }

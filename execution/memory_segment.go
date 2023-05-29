@@ -11,22 +11,26 @@ type MemorySegment struct {
 	ints           []int64
 	strings        []string
 	bools          []bool
+	refs           []int
 	baseFloatAddr  int
 	baseIntAddr    int
 	baseStringAddr int
 	baseBoolAddr   int
+	baseRefAddr    int
 }
 
-func NewMemorySegment(fSize int, iSize int, sSize int, bSize int, baseFloatAddr int, baseIntAddr int, baseStringAddr int, baseBoolAddr int) *MemorySegment {
+func NewMemorySegment(fSize int, iSize int, sSize int, bSize int, refSize int, baseFloatAddr int, baseIntAddr int, baseStringAddr int, baseBoolAddr int, baseRefAddr int) *MemorySegment {
 	return &MemorySegment{
 		floats:         make([]float64, fSize),
 		ints:           make([]int64, iSize),
 		strings:        make([]string, sSize),
 		bools:          make([]bool, bSize),
+		refs:           make([]int, refSize),
 		baseFloatAddr:  baseFloatAddr,
 		baseIntAddr:    baseIntAddr,
 		baseBoolAddr:   baseBoolAddr,
 		baseStringAddr: baseStringAddr,
+		baseRefAddr:    baseRefAddr,
 	}
 }
 func (ms *MemorySegment) StoreVal(val string, addr int) {
@@ -47,8 +51,8 @@ func (ms *MemorySegment) StoreVal(val string, addr int) {
 
 func (ms *MemorySegment) Print() {
 	fmt.Println("--print ints start")
-	for _, val := range ms.ints {
-		fmt.Println(val)
+	for i, val := range ms.ints {
+		fmt.Println("#"+strconv.Itoa(i), val)
 	}
 	fmt.Println("--print ints end")
 	fmt.Println("--print floats start")
@@ -66,6 +70,11 @@ func (ms *MemorySegment) Print() {
 		fmt.Println(val)
 	}
 	fmt.Println("--print bools end")
+	fmt.Println("--print refs start")
+	for _, val := range ms.refs {
+		fmt.Println(val)
+	}
+	fmt.Println("--print refs end")
 }
 
 // func (ms *MemorySegment) StoreInt(val int64, addr int) {
@@ -89,9 +98,9 @@ type StackSegment struct {
 	tempMemory  *MemorySegment
 }
 
-func NewStackSegment(fSize int, iSize int, sSize int, bSize int, baseFloatAddr int, baseIntAddr int, baseStringAddr int, baseBoolAddr int, tempFSize int, tempISize int, tempSSize int, tempBSize int, baseTempFloatAddr int, baseTempIntAddr int, baseTempStringAddr int, baseTempBoolAddr int) *StackSegment {
+func NewStackSegment(fSize int, iSize int, sSize int, bSize int, baseFloatAddr int, baseIntAddr int, baseStringAddr int, baseBoolAddr int, tempFSize int, tempISize int, tempSSize int, tempBSize int, refSize int, baseTempFloatAddr int, baseTempIntAddr int, baseTempStringAddr int, baseTempBoolAddr int, baseRefAddr int) *StackSegment {
 	return &StackSegment{
-		localMemory: NewMemorySegment(fSize, iSize, sSize, bSize, baseFloatAddr, baseIntAddr, baseStringAddr, baseBoolAddr),
-		tempMemory:  NewMemorySegment(tempFSize, tempISize, tempSSize, tempBSize, baseTempFloatAddr, baseTempIntAddr, baseTempStringAddr, baseTempBoolAddr),
+		localMemory: NewMemorySegment(fSize, iSize, sSize, bSize, refSize, baseFloatAddr, baseIntAddr, baseStringAddr, baseBoolAddr, baseRefAddr),
+		tempMemory:  NewMemorySegment(tempFSize, tempISize, tempSSize, tempBSize, 0, baseTempFloatAddr, baseTempIntAddr, baseTempStringAddr, baseTempBoolAddr, 0),
 	}
 }

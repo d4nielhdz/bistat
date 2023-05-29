@@ -300,6 +300,7 @@ type FuncData struct {
 	SecondDim       int
 	Address         int
 	Params          int
+	LocalRefs       int
 	LocalIntVars    int
 	TempIntVars     int
 	LocalFloatVars  int

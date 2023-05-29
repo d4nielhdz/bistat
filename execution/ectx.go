@@ -23,9 +23,9 @@ func NewEctx(objCode src.ObjCode) ECtx {
 		Quads:        objCode.Quads,
 		FuncDir:      objCode.FuncDir,
 		ConsTable:    objCode.ConsTable,
-		ConstMemory:  NewMemorySegment(objCode.ConstFloatSize, objCode.ConstIntSize, objCode.ConstStringSize, objCode.ConstBoolSize, src.CONST_FLOAT_START, src.CONST_INT_START, src.CONST_STRING_START, src.CONST_BOOL_START),
-		TempMemory:   NewMemorySegment(objCode.TempFloatSize, objCode.TempIntSize, objCode.TempStringSize, objCode.TempBoolSize, src.TEMP_FLOAT_START, src.TEMP_INT_START, src.TEMP_STRING_START, src.TEMP_BOOL_START),
-		GlobalMemory: NewMemorySegment(objCode.FloatSize, objCode.IntSize, objCode.StringSize, objCode.BoolSize, src.GLOBAL_FLOAT_START, src.GLOBAL_INT_START, src.GLOBAL_STRING_START, src.GLOBAL_BOOL_START),
+		ConstMemory:  NewMemorySegment(objCode.ConstFloatSize, objCode.ConstIntSize, objCode.ConstStringSize, objCode.ConstBoolSize, 0, src.CONST_FLOAT_START, src.CONST_INT_START, src.CONST_STRING_START, src.CONST_BOOL_START, 0),
+		TempMemory:   NewMemorySegment(objCode.TempFloatSize, objCode.TempIntSize, objCode.TempStringSize, objCode.TempBoolSize, 0, src.TEMP_FLOAT_START, src.TEMP_INT_START, src.TEMP_STRING_START, src.TEMP_BOOL_START, 0),
+		GlobalMemory: NewMemorySegment(objCode.FloatSize, objCode.IntSize, objCode.StringSize, objCode.BoolSize, objCode.GlobalRefSize, src.GLOBAL_FLOAT_START, src.GLOBAL_INT_START, src.GLOBAL_STRING_START, src.GLOBAL_BOOL_START, src.GLOBAL_REF_START),
 		StackSegment: make([]StackSegment, 0),
 		Errors:       make([]string, 0),
 	}

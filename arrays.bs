@@ -4,6 +4,7 @@ var int[5] arr;
 var int[2][2] lss;
 var int t1;
 var int t2;
+var int[3] ls;
 
 main () {
   arr = [2, 3, 4, 5, 6];
@@ -13,6 +14,8 @@ main () {
   listAssign(arr, 3, t1);
   listAssign(lss, 0, 0, t2);
   listAssign(lss, 1, [t2, t1]);
+  ls = [t1, t2, 30];
+  listAssign(ls, 0, listAccess(arr, 0));
   print(arr);
   print(lss);
 }
