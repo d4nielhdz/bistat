@@ -43,3 +43,7 @@ Archivos creados: utils/type_helpers.go
 
 - Se creó la lógica para la generación de cuádruplos de estatutos no lineales (for, if y while)
 - Se creó la lógica para la generación de cuádruplos de definición y llamadas de funciones
+
+### Avance 7
+
+-  Ejecución de operaciones aritméticas y for y while en máquina virtual y generación de cuádruplos de operaciones con arreglos

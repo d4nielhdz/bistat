@@ -113,7 +113,12 @@ func (pCtx *PCtx) GetRTypeFromVarConsContext(ctx *parser.VarConsContext) RType {
 		pCtx.addrTable[rType.Address] = ctx.FLOAT_CONS().GetText()
 		return rType
 	} else if ctx.STRING_CONS() != nil {
-		entry, found := pCtx.consTable[ctx.STRING_CONS().GetText()]
+		pattern := "^\"(.*)\"$"
+		regex := regexp.MustCompile(pattern)
+		matches := regex.FindStringSubmatch(ctx.STRING_CONS().GetText())
+		result := matches[1]
+		fmt.Println(result)
+		entry, found := pCtx.consTable[result]
 		if found {
 			return entry
 		}
@@ -125,8 +130,8 @@ func (pCtx *PCtx) GetRTypeFromVarConsContext(ctx *parser.VarConsContext) RType {
 		rType.FirstDim = 0
 		rType.SecondDim = 0
 		rType.Address = next
-		pCtx.consTable[ctx.STRING_CONS().GetText()] = rType
-		pCtx.addrTable[rType.Address] = ctx.STRING_CONS().GetText()
+		pCtx.consTable[result] = rType
+		pCtx.addrTable[rType.Address] = result
 		return rType
 	}
 	entry, found := pCtx.consTable[ctx.BOOL_CONS().GetText()]
@@ -177,6 +182,24 @@ func (pCtx *PCtx) ConstIntUpsert(val int) int {
 		rType.Address = next
 		pCtx.consTable[strconv.Itoa(val)] = rType
 		pCtx.addrTable[rType.Address] = strconv.Itoa(val)
+		entry = rType
+	}
+	return entry.Address
+}
+
+func (pCtx *PCtx) ConstStringUpsert(val string) int {
+	entry, found := pCtx.consTable[val]
+	if !found {
+		next, okAddr := pCtx.vm.constStringAddressMgr.GetNext()
+		if !okAddr {
+			pCtx.SemanticError("Out of memory")
+		}
+		rType := NewRType(String)
+		rType.FirstDim = 0
+		rType.SecondDim = 0
+		rType.Address = next
+		pCtx.consTable[val] = rType
+		pCtx.addrTable[rType.Address] = val
 		entry = rType
 	}
 	return entry.Address

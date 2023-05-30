@@ -7,11 +7,6 @@ import (
 
 func (eCtx *ECtx) HandlePrint() {
 	quad := eCtx.GetCurrentQuad()
-	prevQuad := eCtx.Quads[eCtx.IP-1]
-	printSpace := prevQuad.Op == src.Print
-	if printSpace {
-		fmt.Print(" ")
-	}
 	addr := eCtx.GetDerefed(quad.Op1)
 	// fmt.Println("addr", addr)
 	pType := GetPTypeFromAddress(addr)

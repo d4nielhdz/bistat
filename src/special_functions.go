@@ -22,19 +22,6 @@ func (l *bistatListener) ExitSpecialFunction(ctx *parser.SpecialFunctionContext)
 			l.pCtx.vm.PushQuad(quad)
 			l.pCtx.POPop()
 		}
-	} else if ctx.Print_() != nil {
-		if !l.pCtx.POperIsEmpty() {
-			l.pCtx.SemanticError("Cannot use 'print' inside an expression")
-			return
-		}
-		ctx.Print_().AllExpression()
-		for range ctx.Print_().AllExpression() {
-			o := l.pCtx.POTop()
-			quad := NewQuad(Print, o.Address, -1, -1)
-			l.pCtx.vm.PushQuad(quad)
-			l.pCtx.POPop()
-		}
-		l.pCtx.vm.PushQuad(NewQuad(PrintN, -1, -1, -1))
 	} else if ctx.ListAdd() != nil {
 		if !l.pCtx.POperIsEmpty() {
 			l.pCtx.SemanticError("Cannot use 'listAdd' inside an arithmetic expression")
@@ -237,6 +224,60 @@ func (l *bistatListener) ExitListAssign(ctx *parser.ListAssignContext) {
 			l.pCtx.vm.PushQuad(NewQuad(Assign, refAddr, -1, val.Address))
 		}
 	}
+}
+
+func (l *bistatListener) ExitPrint(ctx *parser.PrintContext) {
+	if !l.pCtx.POperIsEmpty() {
+		l.pCtx.SemanticError("Cannot use 'print' inside an expression")
+		return
+	}
+	ctx.AllExpression()
+	toPrint := make([]RType, 0)
+	for range ctx.AllExpression() {
+		o := l.pCtx.POTop()
+		l.pCtx.POPop()
+		toPrint = append([]RType{o}, toPrint...)
+	}
+	ws := l.pCtx.ConstStringUpsert(" ")
+
+	for idx, elem := range toPrint {
+		if idx != 0 {
+			l.pCtx.vm.PushQuad(NewQuad(Print, ws, -1, -1))
+		}
+		if elem.FirstDim > 0 {
+			lBrack := l.pCtx.ConstStringUpsert("[")
+			rBrack := l.pCtx.ConstStringUpsert("]")
+			size := elem.FirstDim
+			i := 0
+			addrMgr := l.pCtx.vm.globalRefAddressMgr
+			if elem.SecondDim > 0 {
+				size *= elem.SecondDim
+				l.pCtx.vm.PushQuad(NewQuad(Print, lBrack, -1, -1))
+			}
+			for i != size {
+				if i != 0 {
+					l.pCtx.vm.PushQuad(NewQuad(Print, ws, -1, -1))
+				}
+
+				if (i == 0) || (elem.SecondDim > 0 && i%elem.SecondDim == 0) {
+					l.pCtx.vm.PushQuad(NewQuad(Print, lBrack, -1, -1))
+				}
+				addr, _ := addrMgr.GetNext()
+				l.pCtx.vm.PushQuad(NewQuad(Sum, l.pCtx.ConstIntUpsert(elem.Address), l.pCtx.ConstIntUpsert(i), addr))
+				l.pCtx.vm.PushQuad(NewQuad(Print, addr, -1, -1))
+
+				if i != 0 && elem.SecondDim > 0 && (i+1)%elem.SecondDim == 0 {
+					l.pCtx.vm.PushQuad(NewQuad(Print, rBrack, -1, -1))
+				}
+				i = i + 1
+			}
+			l.pCtx.vm.PushQuad(NewQuad(Print, rBrack, -1, -1))
+		} else {
+			quad := NewQuad(Print, elem.Address, -1, -1)
+			l.pCtx.vm.PushQuad(quad)
+		}
+	}
+	l.pCtx.vm.PushQuad(NewQuad(PrintN, -1, -1, -1))
 }
 
 func (l *bistatListener) EnterListAccess(ctx *parser.ListAccessContext) {
