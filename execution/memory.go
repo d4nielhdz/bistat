@@ -161,7 +161,8 @@ func (eCtx *ECtx) Deref(addr int) int {
 
 func (eCtx *ECtx) GetDerefed(addr int) int {
 	if eCtx.AddrIsRef(addr) {
-		return eCtx.Deref(addr)
+		der := eCtx.Deref(addr)
+		return der
 	}
 	return addr
 }

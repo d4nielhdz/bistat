@@ -164,7 +164,6 @@ func (l *bistatListener) ExitListAssign(ctx *parser.ListAssignContext) {
 		}
 		expectedSize = rType.SecondDim
 		i := expectedSize
-		fmt.Println(expectedSize)
 		idx := l.pCtx.pO[len(l.pCtx.pO)-expectedSize-1]
 		iAddr, _ := iAddrMgr.GetNext()
 		l.pCtx.vm.PushQuad(NewQuad(Verify, rType.Address, idx.Address, rType.FirstDim))
@@ -197,6 +196,8 @@ func (l *bistatListener) ExitListAssign(ctx *parser.ListAssignContext) {
 			idx := l.pCtx.POTop()
 			l.pCtx.POPop()
 			l.pCtx.vm.PushQuad(NewQuad(Verify, idx.Address, rType.Address, rType.FirstDim))
+			// todo: handlle this case  listAssign(mat, 1, listAccess(lss, 0));
+			fmt.Println("verify", len(l.pCtx.vm.quads))
 			refAddr, _ := addrMgr.GetNext()
 			l.pCtx.vm.PushQuad(NewQuad(Sum, l.pCtx.ConstIntUpsert(rType.Address), idx.Address, refAddr))
 			l.pCtx.vm.PushQuad(NewQuad(Assign, refAddr, -1, val.Address))
@@ -224,6 +225,8 @@ func (l *bistatListener) ExitListAssign(ctx *parser.ListAssignContext) {
 			l.pCtx.vm.PushQuad(NewQuad(Assign, refAddr, -1, val.Address))
 		}
 	}
+	fmt.Println("Exit list assign")
+	fmt.Println("#", len(l.pCtx.vm.quads))
 }
 
 func (l *bistatListener) ExitPrint(ctx *parser.PrintContext) {
@@ -263,7 +266,7 @@ func (l *bistatListener) ExitPrint(ctx *parser.PrintContext) {
 					l.pCtx.vm.PushQuad(NewQuad(Print, lBrack, -1, -1))
 				}
 				addr, _ := addrMgr.GetNext()
-				l.pCtx.vm.PushQuad(NewQuad(Sum, l.pCtx.ConstIntUpsert(elem.Address), l.pCtx.ConstIntUpsert(i), addr))
+				l.pCtx.vm.PushQuad(NewQuad(Sum, l.pCtx.IgnoreIfRef(elem.Address), l.pCtx.ConstIntUpsert(i), addr))
 				l.pCtx.vm.PushQuad(NewQuad(Print, addr, -1, -1))
 
 				if i != 0 && elem.SecondDim > 0 && (i+1)%elem.SecondDim == 0 {
@@ -288,7 +291,6 @@ func (l *bistatListener) ExitListAccess(ctx *parser.ListAccessContext) {
 	if len(l.pCtx.semanticErrors) > 0 {
 		return
 	}
-	fmt.Println("Exit list access")
 	l.pCtx.POperPop()
 
 	varName := ctx.ID().GetText()
@@ -330,8 +332,9 @@ func (l *bistatListener) ExitListAccess(ctx *parser.ListAccessContext) {
 		indexed.Address = refAddr
 
 		// todo: figure out how/when to calculate end address
+		fmt.Println("assigning list")
+		fmt.Println(PTypeToString(indexed.PType))
 		l.pCtx.POPush(indexed)
-		fmt.Println("pushed arr")
 	} else {
 		if arr.SecondDim <= 0 {
 			l.pCtx.SemanticError("Variable " + varName + " isn't a matrix")
@@ -363,6 +366,5 @@ func (l *bistatListener) ExitListAccess(ctx *parser.ListAccessContext) {
 		indexed.Address = refAddr
 		// todo: figure out how/when to calculate end address
 		l.pCtx.POPush(indexed)
-		fmt.Println("pushed matr")
 	}
 }
