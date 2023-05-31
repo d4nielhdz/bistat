@@ -22,6 +22,7 @@ func GetPTypeFromAddress(address int) src.PType {
 }
 
 func (eCtx *ECtx) GetIntFromAddress(addr int) int64 {
+	// fmt.Println(addr)
 	if addr >= src.CONST_INT_START && addr < src.CONST_FLOAT_START {
 		return eCtx.ConstMemory.ints[addr-eCtx.ConstMemory.baseIntAddr]
 	} else if addr >= src.GLOBAL_INT_START && addr < src.GLOBAL_FLOAT_START {

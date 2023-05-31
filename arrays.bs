@@ -33,10 +33,10 @@ main () {
   print("before la");
   print(mat);
   print(lss);
- # listAssign(mat, 1, listAccess(lss, 0)); #
+  listAssign(mat, 1, listAccess(lss, 0));
   #[7,9][7,4]#
   print("after la");
-  print(mat); #[7,9][4,2]#
+  print(mat); #[9,3][7,9]#
   print(lss);
   print(arr); #2,3,4,4,6#
   print(nums); #11,2,3#

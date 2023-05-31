@@ -15,6 +15,7 @@ func (eCtx *ECtx) HandlePrint() {
 
 	// fmt.Println(src.PTypeToString(pType))
 	if pType == src.Int {
+		// fmt.Println("print")
 		val := eCtx.GetIntFromAddress(addr)
 		fmt.Print(val)
 	} else if pType == src.Float {

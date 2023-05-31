@@ -91,14 +91,14 @@ const (
 	Not        // 🔶
 	UnaryMinus // 🔶
 	Goto
-	GotoT       // 🔶
-	GotoF       // 🔶
-	GoSub       // 🔶
-	Era         // 🔶
-	Param       // 🔶
-	EndFunc     // 🔶
-	End         // 🔶
-	Return      // 🔶
+	GotoT // 🔶
+	GotoF // 🔶
+	GoSub
+	Era
+	Param
+	EndFunc // 🔶
+	End     // 🔶
+	Return
 	UndefinedOp // 🔶
 	Verify      // 🔶
 	Other

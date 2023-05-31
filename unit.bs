@@ -1,0 +1,10 @@
+Program Hello;
+
+var int[2][2] lss;
+
+main () {
+  lss = [[0, 9], [8, 7]];
+  print(lss);
+  print(listAccess(lss, 1));
+}
+
