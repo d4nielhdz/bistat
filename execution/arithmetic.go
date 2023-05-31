@@ -43,13 +43,17 @@ func (eCtx *ECtx) HandleSum() {
 		}
 	} else {
 		// fmt.Println(quad.Op1, quad.Op2, addr1, addr2)
-		val1 := eCtx.GetIntFromAddress(addr1)
+		var val1 int64
 		if eCtx.AddrIsRef(quad.Op1) {
 			val1 = int64(addr1)
+		} else {
+			val1 = eCtx.GetIntFromAddress(addr1)
 		}
-		val2 := eCtx.GetIntFromAddress(addr2)
+		var val2 int64
 		if eCtx.AddrIsRef(quad.Op2) {
 			val2 = int64(addr2)
+		} else {
+			val2 = eCtx.GetIntFromAddress(addr2)
 		}
 		result := val1 + val2
 		// fmt.Println(eCtx.IP, "- sum", addr1, addr2, val1, val2, result, destination)
@@ -98,8 +102,18 @@ func (eCtx *ECtx) HandleSubtraction() {
 			eCtx.StoreFloatAtAddress(result, destination)
 		}
 	} else {
-		val1 := eCtx.GetIntFromAddress(addr1)
-		val2 := eCtx.GetIntFromAddress(addr2)
+		var val1 int64
+		if eCtx.AddrIsRef(quad.Op1) {
+			val1 = int64(addr1)
+		} else {
+			val1 = eCtx.GetIntFromAddress(addr1)
+		}
+		var val2 int64
+		if eCtx.AddrIsRef(quad.Op2) {
+			val2 = int64(addr2)
+		} else {
+			val2 = eCtx.GetIntFromAddress(addr2)
+		}
 		result := val1 - val2
 		eCtx.StoreIntAtAddress(result, destination)
 	}
@@ -122,23 +136,37 @@ func (eCtx *ECtx) HandleMultiplication() {
 			eCtx.StoreFloatAtAddress(result, destination)
 		} else if pType1 == src.Float {
 			val1 := eCtx.GetFloatFromAddress(addr1)
-			val2 := eCtx.GetIntFromAddress(addr2)
+			var val2 int64 = 0
+			if eCtx.AddrIsRef(quad.Op2) {
+				val2 = int64(addr2)
+			} else {
+				val2 = eCtx.GetIntFromAddress(addr2)
+			}
 			result := val1 * float64(val2)
 			eCtx.StoreFloatAtAddress(result, destination)
 		} else {
-			val1 := eCtx.GetIntFromAddress(addr1)
+			var val1 int64 = 0
+			if eCtx.AddrIsRef(quad.Op1) {
+				val1 = int64(addr1)
+			} else {
+				val1 = eCtx.GetIntFromAddress(addr1)
+			}
 			val2 := eCtx.GetFloatFromAddress(addr2)
 			result := float64(val1) * val2
 			eCtx.StoreFloatAtAddress(result, destination)
 		}
 	} else {
-		val1 := eCtx.GetIntFromAddress(addr1)
+		var val1 int64
 		if eCtx.AddrIsRef(quad.Op1) {
 			val1 = int64(addr1)
+		} else {
+			val1 = eCtx.GetIntFromAddress(addr1)
 		}
-		val2 := eCtx.GetIntFromAddress(addr2)
+		var val2 int64
 		if eCtx.AddrIsRef(quad.Op2) {
 			val2 = int64(addr2)
+		} else {
+			val2 = eCtx.GetIntFromAddress(addr2)
 		}
 		result := val1 * val2
 		// fmt.Println(eCtx.IP, "- mul", addr1, addr2, val1, val2, result, destination)
@@ -167,18 +195,38 @@ func (eCtx *ECtx) HandleDivision() {
 			eCtx.StoreFloatAtAddress(result, destination)
 		} else if pType1 == src.Float {
 			val1 := eCtx.GetFloatFromAddress(addr1)
-			val2 := eCtx.GetIntFromAddress(addr2)
+			var val2 int64 = 0
+			if eCtx.AddrIsRef(quad.Op2) {
+				val2 = int64(addr2)
+			} else {
+				val2 = eCtx.GetIntFromAddress(addr2)
+			}
 			result := val1 / float64(val2)
 			eCtx.StoreFloatAtAddress(result, destination)
 		} else {
-			val1 := eCtx.GetIntFromAddress(addr1)
+			var val1 int64 = 0
+			if eCtx.AddrIsRef(quad.Op1) {
+				val1 = int64(addr1)
+			} else {
+				val1 = eCtx.GetIntFromAddress(addr1)
+			}
 			val2 := eCtx.GetFloatFromAddress(addr2)
 			result := float64(val1) / val2
 			eCtx.StoreFloatAtAddress(result, destination)
 		}
 	} else {
-		val1 := eCtx.GetIntFromAddress(addr1)
-		val2 := eCtx.GetIntFromAddress(addr2)
+		var val1 int64
+		if eCtx.AddrIsRef(quad.Op1) {
+			val1 = int64(addr1)
+		} else {
+			val1 = eCtx.GetIntFromAddress(addr1)
+		}
+		var val2 int64
+		if eCtx.AddrIsRef(quad.Op2) {
+			val2 = int64(addr2)
+		} else {
+			val2 = eCtx.GetIntFromAddress(addr2)
+		}
 		result := val1 / val2
 		eCtx.StoreIntAtAddress(result, destination)
 	}
@@ -190,8 +238,18 @@ func (eCtx *ECtx) HandleModulus() {
 	addr1 := eCtx.GetDerefed(quad.Op1)
 	addr2 := eCtx.GetDerefed(quad.Op2)
 
-	val1 := eCtx.GetIntFromAddress(addr1)
-	val2 := eCtx.GetIntFromAddress(addr2)
+	var val1 int64
+	if eCtx.AddrIsRef(quad.Op1) {
+		val1 = int64(addr1)
+	} else {
+		val1 = eCtx.GetIntFromAddress(addr1)
+	}
+	var val2 int64
+	if eCtx.AddrIsRef(quad.Op2) {
+		val2 = int64(addr2)
+	} else {
+		val2 = eCtx.GetIntFromAddress(addr2)
+	}
 	result := val1 % val2
 	eCtx.StoreIntAtAddress(result, destination)
 }
