@@ -99,6 +99,8 @@ const (
 	EndFunc // 🔶
 	End     // 🔶
 	Return
+	RefSum
+	RefMul
 	UndefinedOp // 🔶
 	Verify      // 🔶
 	Other

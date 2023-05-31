@@ -1,10 +1,16 @@
 Program Hello;
 
 var int[2][2] lss;
+var int x;
 
 main () {
   lss = [[0, 9], [8, 7]];
   print(lss);
   print(listAccess(lss, 1));
+  print(listAccess(lss, 0));
+  x = listAccess(lss, 0, 1) * listAccess(lss, 1, 0);
+  print(x);
+  x = listAccess(lss, 0, 1) + listAccess(lss, 1, 0);
+  print(x);
 }
 

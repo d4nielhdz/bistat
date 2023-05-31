@@ -137,6 +137,10 @@ func (eCtx *ECtx) HandleQuad() {
 	case src.GoSub:
 		eCtx.HandleGoSub()
 		return
+	case src.RefSum:
+		eCtx.HandleRefSum()
+	case src.RefMul:
+		eCtx.HandleRefMul()
 	default:
 		fmt.Println("Unhandled ", src.OpToString(quad.Op))
 	}

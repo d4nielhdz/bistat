@@ -116,7 +116,7 @@ func (l *bistatListener) ExitAssignment(ctx *parser.AssignmentContext) {
 			l.pCtx.POPop()
 			refAddr, _ := addrMgr.GetNext()
 			// todo: store i-1 as const
-			l.pCtx.vm.PushQuad(NewQuad(Sum, l.pCtx.ConstIntUpsert(startAddr), l.pCtx.ConstIntUpsert(i-1), refAddr))
+			l.pCtx.vm.PushQuad(NewQuad(RefSum, l.pCtx.ConstIntUpsert(startAddr), l.pCtx.ConstIntUpsert(i-1), refAddr))
 			l.pCtx.vm.PushQuad(NewQuad(Assign, refAddr, -1, elem.Address))
 			i = i - 1
 		}
