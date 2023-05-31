@@ -11,16 +11,35 @@ func myfunc(var int a; var float b; var float e;): float
   var float d;
   var float yy;
 {
+  print(a, b, e);
   d = e * b;
   c = a + 2;
+  print(c);
   yy = 3.14 + e;
   return yy;
+}
+
+func double(var int x;): int {
+  return x * 2;
+}
+
+func fac (var int x;): int {
+  if (x == 1) {
+    return x;
+  }
+  return x * fac(x - 1);
 }
 
 main() {
   x = 1;
   z = true;
   w = 2.1;
-  ww = 3.0
+  ww = 3.0;
   w = myfunc(x, w, ww);
+  print(w);
+  y = double(3)  + double(x);
+  x = fac(7);
+  print(y);
+  print(x);
+  print(double(9));
 }

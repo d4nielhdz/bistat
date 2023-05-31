@@ -168,12 +168,14 @@ func (pCtx *PCtx) GetRTypeFromVarName(varName string) (RType, bool) {
 		return NewRType(Int), false
 	}
 }
+
 func (pCtx *PCtx) IgnoreIfRef(val int) int {
 	if val >= GLOBAL_REF_START && val < LOCAL_REF_END {
 		return val
 	}
 	return pCtx.ConstIntUpsert(val)
 }
+
 func (pCtx *PCtx) ConstIntUpsert(val int) int {
 	entry, found := pCtx.consTable[strconv.Itoa(val)]
 	if !found {
@@ -431,7 +433,7 @@ func (pCtx *PCtx) PrintPo() {
 
 func (pCtx *PCtx) HandleGenerateQuadForExpression() {
 	oper := Op(pCtx.POperTop())
-	pCtx.PrintPo()
+	// pCtx.PrintPo()
 	pCtx.POperPop()
 	o1 := pCtx.POTop()
 	pCtx.POPop()

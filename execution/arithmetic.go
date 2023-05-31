@@ -18,6 +18,7 @@ func (eCtx *ECtx) HandleSum() {
 			val1 := eCtx.GetFloatFromAddress(addr1)
 			val2 := eCtx.GetFloatFromAddress(addr2)
 			result := val1 + val2
+			// fmt.Println(val1, val2, result, destination)
 			eCtx.StoreFloatAtAddress(result, destination)
 		} else if pType1 == src.Float {
 			val1 := eCtx.GetFloatFromAddress(addr1)

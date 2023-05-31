@@ -230,6 +230,10 @@ func (l *bistatListener) ExitListAssign(ctx *parser.ListAssignContext) {
 }
 
 func (l *bistatListener) ExitPrint(ctx *parser.PrintContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+
 	if !l.pCtx.POperIsEmpty() {
 		l.pCtx.SemanticError("Cannot use 'print' inside an expression")
 		return
@@ -284,6 +288,9 @@ func (l *bistatListener) ExitPrint(ctx *parser.PrintContext) {
 }
 
 func (l *bistatListener) EnterListAccess(ctx *parser.ListAccessContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
 	l.pCtx.POperPush(int(Other))
 }
 

@@ -14,6 +14,8 @@ type ECtx struct {
 	TempMemory   *MemorySegment
 	GlobalMemory *MemorySegment
 	StackSegment []StackSegment
+	Jumps        []int
+	Functions    []string
 	Errors       []string
 }
 
@@ -28,7 +30,12 @@ func NewEctx(objCode src.ObjCode) ECtx {
 		GlobalMemory: NewMemorySegment(objCode.FloatSize, objCode.IntSize, objCode.StringSize, objCode.BoolSize, objCode.GlobalRefSize, src.GLOBAL_FLOAT_START, src.GLOBAL_INT_START, src.GLOBAL_STRING_START, src.GLOBAL_BOOL_START, src.GLOBAL_REF_START),
 		StackSegment: make([]StackSegment, 0),
 		Errors:       make([]string, 0),
+		Functions:    objCode.Functions,
 	}
+}
+
+func (eCtx *ECtx) PushStackSegment(stackSegment *StackSegment) {
+	eCtx.StackSegment = append(eCtx.StackSegment, *stackSegment)
 }
 
 func (eCtx *ECtx) NewError(err string) {
@@ -43,6 +50,7 @@ func (eCtx *ECtx) PrintErrors() {
 
 func (eCtx *ECtx) Run() {
 	eCtx.LoadConstMemory()
+	// i := 0
 	// eCtx.ConstMemory.Print()
 	for eCtx.IP < len(eCtx.Quads) {
 		if len(eCtx.Errors) > 0 {
@@ -50,6 +58,11 @@ func (eCtx *ECtx) Run() {
 		}
 		// fmt.Println("Running quad", eCtx.IP)
 		eCtx.HandleQuad()
+		if len(eCtx.StackSegment) > 1000000 {
+			eCtx.NewError("Stack overflow")
+			return
+		}
+		// i++
 	}
 	// fmt.Println("Global")
 	// eCtx.GlobalMemory.Print()
@@ -67,14 +80,26 @@ func (eCtx *ECtx) GetStackSegment() *StackSegment {
 	return &eCtx.StackSegment[len(eCtx.StackSegment)-1]
 }
 
+func (eCtx *ECtx) GetPreviousStackSegment() *StackSegment {
+	return &eCtx.StackSegment[len(eCtx.StackSegment)-2]
+}
+
 func (eCtx *ECtx) HandleQuad() {
 	quad := eCtx.GetCurrentQuad()
+	if quad.Op != src.Print && quad.Op != src.PrintN {
+		fmt.Println("#", eCtx.IP)
+	}
 	switch quad.Op {
 	case src.Goto:
 		eCtx.IP = quad.Destination
 		return
 	case src.Assign:
 		eCtx.HandleAssign()
+	case src.Param:
+		eCtx.HandleParam()
+	case src.Return:
+		eCtx.HandleReturn()
+		return
 	case src.Sum:
 		eCtx.HandleSum()
 	case src.Subtraction:
@@ -106,6 +131,11 @@ func (eCtx *ECtx) HandleQuad() {
 		return
 	case src.GotoT:
 		eCtx.HandleGotoT()
+		return
+	case src.Era:
+		eCtx.HandleEra()
+	case src.GoSub:
+		eCtx.HandleGoSub()
 		return
 	default:
 		fmt.Println("Unhandled ", src.OpToString(quad.Op))

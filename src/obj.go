@@ -3,6 +3,7 @@ package src
 type ObjCode struct {
 	FuncDir         map[string]FuncData
 	ConsTable       map[string]RType
+	Functions       []string
 	Quads           []Quad
 	ConstIntSize    int
 	ConstFloatSize  int
@@ -22,6 +23,7 @@ type ObjCode struct {
 func NewObjCode(funcDir map[string]FuncData,
 	consTable map[string]RType,
 	quads []Quad,
+	functions []string,
 ) ObjCode {
-	return ObjCode{Quads: quads, FuncDir: funcDir, ConsTable: consTable}
+	return ObjCode{Quads: quads, FuncDir: funcDir, ConsTable: consTable, Functions: functions}
 }

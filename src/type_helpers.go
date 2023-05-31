@@ -69,10 +69,10 @@ const (
 	InputRead // 🔶
 	Print
 	PrintN
-	ListAdd    // 🔶
-	ListPop    // 🔶
-	Length     // 🔶
-	Range      // 🔶
+	ListAdd    // ❌
+	ListPop    // ❌
+	Length     // ❌
+	Range      // ❌
 	Plot       // 🔶
 	ListSum    // 🔶
 	Min        // 🔶
@@ -272,7 +272,7 @@ var semanticCube = [3][3][13]PType{
 }
 
 func SemanticCubeLookup(op1 PType, op2 PType, op Op) PType {
-	fmt.Println("Checking cube ", int(op1), int(op2))
+	// fmt.Println("Checking cube ", int(op1), int(op2))
 	if int(op1) >= len(semanticCube) {
 		return Undefined
 	}

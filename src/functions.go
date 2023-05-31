@@ -32,6 +32,10 @@ func (l *bistatListener) EnterFuncDef(ctx *parser.FuncDefContext) {
 
 	for _, p := range ctx.AllParamDeclaration() {
 		pType := PTypeFromString(p.TYPE_PRIMITIVE().GetText())
+		if pType == Void {
+			l.pCtx.SemanticError("Can't have void parameters (" + p.ID().GetText() + ")")
+			return
+		}
 		addrMgr := l.pCtx.GetCorrespondingAddressManager(pType)
 		resolved := NewRType(pType)
 		addr, ok := addrMgr.GetNext()
@@ -40,6 +44,9 @@ func (l *bistatListener) EnterFuncDef(ctx *parser.FuncDefContext) {
 			return
 		}
 		resolved.Address = addr
+		l.pCtx.AddVarToScope(l.pCtx.GetCurrentScope(), p.ID().GetText(), resolved)
+		l.pCtx.AddToAddrTable(resolved.Address, p.ID().GetText())
+
 		params = append(params, resolved)
 		switch pType {
 		case Int:
@@ -66,28 +73,6 @@ func (l *bistatListener) EnterFuncDef(ctx *parser.FuncDefContext) {
 	data.Idx = len(l.pCtx.functions)
 	l.pCtx.functions = append(l.pCtx.functions, funcName)
 	l.pCtx.funcDir[funcName] = data
-}
-
-func (l *bistatListener) EnterParamDeclaration(ctx *parser.ParamDeclarationContext) {
-	if len(l.pCtx.semanticErrors) > 0 {
-		return
-	}
-
-	pType := PTypeFromString(ctx.TYPE_PRIMITIVE().GetText())
-	if pType == Void {
-		l.pCtx.SemanticError("Can't have void parameters (" + ctx.ID().GetText() + ")")
-		return
-	}
-	addrMgr := l.pCtx.GetCorrespondingAddressManager(pType)
-	resolved := NewRType(pType)
-	addr, ok := addrMgr.GetNext()
-	if !ok {
-		l.pCtx.SemanticError("Out of memory")
-		return
-	}
-	resolved.Address = addr
-	l.pCtx.AddVarToScope(l.pCtx.GetCurrentScope(), ctx.ID().GetText(), resolved)
-	l.pCtx.AddToAddrTable(resolved.Address, ctx.ID().GetText())
 }
 
 func (l *bistatListener) EnterFuncBlockStart(ctx *parser.FuncBlockStartContext) {
@@ -145,17 +130,17 @@ func (l *bistatListener) ExitReturnStmt(ctx *parser.ReturnStmtContext) {
 		l.pCtx.SemanticError("Incorrect return type for function " + funcName + ", expected " + PTypeToString(o.PType) + ", found " + PTypeToString(fVar.PType))
 		return
 	}
-	l.pCtx.vm.PushQuad(NewQuad(Return, o.Address, -1, fVar.Address))
+	l.pCtx.vm.PushQuad(NewQuad(Return, fVar.Address, -1, o.Address))
 }
 func (l *bistatListener) EnterFunctionCall(ctx *parser.FunctionCallContext) {
 	l.pCtx.POperPush(int(Other))
 }
 
 func (l *bistatListener) ExitFunctionCall(ctx *parser.FunctionCallContext) {
-	l.pCtx.POperPop()
 	if len(l.pCtx.semanticErrors) > 0 {
 		return
 	}
+	l.pCtx.POperPop()
 
 	funcName := ctx.ID().GetText()
 	data, found := l.pCtx.funcDir[funcName]
@@ -172,13 +157,13 @@ func (l *bistatListener) ExitFunctionCall(ctx *parser.FunctionCallContext) {
 	}
 	for numArgs != 0 {
 		rType := l.pCtx.POTop()
-		paramtype := l.pCtx.paramTable[funcName][numArgs-1]
+		param := l.pCtx.paramTable[funcName][numArgs-1]
 		// todo: check array coherence
-		if paramtype.PType != rType.PType {
+		if param.PType != rType.PType {
 			l.pCtx.SemanticError("Type mismatch between argument and parameter in argument #" + strconv.Itoa(numArgs) + " in function call to " + funcName)
 			return
 		}
-		l.pCtx.vm.PushQuad(NewQuad(Param, rType.Address, numArgs-1, -1))
+		l.pCtx.vm.PushQuad(NewQuad(Param, param.Address, -1, rType.Address))
 		numArgs--
 		l.pCtx.POPop()
 	}
@@ -191,7 +176,7 @@ func (l *bistatListener) ExitFunctionCall(ctx *parser.FunctionCallContext) {
 		tmp.FirstDim = fVar.FirstDim
 		tmp.SecondDim = fVar.SecondDim
 		tmp.Address = addr
-		l.pCtx.vm.PushQuad(NewQuad(Assign, fVar.Address, -1, addr))
+		l.pCtx.vm.PushQuad(NewQuad(Assign, addr, -1, fVar.Address))
 		l.pCtx.POPush(tmp)
 	}
 }

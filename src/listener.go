@@ -55,11 +55,11 @@ func (l *bistatListener) EnterVarDeclaration(ctx *parser.VarDeclarationContext) 
 	}
 }
 func (l *bistatListener) EnterAssignment(ctx *parser.AssignmentContext) {
-	fmt.Println("Enter assignment")
+	// fmt.Println("Enter assignment")
 
 }
 func (l *bistatListener) ExitAssignment(ctx *parser.AssignmentContext) {
-	fmt.Println("Exit assignment")
+	// fmt.Println("Exit assignment")
 	if len(l.pCtx.semanticErrors) > 0 {
 		return
 	}
@@ -137,7 +137,7 @@ func (l *bistatListener) ExitAssignment(ctx *parser.AssignmentContext) {
 }
 
 func (l *bistatListener) EnterMain(ctx *parser.MainContext) {
-	fmt.Println("Enter main")
+	// fmt.Println("Enter main")
 	if len(l.pCtx.semanticErrors) > 0 {
 		return
 	}
@@ -155,7 +155,7 @@ func (l *bistatListener) ExitProgram(ctx *parser.ProgramContext) {
 	if len(l.pCtx.semanticErrors) == 0 {
 		RegisterTypes()
 		file, err := os.Create("./obj.gob")
-		objCode := NewObjCode(l.pCtx.funcDir, l.pCtx.consTable, l.pCtx.vm.quads)
+		objCode := NewObjCode(l.pCtx.funcDir, l.pCtx.consTable, l.pCtx.vm.quads, l.pCtx.functions)
 		objCode.BoolSize = l.pCtx.vm.globalBoolAddressMgr.GetSize()
 		objCode.StringSize = l.pCtx.vm.globalStringAddressMgr.GetSize()
 		objCode.FloatSize = l.pCtx.vm.globalFloatAddressMgr.GetSize()

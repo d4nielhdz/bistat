@@ -98,7 +98,7 @@ type StackSegment struct {
 	tempMemory  *MemorySegment
 }
 
-func NewStackSegment(fSize int, iSize int, sSize int, bSize int, baseFloatAddr int, baseIntAddr int, baseStringAddr int, baseBoolAddr int, tempFSize int, tempISize int, tempSSize int, tempBSize int, refSize int, baseTempFloatAddr int, baseTempIntAddr int, baseTempStringAddr int, baseTempBoolAddr int, baseRefAddr int) *StackSegment {
+func NewStackSegment(fSize int, iSize int, sSize int, bSize int, refSize int, baseFloatAddr int, baseIntAddr int, baseStringAddr int, baseBoolAddr int, baseRefAddr int, tempFSize int, tempISize int, tempSSize int, tempBSize int, baseTempFloatAddr int, baseTempIntAddr int, baseTempStringAddr int, baseTempBoolAddr int) *StackSegment {
 	return &StackSegment{
 		localMemory: NewMemorySegment(fSize, iSize, sSize, bSize, refSize, baseFloatAddr, baseIntAddr, baseStringAddr, baseBoolAddr, baseRefAddr),
 		tempMemory:  NewMemorySegment(tempFSize, tempISize, tempSSize, tempBSize, 0, baseTempFloatAddr, baseTempIntAddr, baseTempStringAddr, baseTempBoolAddr, 0),
