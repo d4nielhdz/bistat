@@ -87,7 +87,7 @@ func (eCtx *ECtx) GetPreviousStackSegment() *StackSegment {
 func (eCtx *ECtx) HandleQuad() {
 	quad := eCtx.GetCurrentQuad()
 	if quad.Op != src.Print && quad.Op != src.PrintN {
-		fmt.Println("#", eCtx.IP)
+		// fmt.Println("#", eCtx.IP)
 	}
 	switch quad.Op {
 	case src.Goto:

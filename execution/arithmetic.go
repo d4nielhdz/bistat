@@ -32,12 +32,13 @@ func (eCtx *ECtx) HandleSum() {
 			eCtx.StoreFloatAtAddress(result, destination)
 		}
 	} else {
+		// fmt.Println(quad.Op1, quad.Op2, addr1, addr2)
 		val1 := eCtx.GetIntFromAddress(addr1)
 		val2 := eCtx.GetIntFromAddress(addr2)
 		result := val1 + val2
+		// fmt.Println(eCtx.IP, "- sum", addr1, addr2, val1, val2, result, destination)
 		if eCtx.AddrIsRef(destination) {
 			eCtx.StoreRefAtAddress(int(result), destination)
-			// fmt.Println(eCtx.IP, "- sum", addr1, addr2, val1, val2, result, destination)
 		} else {
 			eCtx.StoreIntAtAddress(result, destination)
 		}
