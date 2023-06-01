@@ -12,16 +12,7 @@ func (l *bistatListener) ExitSpecialFunction(ctx *parser.SpecialFunctionContext)
 	}
 
 	if ctx.InputRead() != nil {
-		if !l.pCtx.POperIsEmpty() {
-			l.pCtx.SemanticError("Cannot use 'read' inside an expression")
-			return
-		}
-		for range ctx.InputRead().AllID() {
-			o := l.pCtx.POTop()
-			quad := NewQuad(InputRead, o.Address, -1, -1)
-			l.pCtx.vm.PushQuad(quad)
-			l.pCtx.POPop()
-		}
+
 	} else if ctx.ListAdd() != nil {
 		if !l.pCtx.POperIsEmpty() {
 			l.pCtx.SemanticError("Cannot use 'listAdd' inside an arithmetic expression")
@@ -397,5 +388,33 @@ func (l *bistatListener) ExitListAccess(ctx *parser.ListAccessContext) {
 		indexed.Address = refAddr
 		// todo: figure out how/when to calculate end address
 		l.pCtx.POPush(indexed)
+	}
+}
+
+func (l *bistatListener) ExitInputRead(ctx *parser.InputReadContext) {
+	if !l.pCtx.POperIsEmpty() {
+		l.pCtx.SemanticError("Cannot use 'read' inside an expression")
+		return
+	}
+	for range ctx.AllExpression() {
+		o := l.pCtx.POTop()
+		if o.FirstDim > 0 {
+			expectedSize := o.FirstDim
+			if o.SecondDim > 0 {
+				expectedSize *= o.SecondDim
+			}
+			addrMgr := l.pCtx.vm.globalRefAddressMgr
+			i := 0
+			for i != expectedSize {
+				refAddr, _ := addrMgr.GetNext()
+				l.pCtx.vm.PushQuad(NewQuad(RefSum, l.pCtx.IgnoreIfRef(o.Address), l.pCtx.ConstIntUpsert(i), refAddr))
+				l.pCtx.vm.PushQuad(NewQuad(InputRead, refAddr, -1, -1))
+				i++
+			}
+		} else {
+			quad := NewQuad(InputRead, o.Address, -1, -1)
+			l.pCtx.vm.PushQuad(quad)
+		}
+		l.pCtx.POPop()
 	}
 }

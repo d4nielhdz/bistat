@@ -80,7 +80,7 @@ specialFunction:
 	| ceil
 	| abs
 	| not;
-inputRead: 'read' '(' ID (',' ID)* ')';
+inputRead: 'read' '(' expression (',' expression)* ')';
 print: 'print' '(' expression ( ',' expression)* ')';
 listAdd: 'listAdd' '(' expression ',' expression ')';
 listPop: 'listPop' '(' expression ')';

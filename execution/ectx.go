@@ -124,6 +124,8 @@ func (eCtx *ECtx) HandleQuad() {
 		eCtx.HandleNe()
 	case src.Print:
 		eCtx.HandlePrint()
+	case src.InputRead:
+		eCtx.HandleInputRead()
 	case src.PrintN:
 		eCtx.HandlePrintN()
 	case src.GotoF:

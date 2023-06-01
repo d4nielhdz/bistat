@@ -1,0 +1,25 @@
+program Hello;
+
+var int x;
+var int[5] nums;
+var string[3] words;
+var int i;
+var string word;
+
+main () {
+  read(x);
+  print(x);
+  read(nums);
+  print(nums);
+  
+  i = 0;
+
+  while (i != 3) {
+    read(listAccess(words, i));
+    i = i + 1;
+  }
+
+  print(words);
+  print(listAccess(words, 2));
+  print("a");
+}

@@ -230,7 +230,7 @@ func bistatParserInit() {
 		349, 342, 1, 0, 0, 0, 349, 343, 1, 0, 0, 0, 349, 344, 1, 0, 0, 0, 349,
 		345, 1, 0, 0, 0, 349, 346, 1, 0, 0, 0, 349, 347, 1, 0, 0, 0, 349, 348,
 		1, 0, 0, 0, 350, 49, 1, 0, 0, 0, 351, 352, 5, 22, 0, 0, 352, 353, 5, 5,
-		0, 0, 353, 358, 5, 63, 0, 0, 354, 355, 5, 13, 0, 0, 355, 357, 5, 63, 0,
+		0, 0, 353, 358, 3, 98, 49, 0, 354, 355, 5, 13, 0, 0, 355, 357, 3, 98, 49,
 		0, 356, 354, 1, 0, 0, 0, 357, 360, 1, 0, 0, 0, 358, 356, 1, 0, 0, 0, 358,
 		359, 1, 0, 0, 0, 359, 361, 1, 0, 0, 0, 360, 358, 1, 0, 0, 0, 361, 362,
 		5, 6, 0, 0, 362, 51, 1, 0, 0, 0, 363, 364, 5, 23, 0, 0, 364, 365, 5, 5,
@@ -5269,8 +5269,8 @@ type IInputReadContext interface {
 	GetParser() antlr.Parser
 
 	// Getter signatures
-	AllID() []antlr.TerminalNode
-	ID(i int) antlr.TerminalNode
+	AllExpression() []IExpressionContext
+	Expression(i int) IExpressionContext
 
 	// IsInputReadContext differentiates from other interfaces.
 	IsInputReadContext()
@@ -5308,12 +5308,45 @@ func NewInputReadContext(parser antlr.Parser, parent antlr.ParserRuleContext, in
 
 func (s *InputReadContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *InputReadContext) AllID() []antlr.TerminalNode {
-	return s.GetTokens(BistatParserID)
+func (s *InputReadContext) AllExpression() []IExpressionContext {
+	children := s.GetChildren()
+	len := 0
+	for _, ctx := range children {
+		if _, ok := ctx.(IExpressionContext); ok {
+			len++
+		}
+	}
+
+	tst := make([]IExpressionContext, len)
+	i := 0
+	for _, ctx := range children {
+		if t, ok := ctx.(IExpressionContext); ok {
+			tst[i] = t.(IExpressionContext)
+			i++
+		}
+	}
+
+	return tst
 }
 
-func (s *InputReadContext) ID(i int) antlr.TerminalNode {
-	return s.GetToken(BistatParserID, i)
+func (s *InputReadContext) Expression(i int) IExpressionContext {
+	var t antlr.RuleContext
+	j := 0
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IExpressionContext); ok {
+			if j == i {
+				t = ctx.(antlr.RuleContext)
+				break
+			}
+			j++
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IExpressionContext)
 }
 
 func (s *InputReadContext) GetRuleContext() antlr.RuleContext {
@@ -5360,11 +5393,7 @@ func (p *BistatParser) InputRead() (localctx IInputReadContext) {
 	}
 	{
 		p.SetState(353)
-		p.Match(BistatParserID)
-		if p.HasError() {
-			// Recognition error - abort rule
-			goto errorExit
-		}
+		p.Expression()
 	}
 	p.SetState(358)
 	p.GetErrorHandler().Sync(p)
@@ -5384,11 +5413,7 @@ func (p *BistatParser) InputRead() (localctx IInputReadContext) {
 		}
 		{
 			p.SetState(355)
-			p.Match(BistatParserID)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
+			p.Expression()
 		}
 
 		p.SetState(360)

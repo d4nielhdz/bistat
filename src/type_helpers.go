@@ -66,7 +66,7 @@ const (
 	Eq
 	Ne
 	Assign
-	InputRead // 🔶
+	InputRead
 	Print
 	PrintN
 	ListAdd    // ❌

@@ -1731,9 +1731,11 @@ public class BistatParser extends Parser {
 	}
 
 	public static class InputReadContext extends ParserRuleContext {
-		public List<TerminalNode> ID() { return getTokens(BistatParser.ID); }
-		public TerminalNode ID(int i) {
-			return getToken(BistatParser.ID, i);
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
 		}
 		public InputReadContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1753,7 +1755,7 @@ public class BistatParser extends Parser {
 			setState(352);
 			match(T__4);
 			setState(353);
-			match(ID);
+			expression();
 			setState(358);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
@@ -1763,7 +1765,7 @@ public class BistatParser extends Parser {
 				setState(354);
 				match(T__12);
 				setState(355);
-				match(ID);
+				expression();
 				}
 				}
 				setState(360);
@@ -3434,13 +3436,13 @@ public class BistatParser extends Parser {
 		"\2\2\u015f\u0155\3\2\2\2\u015f\u0156\3\2\2\2\u015f\u0157\3\2\2\2\u015f"+
 		"\u0158\3\2\2\2\u015f\u0159\3\2\2\2\u015f\u015a\3\2\2\2\u015f\u015b\3\2"+
 		"\2\2\u015f\u015c\3\2\2\2\u015f\u015d\3\2\2\2\u015f\u015e\3\2\2\2\u0160"+
-		"\63\3\2\2\2\u0161\u0162\7\30\2\2\u0162\u0163\7\7\2\2\u0163\u0168\7A\2"+
-		"\2\u0164\u0165\7\17\2\2\u0165\u0167\7A\2\2\u0166\u0164\3\2\2\2\u0167\u016a"+
-		"\3\2\2\2\u0168\u0166\3\2\2\2\u0168\u0169\3\2\2\2\u0169\u016b\3\2\2\2\u016a"+
-		"\u0168\3\2\2\2\u016b\u016c\7\b\2\2\u016c\65\3\2\2\2\u016d\u016e\7\31\2"+
-		"\2\u016e\u016f\7\7\2\2\u016f\u0174\5d\63\2\u0170\u0171\7\17\2\2\u0171"+
-		"\u0173\5d\63\2\u0172\u0170\3\2\2\2\u0173\u0176\3\2\2\2\u0174\u0172\3\2"+
-		"\2\2\u0174\u0175\3\2\2\2\u0175\u0177\3\2\2\2\u0176\u0174\3\2\2\2\u0177"+
+		"\63\3\2\2\2\u0161\u0162\7\30\2\2\u0162\u0163\7\7\2\2\u0163\u0168\5d\63"+
+		"\2\u0164\u0165\7\17\2\2\u0165\u0167\5d\63\2\u0166\u0164\3\2\2\2\u0167"+
+		"\u016a\3\2\2\2\u0168\u0166\3\2\2\2\u0168\u0169\3\2\2\2\u0169\u016b\3\2"+
+		"\2\2\u016a\u0168\3\2\2\2\u016b\u016c\7\b\2\2\u016c\65\3\2\2\2\u016d\u016e"+
+		"\7\31\2\2\u016e\u016f\7\7\2\2\u016f\u0174\5d\63\2\u0170\u0171\7\17\2\2"+
+		"\u0171\u0173\5d\63\2\u0172\u0170\3\2\2\2\u0173\u0176\3\2\2\2\u0174\u0172"+
+		"\3\2\2\2\u0174\u0175\3\2\2\2\u0175\u0177\3\2\2\2\u0176\u0174\3\2\2\2\u0177"+
 		"\u0178\7\b\2\2\u0178\67\3\2\2\2\u0179\u017a\7\32\2\2\u017a\u017b\7\7\2"+
 		"\2\u017b\u017c\5d\63\2\u017c\u017d\7\17\2\2\u017d\u017e\5d\63\2\u017e"+
 		"\u017f\7\b\2\2\u017f9\3\2\2\2\u0180\u0181\7\33\2\2\u0181\u0182\7\7\2\2"+
