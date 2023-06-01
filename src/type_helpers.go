@@ -69,10 +69,6 @@ const (
 	InputRead
 	Print
 	PrintN
-	ListAdd    // ❌
-	ListPop    // ❌
-	Length     // ❌
-	Range      // ❌
 	Plot       // 🔶
 	ListSum    // 🔶
 	Min        // 🔶
@@ -179,14 +175,6 @@ func OpToString(op Op) string {
 		return "Print"
 	case PrintN:
 		return "PrintN"
-	case ListAdd:
-		return "ListAdd"
-	case ListPop:
-		return "ListPop"
-	case Length:
-		return "Length"
-	case Range:
-		return "Range"
 	case Plot:
 		return "Plot"
 	case ListSum:

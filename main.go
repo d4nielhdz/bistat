@@ -13,14 +13,9 @@ func main() {
 	lexer := parser.NewBistatLexer(input)
 	stream := antlr.NewCommonTokenStream(lexer, 0)
 	p := parser.NewBistatParser(stream)
-
-	// // Start the parsing process
-	// program := p.Program()
-
-	// // Get the parse tree
-	// parseTree := program.GetRuleContext()
-
-	// // Print the parse tree
-	// fmt.Println(parseTree.ToStringTree([]string{}, p))
-	antlr.ParseTreeWalkerDefault.Walk(src.NewBistatListener(), p.Program())
+	printQuads := false
+	if len(os.Args) > 2 && os.Args[2] == "1" {
+		printQuads = true
+	}
+	antlr.ParseTreeWalkerDefault.Walk(src.NewBistatListener(printQuads), p.Program())
 }

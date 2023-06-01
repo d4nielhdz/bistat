@@ -21,9 +21,10 @@ type PCtx struct {
 	vm             VM
 	jumps          []int
 	condJumps      [][]int
+	printQuads     bool
 }
 
-func NewPCtx() PCtx {
+func NewPCtx(printQuads bool) PCtx {
 	return PCtx{
 		scopes:         make([]string, 0),
 		functions:      []string{"main"},
@@ -37,6 +38,7 @@ func NewPCtx() PCtx {
 		pO:             make([]RType, 0),
 		pOper:          make([]int, 0),
 		jumps:          make([]int, 0),
+		printQuads:     printQuads,
 	}
 }
 
@@ -117,7 +119,6 @@ func (pCtx *PCtx) GetRTypeFromVarConsContext(ctx *parser.VarConsContext) RType {
 		regex := regexp.MustCompile(pattern)
 		matches := regex.FindStringSubmatch(ctx.STRING_CONS().GetText())
 		result := matches[1]
-		fmt.Println(result)
 		entry, found := pCtx.consTable[result]
 		if found {
 			return entry

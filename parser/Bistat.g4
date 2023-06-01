@@ -58,12 +58,8 @@ returnStmt: 'return' expression;
 specialFunction:
 	inputRead
 	| print
-	| listAdd
 	| listAccess
 	| listAssign
-	| listPop
-	| length
-	| range
 	| plot
 	| sum
 	| min

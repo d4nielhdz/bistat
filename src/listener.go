@@ -14,9 +14,9 @@ type bistatListener struct {
 	pCtx PCtx
 }
 
-func NewBistatListener() *bistatListener {
+func NewBistatListener(printQuads bool) *bistatListener {
 	l := new(bistatListener)
-	l.pCtx = NewPCtx()
+	l.pCtx = NewPCtx(printQuads)
 	return l
 }
 
@@ -111,7 +111,6 @@ func (l *bistatListener) ExitAssignment(ctx *parser.AssignmentContext) {
 			addrMgr = l.pCtx.vm.localRefAddressMgr
 		}
 		for i > 0 {
-			fmt.Println(i)
 			elem := l.pCtx.POTop()
 			l.pCtx.POPop()
 			refAddr, _ := addrMgr.GetNext()
@@ -185,7 +184,9 @@ func (l *bistatListener) EnterMain(ctx *parser.MainContext) {
 func (l *bistatListener) ExitProgram(ctx *parser.ProgramContext) {
 	l.pCtx.vm.PushQuad(NewQuad(End, -1, -1, -1))
 	// l.pCtx.PrintAddrTable()
-	l.pCtx.PrintQuads()
+	if l.pCtx.printQuads {
+		l.pCtx.PrintQuads()
+	}
 	l.pCtx.PrintErrors()
 	if len(l.pCtx.semanticErrors) == 0 {
 		RegisterTypes()
