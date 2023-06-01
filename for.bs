@@ -1,0 +1,20 @@
+Program Hello;
+
+
+var int[4] arr;
+var int[2][2] lss;
+var int x;
+
+main () {
+  arr = [12, 13, 15, 16];
+  listAssign(lss, 0, [listAccess(arr, 1) + 1, listAccess(arr, 3) + 1]);
+
+  for (x in arr) {
+    print(x);
+  }
+
+  for (x in listAccess(lss, 0)) {
+    print(x);
+  }
+}
+

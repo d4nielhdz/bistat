@@ -166,7 +166,7 @@ func (l *bistatListener) ExitListAssign(ctx *parser.ListAssignContext) {
 		i := expectedSize
 		idx := l.pCtx.pO[len(l.pCtx.pO)-expectedSize-1]
 		iAddr, _ := iAddrMgr.GetNext()
-		l.pCtx.vm.PushQuad(NewQuad(Verify, rType.Address, idx.Address, rType.FirstDim))
+		l.pCtx.vm.PushQuad(NewQuad(Verify, idx.Address, rType.Address, rType.FirstDim))
 		l.pCtx.vm.PushQuad(NewQuad(Multiplication, l.pCtx.ConstIntUpsert(rType.FirstDim), idx.Address, iAddr))
 		secondAddr, _ := iAddrMgr.GetNext()
 		l.pCtx.vm.PushQuad(NewQuad(Sum, l.pCtx.ConstIntUpsert(rType.Address), iAddr, secondAddr))

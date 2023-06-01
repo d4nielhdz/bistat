@@ -130,7 +130,7 @@ func (l *bistatListener) EnterForHeader(ctx *parser.ForHeaderContext) {
 		l.pCtx.addrTable[zero.Address] = "0"
 		entry = zero
 	}
-	l.pCtx.vm.PushQuad(NewQuad(Assign, entry.Address, -1, idxAddr))
+	l.pCtx.vm.PushQuad(NewQuad(Assign, idxAddr, -1, entry.Address))
 	l.pCtx.POPush(rType)
 }
 
@@ -140,7 +140,7 @@ func (l *bistatListener) ExitForHeader(ctx *parser.ForHeaderContext) {
 	}
 
 	varName := ctx.ID().GetText()
-	_, found := l.pCtx.GetRTypeFromVarName(varName)
+	elem, found := l.pCtx.GetRTypeFromVarName(varName)
 	if !found {
 		l.pCtx.SemanticError("Variable " + varName + " not found")
 		return
@@ -153,15 +153,18 @@ func (l *bistatListener) ExitForHeader(ctx *parser.ForHeaderContext) {
 		l.pCtx.SemanticError("Control variable must be the same type as expression variable")
 		return
 	}
-	lenAddr, _ := l.pCtx.vm.tempIntAddressMgr.GetNext()
+	lenAddr := l.pCtx.ConstIntUpsert(o.FirstDim)
 	boolAddr, _ := l.pCtx.vm.tempBoolAddressMgr.GetNext()
 	l.pCtx.JumpsPush(len(l.pCtx.vm.Quads()))
-	l.pCtx.vm.PushQuad(NewQuad(Length, o.Address, -1, lenAddr))
 	l.pCtx.vm.PushQuad(NewQuad(Lt, vc.Address, lenAddr, boolAddr))
 	currQuad := len(l.pCtx.vm.quads)
 	l.pCtx.JumpsPush(currQuad)
 	l.pCtx.vm.PushQuad(NewQuad(GotoF, boolAddr, -1, -1))
-
+	//  todo: figure out for loop
+	addrMgr := l.pCtx.vm.globalRefAddressMgr
+	refAddr, _ := addrMgr.GetNext()
+	l.pCtx.vm.PushQuad(NewQuad(RefSum, vc.Address, l.pCtx.IgnoreIfRef(o.Address), refAddr))
+	l.pCtx.vm.PushQuad(NewQuad(Assign, elem.Address, -1, refAddr))
 }
 
 func (l *bistatListener) ExitForLoop(ctx *parser.ForLoopContext) {

@@ -102,7 +102,7 @@ const (
 	RefSum
 	RefMul
 	UndefinedOp // 🔶
-	Verify      // 🔶
+	Verify
 	Other
 )
 
@@ -167,6 +167,10 @@ func OpToString(op Op) string {
 		return "Eq"
 	case Ne:
 		return "Ne"
+	case RefMul:
+		return "RefMul"
+	case RefSum:
+		return "RefSum"
 	case Assign:
 		return "Assign"
 	case InputRead:

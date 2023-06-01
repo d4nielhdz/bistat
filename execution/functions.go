@@ -18,6 +18,14 @@ func (eCtx *ECtx) HandleReturn() {
 	eCtx.StackSegment = newStack
 }
 
+func (eCtx *ECtx) HandleEndFunc() {
+	eCtx.IP = eCtx.Jumps[len(eCtx.Jumps)-1]
+	popped := eCtx.Jumps[:len(eCtx.Jumps)-1]
+	eCtx.Jumps = popped
+	newStack := eCtx.StackSegment[:len(eCtx.StackSegment)-1]
+	eCtx.StackSegment = newStack
+}
+
 func (eCtx *ECtx) HandleGoSub() {
 	quad := eCtx.GetCurrentQuad()
 	funcIdx := quad.Op1

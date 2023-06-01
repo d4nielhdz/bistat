@@ -1,10 +1,13 @@
 Program Hello;
 
 var int[2][2] lss;
+var float[3] fs;
 var int x;
+var float y;
 
 main () {
   lss = [[0, 9], [8, 7]];
+  fs = [11.11, 1.1, 2.0];
   print(lss);
   print(listAccess(lss, 1));
   print(listAccess(lss, 0));
@@ -12,5 +15,7 @@ main () {
   print(x);
   x = listAccess(lss, 0, 1) + listAccess(lss, 1, 0);
   print(x);
+  y = listAccess(fs, 0) / listAccess(fs, 1);
+  print(y);
 }
 

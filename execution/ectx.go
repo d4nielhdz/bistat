@@ -53,11 +53,11 @@ func (eCtx *ECtx) Run() {
 	// i := 0
 	// eCtx.ConstMemory.Print()
 	for eCtx.IP < len(eCtx.Quads) {
+		// fmt.Println("Running quad", eCtx.IP)
+		eCtx.HandleQuad()
 		if len(eCtx.Errors) > 0 {
 			return
 		}
-		// fmt.Println("Running quad", eCtx.IP)
-		eCtx.HandleQuad()
 		if len(eCtx.StackSegment) > 1000000 {
 			eCtx.NewError("Stack overflow")
 			return
@@ -141,6 +141,11 @@ func (eCtx *ECtx) HandleQuad() {
 		eCtx.HandleRefSum()
 	case src.RefMul:
 		eCtx.HandleRefMul()
+	case src.Verify:
+		eCtx.HandleVerify()
+	case src.EndFunc:
+		eCtx.HandleEndFunc()
+		return
 	default:
 		fmt.Println("Unhandled ", src.OpToString(quad.Op))
 	}
