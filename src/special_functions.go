@@ -201,7 +201,6 @@ func (l *bistatListener) ExitListAssign(ctx *parser.ListAssignContext) {
 			}
 
 			if val.FirstDim > 0 {
-				// todo: handlle this case  listAssign(mat, 1, listAccess(lss, 0));
 				if val.FirstDim != rType.SecondDim {
 					l.pCtx.SemanticError("Dimension mismatch when assigning to " + varName)
 				}

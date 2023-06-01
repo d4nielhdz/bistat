@@ -1,11 +1,13 @@
 Program Hello;
 
 var int[2][2] lss;
+var int [2][2] mat;
+var int[2] ls;
 var float[3] fs;
 var int x;
 var float y;
 
-main () {
+func test1(): void {
   lss = [[0, 9], [8, 7]];
   fs = [11.11, 1.1, 2.0];
   print(lss);
@@ -17,5 +19,27 @@ main () {
   print(x);
   y = listAccess(fs, 0) / listAccess(fs, 1);
   print(y);
+}
+
+func test2(): void {
+  ls = [99, 88];
+  lss = [[30, 40], [54, 89]];
+  print(ls);
+  print(lss);
+  ls = listAccess(lss, 0);
+  print(ls);
+}
+
+func test3(): void {
+  ls = [99, 88];
+  lss = [[30, 40], [54, 89]];
+  mat = [[100, 200], [500, 400]];
+  print(lss);
+  lss = mat;
+  print(lss);
+}
+
+main () { 
+  test3();
 }
 

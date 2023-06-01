@@ -92,12 +92,12 @@ const (
 	UnaryMinus // 🔶
 	Goto
 	GotoT // 🔶
-	GotoF // 🔶
+	GotoF
 	GoSub
 	Era
 	Param
-	EndFunc // 🔶
-	End     // 🔶
+	EndFunc
+	End // 🔶
 	Return
 	RefSum
 	RefMul

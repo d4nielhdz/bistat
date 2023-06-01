@@ -131,8 +131,43 @@ func (l *bistatListener) ExitAssignment(ctx *parser.AssignmentContext) {
 			l.pCtx.SemanticError("Cannot assign to " + varName + " because of type mismatch: " + PTypeToString(rRType.PType) + " != " + PTypeToString(lRType.PType))
 			return
 		}
-		quad := NewQuad(Assign, lRType.Address, -1, rRType.Address)
-		l.pCtx.vm.PushQuad(quad)
+		if rRType.FirstDim > 0 {
+			expectedSize := lRType.FirstDim
+			if lRType.FirstDim != rRType.FirstDim {
+				l.pCtx.SemanticError("Dimension mismatch when assigning to " + varName + " expected " + strconv.Itoa(lRType.FirstDim) + " got " + strconv.Itoa(rRType.FirstDim))
+				return
+			}
+			if lRType.SecondDim > 0 {
+				expectedSize *= rRType.SecondDim
+			}
+			if lRType.SecondDim != rRType.SecondDim {
+				l.pCtx.SemanticError("Dimension mismatch when assigning to " + varName + " expected " + strconv.Itoa(lRType.SecondDim) + " got " + strconv.Itoa(rRType.SecondDim))
+				return
+			}
+
+			isLocal := l.pCtx.IsLocalVar(varName)
+			addrMgr := l.pCtx.vm.globalRefAddressMgr
+
+			if isLocal {
+				addrMgr = l.pCtx.vm.localRefAddressMgr
+			}
+			i := 0
+			startAddr := rRType.Address
+			lStartAddr := lRType.Address
+			rAddrMgr := l.pCtx.vm.globalRefAddressMgr
+
+			for i != expectedSize {
+				lAddr, _ := addrMgr.GetNext()
+				rAddr, _ := rAddrMgr.GetNext()
+				l.pCtx.vm.PushQuad(NewQuad(RefSum, l.pCtx.IgnoreIfRef(startAddr), l.pCtx.ConstIntUpsert(i), rAddr))
+				l.pCtx.vm.PushQuad(NewQuad(RefSum, l.pCtx.IgnoreIfRef(lStartAddr), l.pCtx.ConstIntUpsert(i), lAddr))
+				l.pCtx.vm.PushQuad(NewQuad(Assign, lAddr, -1, rAddr))
+				i++
+			}
+		} else {
+			quad := NewQuad(Assign, lRType.Address, -1, rRType.Address)
+			l.pCtx.vm.PushQuad(quad)
+		}
 	}
 }
 

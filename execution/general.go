@@ -10,6 +10,7 @@ func (eCtx *ECtx) HandleAssign() {
 	lAddr := eCtx.GetDerefed(quad.Op1)
 
 	pType := GetPTypeFromAddress(lAddr)
+	// fmt.Println("assign", lAddr, rAddr)
 	// fmt.Println("#", lAddr, src.PTypeToString(pType))
 	if pType == src.Int {
 		val := eCtx.GetIntFromAddress(rAddr)
