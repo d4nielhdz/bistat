@@ -68,14 +68,14 @@ const (
 	InputRead
 	Print
 	PrintN
-	ListSum // 🔶
-	Min     // 🔶
-	Max     // 🔶
-	Prod    // 🔶
-	Avg     // 🔶
-	SMode   // 🔶
-	Median  // 🔶
-	Plot    // 🔶
+	ListSum
+	Min
+	Max
+	Prod
+	Avg
+	SMode
+	Median
+	Plot
 	Sin
 	Cos
 	Tan
@@ -92,11 +92,11 @@ const (
 	Era
 	Param
 	EndFunc
-	End // 🔶
+	End
 	Return
 	RefSum
 	RefMul
-	UndefinedOp // 🔶
+	UndefinedOp
 	Verify
 	Other
 )

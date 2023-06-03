@@ -624,34 +624,66 @@ func (l *bistatListener) ExitNot(ctx *parser.NotContext) {
 }
 
 func (l *bistatListener) ExitSum(ctx *parser.SumContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+
 	l.pCtx.GenerateQuadsForAggregateFunction(ListSum, l.pCtx.POTop().PType)
 }
 
 func (l *bistatListener) ExitMin(ctx *parser.MinContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+
 	l.pCtx.GenerateQuadsForAggregateFunction(Min, l.pCtx.POTop().PType)
 }
 
 func (l *bistatListener) ExitMax(ctx *parser.MaxContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+
 	l.pCtx.GenerateQuadsForAggregateFunction(Max, l.pCtx.POTop().PType)
 }
 
 func (l *bistatListener) ExitProd(ctx *parser.ProdContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+
 	l.pCtx.GenerateQuadsForAggregateFunction(Prod, l.pCtx.POTop().PType)
 }
 
 func (l *bistatListener) ExitAvg(ctx *parser.AvgContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+
 	l.pCtx.GenerateQuadsForAggregateFunction(Avg, Float)
 }
 
 func (l *bistatListener) ExitSMode(ctx *parser.SModeContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+
 	l.pCtx.GenerateQuadsForAggregateFunction(SMode, l.pCtx.POTop().PType)
 }
 
 func (l *bistatListener) ExitMedian(ctx *parser.MedianContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+
 	l.pCtx.GenerateQuadsForAggregateFunction(Median, Float)
 }
 
 func (l *bistatListener) ExitPlot(ctx *parser.PlotContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+
 	if len(l.pCtx.semanticErrors) > 0 {
 		return
 	}

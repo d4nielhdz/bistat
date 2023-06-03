@@ -182,6 +182,8 @@ func (eCtx *ECtx) HandleQuad() {
 		eCtx.HandleSMode()
 	case src.End:
 		eCtx.HandleEnd()
+	case src.Plot:
+		eCtx.HandlePlot()
 	default:
 		fmt.Println("Unhandled ", src.OpToString(quad.Op))
 	}

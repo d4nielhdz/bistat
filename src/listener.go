@@ -57,7 +57,6 @@ func (l *bistatListener) EnterAssignment(ctx *parser.AssignmentContext) {
 
 }
 func (l *bistatListener) ExitAssignment(ctx *parser.AssignmentContext) {
-	// fmt.Println("Exit assignment")
 	if len(l.pCtx.semanticErrors) > 0 {
 		return
 	}
@@ -126,14 +125,14 @@ func (l *bistatListener) ExitAssignment(ctx *parser.AssignmentContext) {
 		if rRType.FirstDim > 0 {
 			expectedSize := lRType.FirstDim
 			if lRType.FirstDim != rRType.FirstDim {
-				l.pCtx.SemanticError("Dimension mismatch when assigning to " + varName + " expected " + strconv.Itoa(lRType.FirstDim) + " got " + strconv.Itoa(rRType.FirstDim))
+				l.pCtx.SemanticError("Dimension mismatch when assigning to " + varName + ": expected " + strconv.Itoa(lRType.FirstDim) + " got " + strconv.Itoa(rRType.FirstDim))
 				return
 			}
 			if lRType.SecondDim > 0 {
 				expectedSize *= rRType.SecondDim
 			}
 			if lRType.SecondDim != rRType.SecondDim {
-				l.pCtx.SemanticError("Dimension mismatch when assigning to " + varName + " expected " + strconv.Itoa(lRType.SecondDim) + " got " + strconv.Itoa(rRType.SecondDim))
+				l.pCtx.SemanticError("Dimension mismatch when assigning to " + varName + ": expected " + strconv.Itoa(lRType.SecondDim) + " got " + strconv.Itoa(rRType.SecondDim))
 				return
 			}
 

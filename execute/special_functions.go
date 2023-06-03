@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"math"
 	"sort"
+
+	"github.com/guptarohit/asciigraph"
 )
 
 func (eCtx *ECtx) HandlePrint() {
@@ -558,5 +560,66 @@ func (eCtx *ECtx) HandleMedian() {
 			i++
 		}
 		eCtx.StoreFloatListAtAddress(destination, result)
+	}
+}
+
+func (eCtx *ECtx) HandlePlot() {
+	quad := eCtx.GetCurrentQuad()
+	addr1 := eCtx.GetDerefed(quad.Op1)
+	firstDim := quad.Op2
+	secondDim := quad.Destination
+	pType := GetPTypeFromAddress(addr1)
+	size := firstDim
+	len := firstDim
+	m := 1
+
+	if secondDim > 0 {
+		size *= secondDim
+		len = secondDim
+		m = firstDim
+	}
+
+	if pType == src.Int {
+		data := make([][]float64, m)
+		k := 0
+		for k != m {
+			data[k] = make([]float64, len)
+			k++
+		}
+		i := 0
+		j := 0
+		original := eCtx.GetIntListFromAddress(addr1, size)
+		for _, val := range original {
+			data[i][j] = float64(val)
+			if (j + 1) == len {
+				j = 0
+				i++
+			} else {
+				j++
+			}
+		}
+		graph := asciigraph.PlotMany(data)
+		fmt.Println(graph)
+	} else {
+		data := make([][]float64, m)
+		k := 0
+		for k != m {
+			data[k] = make([]float64, len)
+			k++
+		}
+		i := 0
+		j := 0
+		original := eCtx.GetFloatListFromAddress(addr1, size)
+		for _, val := range original {
+			data[i][j] = val
+			if (j + 1) == len {
+				j = 0
+				i++
+			} else {
+				j++
+			}
+		}
+		graph := asciigraph.PlotMany(data)
+		fmt.Println(graph)
 	}
 }

@@ -46,4 +46,4 @@ Archivos creados: utils/type_helpers.go
 
 ### Avance 7
 
--  Ejecución de operaciones aritméticas y for y while en máquina virtual y generación de cuádruplos de operaciones con arreglos
+- Ejecución de operaciones aritméticas y for y while en máquina virtual y generación de cuádruplos de operaciones con arreglos

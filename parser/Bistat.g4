@@ -34,7 +34,8 @@ stmt: (
 
 assignment:
 	ID '=' (expression | listAssignment | matrixAssignment);
-matrixAssignment: '[' listAssignment (',' listAssignment)* ']';
+matrixAssignment:
+	'[' listAssignment (',' listAssignment)* ','? ']';
 listAssignment: '[' (expression) (',' (expression))* ']';
 
 comment: '#' (~'#')+ '#';
