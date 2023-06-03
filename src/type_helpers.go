@@ -70,6 +70,7 @@ const (
 	Print
 	PrintN
 	Plot       // 🔶
+	Sort       // 🔶
 	ListSum    // 🔶
 	Min        // 🔶
 	Prod       // 🔶
@@ -79,7 +80,6 @@ const (
 	Sin        // 🔶
 	Cos        // 🔶
 	Tan        // 🔶
-	Sort       // 🔶
 	Sqrt       // 🔶
 	Floor      // 🔶
 	Ceil       // 🔶
@@ -281,9 +281,8 @@ type RType struct {
 	// indicates size of first dimension. -1 for params, 0 for non arrays
 	FirstDim int
 	// indicates size of second dimension. -1 for params, 0 for non arrays
-	SecondDim  int
-	Address    int
-	EndAddress int
+	SecondDim int
+	Address   int
 }
 
 type FuncData struct {

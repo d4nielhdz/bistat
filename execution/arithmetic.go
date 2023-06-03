@@ -260,3 +260,19 @@ func (eCtx *ECtx) HandleModulus() {
 	result := val1 % val2
 	eCtx.StoreIntAtAddress(result, destination)
 }
+
+func (eCtx *ECtx) HandleUnaryMinus() {
+	quad := eCtx.GetCurrentQuad()
+	destination := eCtx.GetDerefed(quad.Destination)
+	addr1 := eCtx.GetDerefed(quad.Op1)
+
+	pType := GetPTypeFromAddress(addr1)
+
+	if pType == src.Int {
+		val := eCtx.GetIntFromAddress(addr1)
+		eCtx.StoreIntAtAddress(-val, destination)
+	} else if pType == src.Float {
+		val := eCtx.GetFloatFromAddress(addr1)
+		eCtx.StoreFloatAtAddress(-val, destination)
+	}
+}

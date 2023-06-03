@@ -148,6 +148,24 @@ func (eCtx *ECtx) HandleQuad() {
 	case src.EndFunc:
 		eCtx.HandleEndFunc()
 		return
+	case src.Ceil:
+		eCtx.HandleCeil()
+	case src.Abs:
+		eCtx.HandleAbs()
+	case src.Cos:
+		eCtx.HandleCos()
+	case src.Floor:
+		eCtx.HandleFloor()
+	case src.Sin:
+		eCtx.HandleSin()
+	case src.Tan:
+		eCtx.HandleTan()
+	case src.Not:
+		eCtx.HandleNot()
+	case src.UnaryMinus:
+		eCtx.HandleUnaryMinus()
+	case src.Sqrt:
+		eCtx.HandleSqrt()
 	default:
 		fmt.Println("Unhandled ", src.OpToString(quad.Op))
 	}

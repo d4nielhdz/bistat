@@ -39,7 +39,35 @@ func test3(): void {
   print(lss);
 }
 
+func special_functions1(): void 
+  var bool[4] bools;
+  var int[4] nums;
+  var float myf;
+  var int x;
+  {
+    bools = [true, false, true, false];
+    print(bools);
+    print(not(bools));
+    nums = [-3, 4, -10, 777];
+    print(nums);
+    print(abs(nums));
+    myf = 5.5;
+    print(myf);
+    myf = floor(myf);
+    print(myf);
+    myf = 5.7;
+    print(myf);
+    print(ceil(myf));
+    x = 81;
+    print(x);
+    x = sqrt(x);
+    print(x);
+    print(cos(0.1));
+    print(cos(-10.6));
+    print(-2 + 2);
+  }
+
 main () { 
-  test3();
+  special_functions1();
 }
 

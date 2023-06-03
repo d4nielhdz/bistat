@@ -5,10 +5,18 @@ import (
 	"strconv"
 )
 
+func (l *bistatListener) EnterSpecialFunction(ctx *parser.SpecialFunctionContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+	l.pCtx.POperPush(int(Other))
+}
+
 func (l *bistatListener) ExitSpecialFunction(ctx *parser.SpecialFunctionContext) {
 	if len(l.pCtx.semanticErrors) > 0 {
 		return
 	}
+	l.pCtx.POperPop()
 
 	if ctx.Plot() != nil {
 		if !l.pCtx.POperIsEmpty() {
@@ -204,7 +212,7 @@ func (l *bistatListener) ExitPrint(ctx *parser.PrintContext) {
 		return
 	}
 
-	if !l.pCtx.POperIsEmpty() {
+	if !l.pCtx.POperIsEmpty() && l.pCtx.POperTop() != int(Other) {
 		l.pCtx.SemanticError("Cannot use 'print' inside an expression")
 		return
 	}
@@ -374,4 +382,348 @@ func (l *bistatListener) ExitInputRead(ctx *parser.InputReadContext) {
 		}
 		l.pCtx.POPop()
 	}
+}
+
+func (l *bistatListener) ExitCos(ctx *parser.CosContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+
+	o := l.pCtx.POTop()
+	l.pCtx.POPop()
+
+	if o.PType != Int && o.PType != Float {
+		l.pCtx.SemanticError("cos can only be called with a float or int expression")
+		return
+	}
+
+	result := NewRType(Float)
+	if o.FirstDim > 0 {
+		size := o.FirstDim
+		if o.SecondDim > 0 {
+			size *= o.SecondDim
+		}
+		addrMgr := l.pCtx.vm.globalRefAddressMgr
+		if l.pCtx.IsLocalAddr(o.Address) || l.pCtx.IsLocalRef(o.Address) {
+			addrMgr = l.pCtx.vm.localRefAddressMgr
+		}
+		i := 0
+		result.FirstDim = o.FirstDim
+		result.SecondDim = o.SecondDim
+		for i < size {
+			refAddr, _ := addrMgr.GetNext()
+			if i == 0 {
+				result.Address = refAddr
+			}
+			l.pCtx.vm.PushQuad(NewQuad(RefSum, l.pCtx.IgnoreIfRef(o.Address), l.pCtx.ConstIntUpsert(i), refAddr))
+			l.pCtx.vm.PushQuad(NewQuad(Cos, refAddr, -1, refAddr))
+			i++
+		}
+	} else {
+		addr, _ := l.pCtx.vm.tempFloatAddressMgr.GetNext()
+		result.Address = addr
+		l.pCtx.vm.PushQuad(NewQuad(Cos, o.Address, -1, addr))
+	}
+	l.pCtx.POPush(result)
+}
+
+func (l *bistatListener) ExitSin(ctx *parser.SinContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+
+	o := l.pCtx.POTop()
+	l.pCtx.POPop()
+
+	if o.PType != Int && o.PType != Float {
+		l.pCtx.SemanticError("sin can only be called with a float or int expression")
+		return
+	}
+
+	result := NewRType(Float)
+	if o.FirstDim > 0 {
+		size := o.FirstDim
+		if o.SecondDim > 0 {
+			size *= o.SecondDim
+		}
+		addrMgr := l.pCtx.vm.globalRefAddressMgr
+		if l.pCtx.IsLocalAddr(o.Address) || l.pCtx.IsLocalRef(o.Address) {
+			addrMgr = l.pCtx.vm.localRefAddressMgr
+		}
+		i := 0
+		result.FirstDim = o.FirstDim
+		result.SecondDim = o.SecondDim
+		for i < size {
+			refAddr, _ := addrMgr.GetNext()
+			if i == 0 {
+				result.Address = refAddr
+			}
+			l.pCtx.vm.PushQuad(NewQuad(RefSum, l.pCtx.IgnoreIfRef(o.Address), l.pCtx.ConstIntUpsert(i), refAddr))
+			l.pCtx.vm.PushQuad(NewQuad(Sin, refAddr, -1, refAddr))
+			i++
+		}
+	} else {
+		addr, _ := l.pCtx.vm.tempFloatAddressMgr.GetNext()
+		result.Address = addr
+		l.pCtx.vm.PushQuad(NewQuad(Sin, o.Address, -1, addr))
+	}
+	l.pCtx.POPush(result)
+}
+
+func (l *bistatListener) ExitTan(ctx *parser.TanContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+
+	o := l.pCtx.POTop()
+	l.pCtx.POPop()
+
+	if o.PType != Int && o.PType != Float {
+		l.pCtx.SemanticError("tan can only be called with a float or int expression")
+		return
+	}
+
+	result := NewRType(Float)
+	if o.FirstDim > 0 {
+		size := o.FirstDim
+		if o.SecondDim > 0 {
+			size *= o.SecondDim
+		}
+		addrMgr := l.pCtx.vm.globalRefAddressMgr
+		if l.pCtx.IsLocalAddr(o.Address) || l.pCtx.IsLocalRef(o.Address) {
+			addrMgr = l.pCtx.vm.localRefAddressMgr
+		}
+		i := 0
+		result.FirstDim = o.FirstDim
+		result.SecondDim = o.SecondDim
+		for i < size {
+			refAddr, _ := addrMgr.GetNext()
+			if i == 0 {
+				result.Address = refAddr
+			}
+			l.pCtx.vm.PushQuad(NewQuad(RefSum, l.pCtx.IgnoreIfRef(o.Address), l.pCtx.ConstIntUpsert(i), refAddr))
+			l.pCtx.vm.PushQuad(NewQuad(Tan, refAddr, -1, refAddr))
+			i++
+		}
+	} else {
+		addr, _ := l.pCtx.vm.tempFloatAddressMgr.GetNext()
+		result.Address = addr
+		l.pCtx.vm.PushQuad(NewQuad(Tan, o.Address, -1, addr))
+	}
+	l.pCtx.POPush(result)
+}
+
+func (l *bistatListener) ExitSqrt(ctx *parser.SqrtContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+
+	o := l.pCtx.POTop()
+	l.pCtx.POPop()
+
+	if o.PType != Int && o.PType != Float {
+		l.pCtx.SemanticError("sqrt can only be called with a float or int expression")
+		return
+	}
+
+	result := NewRType(o.PType)
+	if o.FirstDim > 0 {
+		size := o.FirstDim
+		if o.SecondDim > 0 {
+			size *= o.SecondDim
+		}
+		addrMgr := l.pCtx.vm.globalRefAddressMgr
+		if l.pCtx.IsLocalAddr(o.Address) || l.pCtx.IsLocalRef(o.Address) {
+			addrMgr = l.pCtx.vm.localRefAddressMgr
+		}
+		i := 0
+		result.FirstDim = o.FirstDim
+		result.SecondDim = o.SecondDim
+		for i < size {
+			refAddr, _ := addrMgr.GetNext()
+			if i == 0 {
+				result.Address = refAddr
+			}
+			l.pCtx.vm.PushQuad(NewQuad(RefSum, l.pCtx.IgnoreIfRef(o.Address), l.pCtx.ConstIntUpsert(i), refAddr))
+			l.pCtx.vm.PushQuad(NewQuad(Sqrt, refAddr, -1, refAddr))
+			i++
+		}
+	} else {
+		addr, _ := l.pCtx.GetCorrespondingTempAddressManager(o.PType).GetNext()
+		result.Address = addr
+		l.pCtx.vm.PushQuad(NewQuad(Sqrt, o.Address, -1, addr))
+	}
+	l.pCtx.POPush(result)
+}
+
+func (l *bistatListener) ExitFloor(ctx *parser.FloorContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+
+	o := l.pCtx.POTop()
+	l.pCtx.POPop()
+
+	if o.PType != Float {
+		l.pCtx.SemanticError("floor can only be called with a float expression")
+		return
+	}
+
+	result := NewRType(o.PType)
+	if o.FirstDim > 0 {
+		size := o.FirstDim
+		if o.SecondDim > 0 {
+			size *= o.SecondDim
+		}
+		addrMgr := l.pCtx.vm.globalRefAddressMgr
+		if l.pCtx.IsLocalAddr(o.Address) || l.pCtx.IsLocalRef(o.Address) {
+			addrMgr = l.pCtx.vm.localRefAddressMgr
+		}
+		i := 0
+		result.FirstDim = o.FirstDim
+		result.SecondDim = o.SecondDim
+		for i < size {
+			refAddr, _ := addrMgr.GetNext()
+			if i == 0 {
+				result.Address = refAddr
+			}
+			l.pCtx.vm.PushQuad(NewQuad(RefSum, l.pCtx.IgnoreIfRef(o.Address), l.pCtx.ConstIntUpsert(i), refAddr))
+			l.pCtx.vm.PushQuad(NewQuad(Floor, refAddr, -1, refAddr))
+			i++
+		}
+	} else {
+		addr, _ := l.pCtx.GetCorrespondingTempAddressManager(o.PType).GetNext()
+		result.Address = addr
+		l.pCtx.vm.PushQuad(NewQuad(Floor, o.Address, -1, addr))
+	}
+	l.pCtx.POPush(result)
+}
+
+func (l *bistatListener) ExitCeil(ctx *parser.CeilContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+
+	o := l.pCtx.POTop()
+	l.pCtx.POPop()
+
+	if o.PType != Float {
+		l.pCtx.SemanticError("ceil can only be called with a float expression")
+		return
+	}
+
+	result := NewRType(o.PType)
+	if o.FirstDim > 0 {
+		size := o.FirstDim
+		if o.SecondDim > 0 {
+			size *= o.SecondDim
+		}
+		addrMgr := l.pCtx.vm.globalRefAddressMgr
+		if l.pCtx.IsLocalAddr(o.Address) || l.pCtx.IsLocalRef(o.Address) {
+			addrMgr = l.pCtx.vm.localRefAddressMgr
+		}
+		i := 0
+		result.FirstDim = o.FirstDim
+		result.SecondDim = o.SecondDim
+		for i < size {
+			refAddr, _ := addrMgr.GetNext()
+			if i == 0 {
+				result.Address = refAddr
+			}
+			l.pCtx.vm.PushQuad(NewQuad(RefSum, l.pCtx.IgnoreIfRef(o.Address), l.pCtx.ConstIntUpsert(i), refAddr))
+			l.pCtx.vm.PushQuad(NewQuad(Ceil, refAddr, -1, refAddr))
+			i++
+		}
+	} else {
+		addr, _ := l.pCtx.GetCorrespondingTempAddressManager(o.PType).GetNext()
+		result.Address = addr
+		l.pCtx.vm.PushQuad(NewQuad(Ceil, o.Address, -1, addr))
+	}
+	l.pCtx.POPush(result)
+}
+
+func (l *bistatListener) ExitAbs(ctx *parser.AbsContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+
+	o := l.pCtx.POTop()
+	l.pCtx.POPop()
+
+	if o.PType != Float && o.PType != Int {
+		l.pCtx.SemanticError("abs can only be called with a float or int expression")
+		return
+	}
+
+	result := NewRType(o.PType)
+	if o.FirstDim > 0 {
+		size := o.FirstDim
+		if o.SecondDim > 0 {
+			size *= o.SecondDim
+		}
+		addrMgr := l.pCtx.vm.globalRefAddressMgr
+		if l.pCtx.IsLocalAddr(o.Address) || l.pCtx.IsLocalRef(o.Address) {
+			addrMgr = l.pCtx.vm.localRefAddressMgr
+		}
+		i := 0
+		result.FirstDim = o.FirstDim
+		result.SecondDim = o.SecondDim
+		for i < size {
+			refAddr, _ := addrMgr.GetNext()
+			if i == 0 {
+				result.Address = refAddr
+			}
+			l.pCtx.vm.PushQuad(NewQuad(RefSum, l.pCtx.IgnoreIfRef(o.Address), l.pCtx.ConstIntUpsert(i), refAddr))
+			l.pCtx.vm.PushQuad(NewQuad(Abs, refAddr, -1, refAddr))
+			i++
+		}
+	} else {
+		addr, _ := l.pCtx.GetCorrespondingTempAddressManager(o.PType).GetNext()
+		result.Address = addr
+		l.pCtx.vm.PushQuad(NewQuad(Abs, o.Address, -1, addr))
+	}
+	l.pCtx.POPush(result)
+}
+
+func (l *bistatListener) ExitNot(ctx *parser.NotContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+
+	o := l.pCtx.POTop()
+	l.pCtx.POPop()
+
+	if o.PType != Bool {
+		l.pCtx.SemanticError("not can only be called with a boolean expression")
+		return
+	}
+
+	result := NewRType(o.PType)
+	if o.FirstDim > 0 {
+		size := o.FirstDim
+		if o.SecondDim > 0 {
+			size *= o.SecondDim
+		}
+		addrMgr := l.pCtx.vm.globalRefAddressMgr
+		if l.pCtx.IsLocalAddr(o.Address) || l.pCtx.IsLocalRef(o.Address) {
+			addrMgr = l.pCtx.vm.localRefAddressMgr
+		}
+		i := 0
+		result.FirstDim = o.FirstDim
+		result.SecondDim = o.SecondDim
+		for i < size {
+			refAddr, _ := addrMgr.GetNext()
+			if i == 0 {
+				result.Address = refAddr
+			}
+			l.pCtx.vm.PushQuad(NewQuad(RefSum, l.pCtx.IgnoreIfRef(o.Address), l.pCtx.ConstIntUpsert(i), refAddr))
+			l.pCtx.vm.PushQuad(NewQuad(Not, refAddr, -1, refAddr))
+			i++
+		}
+	} else {
+		addr, _ := l.pCtx.GetCorrespondingTempAddressManager(o.PType).GetNext()
+		result.Address = addr
+		l.pCtx.vm.PushQuad(NewQuad(Not, o.Address, -1, addr))
+	}
+	l.pCtx.POPush(result)
 }

@@ -219,6 +219,18 @@ func (pCtx *PCtx) IsLocalVar(varName string) bool {
 	return ok && len(pCtx.scopes) > 1
 }
 
+func (pCtx *PCtx) IsLocalAddr(addr int) bool {
+	return (addr >= LOCAL_INT_START && addr < LOCAL_FLOAT_START) || (addr >= LOCAL_FLOAT_START && addr < LOCAL_STRING_START) || (addr >= LOCAL_STRING_START && addr < LOCAL_BOOL_START) || (addr >= LOCAL_BOOL_START && addr < TEMP_INT_START)
+}
+
+func (pCtx *PCtx) IsLocalRef(addr int) bool {
+	return (addr >= LOCAL_REF_START && addr < LOCAL_REF_END)
+}
+
+func (pCtx *PCtx) IsRef(addr int) bool {
+	return (addr >= GLOBAL_REF_START && addr < LOCAL_REF_START) || (addr >= LOCAL_REF_START && addr < LOCAL_INT_START)
+}
+
 func (pCtx *PCtx) PO() []RType {
 	return pCtx.pO
 }
@@ -379,7 +391,6 @@ func (pCtx *PCtx) ResolveType(vt parser.IVar_typeContext, addrMgr *AddressManage
 		pCtx.SemanticError("Out of memory")
 	}
 	rType.Address = addr
-	rType.EndAddress = addrMgr.GetCurr()
 	// rType.print()
 	return rType
 }

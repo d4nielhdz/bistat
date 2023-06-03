@@ -216,7 +216,7 @@ func (eCtx *ECtx) StoreRefAtAddress(val int, addr int) {
 }
 
 func (eCtx *ECtx) AddrIsRef(addr int) bool {
-	return (addr >= src.GLOBAL_REF_START && addr < src.LOCAL_REF_START) || (addr >= src.LOCAL_REF_START && addr < src.LOCAL_INT_START)
+	return (addr >= src.GLOBAL_REF_START && addr < src.LOCAL_REF_START) || (addr >= src.LOCAL_REF_START && addr < src.LOCAL_REF_END)
 }
 
 func (eCtx *ECtx) Deref(addr int) int {
