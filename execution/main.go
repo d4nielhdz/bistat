@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	file, err := os.Open("./obj.gob")
+	file, err := os.Open("./" + os.Args[1])
 	objCode := new(src.ObjCode)
 	if err == nil {
 		src.RegisterTypes()

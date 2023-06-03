@@ -17,5 +17,5 @@ func main() {
 	if len(os.Args) > 2 && os.Args[2] == "1" {
 		printQuads = true
 	}
-	antlr.ParseTreeWalkerDefault.Walk(src.NewBistatListener(printQuads), p.Program())
+	antlr.ParseTreeWalkerDefault.Walk(src.NewBistatListener(os.Args[1], printQuads), p.Program())
 }

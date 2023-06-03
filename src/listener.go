@@ -13,9 +13,9 @@ type bistatListener struct {
 	pCtx PCtx
 }
 
-func NewBistatListener(printQuads bool) *bistatListener {
+func NewBistatListener(filename string, printQuads bool) *bistatListener {
 	l := new(bistatListener)
-	l.pCtx = NewPCtx(printQuads)
+	l.pCtx = NewPCtx(printQuads, filename)
 	return l
 }
 
@@ -179,7 +179,7 @@ func (l *bistatListener) ExitProgram(ctx *parser.ProgramContext) {
 	l.pCtx.PrintErrors()
 	if len(l.pCtx.semanticErrors) == 0 {
 		RegisterTypes()
-		file, err := os.Create("./obj.gob")
+		file, err := os.Create("./" + l.pCtx.Filename + ".gob")
 		objCode := NewObjCode(l.pCtx.funcDir, l.pCtx.consTable, l.pCtx.vm.quads, l.pCtx.functions)
 		objCode.BoolSize = l.pCtx.vm.globalBoolAddressMgr.GetSize()
 		objCode.StringSize = l.pCtx.vm.globalStringAddressMgr.GetSize()

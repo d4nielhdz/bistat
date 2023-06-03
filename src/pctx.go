@@ -22,9 +22,10 @@ type PCtx struct {
 	jumps          []int
 	condJumps      [][]int
 	printQuads     bool
+	Filename       string
 }
 
-func NewPCtx(printQuads bool) PCtx {
+func NewPCtx(printQuads bool, filename string) PCtx {
 	return PCtx{
 		scopes:         make([]string, 0),
 		functions:      []string{"main"},
@@ -39,6 +40,7 @@ func NewPCtx(printQuads bool) PCtx {
 		pOper:          make([]int, 0),
 		jumps:          make([]int, 0),
 		printQuads:     printQuads,
+		Filename:       filename,
 	}
 }
 
