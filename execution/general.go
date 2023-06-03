@@ -58,3 +58,6 @@ func (eCtx *ECtx) HandleInputRead() {
 		eCtx.StoreBoolAtAddress(val, addr)
 	}
 }
+
+func (eCtx *ECtx) HandleEnd() {
+}

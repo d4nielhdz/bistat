@@ -38,6 +38,10 @@ func (l *bistatListener) EnterFuncDef(ctx *parser.FuncDefContext) {
 		}
 		addrMgr := l.pCtx.GetCorrespondingAddressManager(pType)
 		resolved := NewRType(pType)
+		if resolved.FirstDim > 0 {
+			l.pCtx.SemanticError("Can't use arrays as parameters in function definition")
+			return
+		}
 		addr, ok := addrMgr.GetNext()
 		if !ok {
 			l.pCtx.SemanticError("Out of memory")
@@ -125,8 +129,10 @@ func (l *bistatListener) ExitReturnStmt(ctx *parser.ReturnStmtContext) {
 	l.pCtx.POPop()
 	funcName := l.pCtx.GetCurrentScope()
 	fVar, _ := l.pCtx.GetVarInScope("main", funcName)
+	if o.FirstDim > 0 || o.SecondDim > 0 {
+		l.pCtx.SemanticError("Can't return an array or matrix in a function")
+	}
 	if o.PType != fVar.PType {
-		// todo: check array dimensions coherence
 		l.pCtx.SemanticError("Incorrect return type for function " + funcName + ", expected " + PTypeToString(o.PType) + ", found " + PTypeToString(fVar.PType))
 		return
 	}
@@ -158,7 +164,6 @@ func (l *bistatListener) ExitFunctionCall(ctx *parser.FunctionCallContext) {
 	for numArgs != 0 {
 		rType := l.pCtx.POTop()
 		param := l.pCtx.paramTable[funcName][numArgs-1]
-		// todo: check array coherence
 		if param.PType != rType.PType {
 			l.pCtx.SemanticError("Type mismatch between argument and parameter in argument #" + strconv.Itoa(numArgs) + " in function call to " + funcName)
 			return
@@ -180,5 +185,3 @@ func (l *bistatListener) ExitFunctionCall(ctx *parser.FunctionCallContext) {
 		l.pCtx.POPush(tmp)
 	}
 }
-
-// todo: handle return stmt

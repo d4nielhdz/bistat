@@ -36,8 +36,8 @@ func bistatParserInit() {
 		"", "'Program'", "';'", "'var'", "'func'", "'('", "')'", "':'", "'{'",
 		"'}'", "'main'", "'='", "'['", "','", "']'", "'#'", "'for'", "'in'",
 		"'while'", "'if'", "'else'", "'return'", "'read'", "'print'", "'listAdd'",
-		"'listPop'", "'length'", "'range'", "'plot'", "'sum'", "'min'", "'prod'",
-		"'avg'", "'sMode'", "'median'", "'sin'", "'tan'", "'cos'", "'sort'",
+		"'listPop'", "'length'", "'range'", "'plot'", "'sum'", "'min'", "'max'",
+		"'prod'", "'avg'", "'sMode'", "'median'", "'sin'", "'tan'", "'cos'",
 		"'sqrt'", "'floor'", "'ceil'", "'abs'", "'not'", "'listAccess'", "'listAssign'",
 		"'-'", "'+'", "'/'", "'*'", "'%'", "'<'", "'>'", "'<='", "'>='", "'=='",
 		"'!='", "'&&'", "'||'",
@@ -55,8 +55,8 @@ func bistatParserInit() {
 		"listAssignment", "comment", "forLoop", "forHeader", "forExprEnd", "whileLoop",
 		"whileExprEnd", "conditional", "ifStmt", "elseIfStmt", "condExprEnd",
 		"elseStmt", "returnStmt", "specialFunction", "inputRead", "print", "listAdd",
-		"listPop", "length", "range", "plot", "sum", "min", "prod", "avg", "sMode",
-		"median", "sin", "tan", "cos", "sort", "sqrt", "floor", "ceil", "abs",
+		"listPop", "length", "range", "plot", "sum", "min", "max", "prod", "avg",
+		"sMode", "median", "sin", "tan", "cos", "sqrt", "floor", "ceil", "abs",
 		"not", "listAccess", "listAssign", "expression", "exp", "term", "factor",
 		"unaryMinus", "nestedExpression", "functionCall", "varCons", "opSec",
 		"opFirst", "logicOperator",
@@ -215,10 +215,10 @@ func bistatParserInit() {
 		1, 0, 0, 0, 320, 321, 5, 9, 0, 0, 321, 45, 1, 0, 0, 0, 322, 323, 5, 21,
 		0, 0, 323, 324, 3, 98, 49, 0, 324, 47, 1, 0, 0, 0, 325, 346, 3, 50, 25,
 		0, 326, 346, 3, 52, 26, 0, 327, 346, 3, 94, 47, 0, 328, 346, 3, 96, 48,
-		0, 329, 346, 3, 62, 31, 0, 330, 346, 3, 64, 32, 0, 331, 346, 3, 66, 33,
-		0, 332, 346, 3, 68, 34, 0, 333, 346, 3, 70, 35, 0, 334, 346, 3, 72, 36,
-		0, 335, 346, 3, 74, 37, 0, 336, 346, 3, 76, 38, 0, 337, 346, 3, 80, 40,
-		0, 338, 346, 3, 78, 39, 0, 339, 346, 3, 82, 41, 0, 340, 346, 3, 84, 42,
+		0, 329, 346, 3, 62, 31, 0, 330, 346, 3, 64, 32, 0, 331, 346, 3, 68, 34,
+		0, 332, 346, 3, 66, 33, 0, 333, 346, 3, 70, 35, 0, 334, 346, 3, 72, 36,
+		0, 335, 346, 3, 74, 37, 0, 336, 346, 3, 76, 38, 0, 337, 346, 3, 78, 39,
+		0, 338, 346, 3, 82, 41, 0, 339, 346, 3, 80, 40, 0, 340, 346, 3, 84, 42,
 		0, 341, 346, 3, 86, 43, 0, 342, 346, 3, 88, 44, 0, 343, 346, 3, 90, 45,
 		0, 344, 346, 3, 92, 46, 0, 345, 325, 1, 0, 0, 0, 345, 326, 1, 0, 0, 0,
 		345, 327, 1, 0, 0, 0, 345, 328, 1, 0, 0, 0, 345, 329, 1, 0, 0, 0, 345,
@@ -445,14 +445,14 @@ const (
 	BistatParserRULE_plot             = 31
 	BistatParserRULE_sum              = 32
 	BistatParserRULE_min              = 33
-	BistatParserRULE_prod             = 34
-	BistatParserRULE_avg              = 35
-	BistatParserRULE_sMode            = 36
-	BistatParserRULE_median           = 37
-	BistatParserRULE_sin              = 38
-	BistatParserRULE_tan              = 39
-	BistatParserRULE_cos              = 40
-	BistatParserRULE_sort             = 41
+	BistatParserRULE_max              = 34
+	BistatParserRULE_prod             = 35
+	BistatParserRULE_avg              = 36
+	BistatParserRULE_sMode            = 37
+	BistatParserRULE_median           = 38
+	BistatParserRULE_sin              = 39
+	BistatParserRULE_tan              = 40
+	BistatParserRULE_cos              = 41
 	BistatParserRULE_sqrt             = 42
 	BistatParserRULE_floor            = 43
 	BistatParserRULE_ceil             = 44
@@ -4603,6 +4603,7 @@ type ISpecialFunctionContext interface {
 	ListAssign() IListAssignContext
 	Plot() IPlotContext
 	Sum() ISumContext
+	Max() IMaxContext
 	Min() IMinContext
 	Prod() IProdContext
 	Avg() IAvgContext
@@ -4611,7 +4612,6 @@ type ISpecialFunctionContext interface {
 	Sin() ISinContext
 	Cos() ICosContext
 	Tan() ITanContext
-	Sort() ISortContext
 	Sqrt() ISqrtContext
 	Floor() IFloorContext
 	Ceil() ICeilContext
@@ -4750,6 +4750,22 @@ func (s *SpecialFunctionContext) Sum() ISumContext {
 	return t.(ISumContext)
 }
 
+func (s *SpecialFunctionContext) Max() IMaxContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IMaxContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IMaxContext)
+}
+
 func (s *SpecialFunctionContext) Min() IMinContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
@@ -4876,22 +4892,6 @@ func (s *SpecialFunctionContext) Tan() ITanContext {
 	}
 
 	return t.(ITanContext)
-}
-
-func (s *SpecialFunctionContext) Sort() ISortContext {
-	var t antlr.RuleContext
-	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(ISortContext); ok {
-			t = ctx.(antlr.RuleContext)
-			break
-		}
-	}
-
-	if t == nil {
-		return nil
-	}
-
-	return t.(ISortContext)
 }
 
 func (s *SpecialFunctionContext) Sqrt() ISqrtContext {
@@ -5046,67 +5046,67 @@ func (p *BistatParser) SpecialFunction() (localctx ISpecialFunctionContext) {
 			p.Sum()
 		}
 
-	case BistatParserT__29:
+	case BistatParserT__30:
 		p.EnterOuterAlt(localctx, 7)
 		{
 			p.SetState(331)
-			p.Min()
+			p.Max()
 		}
 
-	case BistatParserT__30:
+	case BistatParserT__29:
 		p.EnterOuterAlt(localctx, 8)
 		{
 			p.SetState(332)
-			p.Prod()
+			p.Min()
 		}
 
 	case BistatParserT__31:
 		p.EnterOuterAlt(localctx, 9)
 		{
 			p.SetState(333)
-			p.Avg()
+			p.Prod()
 		}
 
 	case BistatParserT__32:
 		p.EnterOuterAlt(localctx, 10)
 		{
 			p.SetState(334)
-			p.SMode()
+			p.Avg()
 		}
 
 	case BistatParserT__33:
 		p.EnterOuterAlt(localctx, 11)
 		{
 			p.SetState(335)
-			p.Median()
+			p.SMode()
 		}
 
 	case BistatParserT__34:
 		p.EnterOuterAlt(localctx, 12)
 		{
 			p.SetState(336)
-			p.Sin()
-		}
-
-	case BistatParserT__36:
-		p.EnterOuterAlt(localctx, 13)
-		{
-			p.SetState(337)
-			p.Cos()
+			p.Median()
 		}
 
 	case BistatParserT__35:
-		p.EnterOuterAlt(localctx, 14)
+		p.EnterOuterAlt(localctx, 13)
 		{
-			p.SetState(338)
-			p.Tan()
+			p.SetState(337)
+			p.Sin()
 		}
 
 	case BistatParserT__37:
+		p.EnterOuterAlt(localctx, 14)
+		{
+			p.SetState(338)
+			p.Cos()
+		}
+
+	case BistatParserT__36:
 		p.EnterOuterAlt(localctx, 15)
 		{
 			p.SetState(339)
-			p.Sort()
+			p.Tan()
 		}
 
 	case BistatParserT__38:
@@ -6514,6 +6514,134 @@ errorExit:
 	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
+// IMaxContext is an interface to support dynamic dispatch.
+type IMaxContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	Expression() IExpressionContext
+
+	// IsMaxContext differentiates from other interfaces.
+	IsMaxContext()
+}
+
+type MaxContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyMaxContext() *MaxContext {
+	var p = new(MaxContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = BistatParserRULE_max
+	return p
+}
+
+func InitEmptyMaxContext(p *MaxContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = BistatParserRULE_max
+}
+
+func (*MaxContext) IsMaxContext() {}
+
+func NewMaxContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *MaxContext {
+	var p = new(MaxContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = BistatParserRULE_max
+
+	return p
+}
+
+func (s *MaxContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *MaxContext) Expression() IExpressionContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IExpressionContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IExpressionContext)
+}
+
+func (s *MaxContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *MaxContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *MaxContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(BistatListener); ok {
+		listenerT.EnterMax(s)
+	}
+}
+
+func (s *MaxContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(BistatListener); ok {
+		listenerT.ExitMax(s)
+	}
+}
+
+func (p *BistatParser) Max() (localctx IMaxContext) {
+	localctx = NewMaxContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 68, BistatParserRULE_max)
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(412)
+		p.Match(BistatParserT__30)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(413)
+		p.Match(BistatParserT__4)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(414)
+		p.Expression()
+	}
+	{
+		p.SetState(415)
+		p.Match(BistatParserT__5)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
 // IProdContext is an interface to support dynamic dispatch.
 type IProdContext interface {
 	antlr.ParserRuleContext
@@ -6598,18 +6726,18 @@ func (s *ProdContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *BistatParser) Prod() (localctx IProdContext) {
 	localctx = NewProdContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 68, BistatParserRULE_prod)
+	p.EnterRule(localctx, 70, BistatParserRULE_prod)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(412)
-		p.Match(BistatParserT__30)
+		p.SetState(417)
+		p.Match(BistatParserT__31)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
 		}
 	}
 	{
-		p.SetState(413)
+		p.SetState(418)
 		p.Match(BistatParserT__4)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -6617,11 +6745,11 @@ func (p *BistatParser) Prod() (localctx IProdContext) {
 		}
 	}
 	{
-		p.SetState(414)
+		p.SetState(419)
 		p.Expression()
 	}
 	{
-		p.SetState(415)
+		p.SetState(420)
 		p.Match(BistatParserT__5)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -6726,18 +6854,18 @@ func (s *AvgContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *BistatParser) Avg() (localctx IAvgContext) {
 	localctx = NewAvgContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 70, BistatParserRULE_avg)
+	p.EnterRule(localctx, 72, BistatParserRULE_avg)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(417)
-		p.Match(BistatParserT__31)
+		p.SetState(422)
+		p.Match(BistatParserT__32)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
 		}
 	}
 	{
-		p.SetState(418)
+		p.SetState(423)
 		p.Match(BistatParserT__4)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -6745,11 +6873,11 @@ func (p *BistatParser) Avg() (localctx IAvgContext) {
 		}
 	}
 	{
-		p.SetState(419)
+		p.SetState(424)
 		p.Expression()
 	}
 	{
-		p.SetState(420)
+		p.SetState(425)
 		p.Match(BistatParserT__5)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -6854,18 +6982,18 @@ func (s *SModeContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *BistatParser) SMode() (localctx ISModeContext) {
 	localctx = NewSModeContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 72, BistatParserRULE_sMode)
+	p.EnterRule(localctx, 74, BistatParserRULE_sMode)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(422)
-		p.Match(BistatParserT__32)
+		p.SetState(427)
+		p.Match(BistatParserT__33)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
 		}
 	}
 	{
-		p.SetState(423)
+		p.SetState(428)
 		p.Match(BistatParserT__4)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -6873,11 +7001,11 @@ func (p *BistatParser) SMode() (localctx ISModeContext) {
 		}
 	}
 	{
-		p.SetState(424)
+		p.SetState(429)
 		p.Expression()
 	}
 	{
-		p.SetState(425)
+		p.SetState(430)
 		p.Match(BistatParserT__5)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -6982,18 +7110,18 @@ func (s *MedianContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *BistatParser) Median() (localctx IMedianContext) {
 	localctx = NewMedianContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 74, BistatParserRULE_median)
+	p.EnterRule(localctx, 76, BistatParserRULE_median)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(427)
-		p.Match(BistatParserT__33)
+		p.SetState(432)
+		p.Match(BistatParserT__34)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
 		}
 	}
 	{
-		p.SetState(428)
+		p.SetState(433)
 		p.Match(BistatParserT__4)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -7001,11 +7129,11 @@ func (p *BistatParser) Median() (localctx IMedianContext) {
 		}
 	}
 	{
-		p.SetState(429)
+		p.SetState(434)
 		p.Expression()
 	}
 	{
-		p.SetState(430)
+		p.SetState(435)
 		p.Match(BistatParserT__5)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -7110,18 +7238,18 @@ func (s *SinContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *BistatParser) Sin() (localctx ISinContext) {
 	localctx = NewSinContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 76, BistatParserRULE_sin)
+	p.EnterRule(localctx, 78, BistatParserRULE_sin)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(432)
-		p.Match(BistatParserT__34)
+		p.SetState(437)
+		p.Match(BistatParserT__35)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
 		}
 	}
 	{
-		p.SetState(433)
+		p.SetState(438)
 		p.Match(BistatParserT__4)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -7129,11 +7257,11 @@ func (p *BistatParser) Sin() (localctx ISinContext) {
 		}
 	}
 	{
-		p.SetState(434)
+		p.SetState(439)
 		p.Expression()
 	}
 	{
-		p.SetState(435)
+		p.SetState(440)
 		p.Match(BistatParserT__5)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -7238,18 +7366,18 @@ func (s *TanContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *BistatParser) Tan() (localctx ITanContext) {
 	localctx = NewTanContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 78, BistatParserRULE_tan)
+	p.EnterRule(localctx, 80, BistatParserRULE_tan)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(437)
-		p.Match(BistatParserT__35)
+		p.SetState(442)
+		p.Match(BistatParserT__36)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
 		}
 	}
 	{
-		p.SetState(438)
+		p.SetState(443)
 		p.Match(BistatParserT__4)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -7257,11 +7385,11 @@ func (p *BistatParser) Tan() (localctx ITanContext) {
 		}
 	}
 	{
-		p.SetState(439)
+		p.SetState(444)
 		p.Expression()
 	}
 	{
-		p.SetState(440)
+		p.SetState(445)
 		p.Match(BistatParserT__5)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -7366,135 +7494,7 @@ func (s *CosContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *BistatParser) Cos() (localctx ICosContext) {
 	localctx = NewCosContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 80, BistatParserRULE_cos)
-	p.EnterOuterAlt(localctx, 1)
-	{
-		p.SetState(442)
-		p.Match(BistatParserT__36)
-		if p.HasError() {
-			// Recognition error - abort rule
-			goto errorExit
-		}
-	}
-	{
-		p.SetState(443)
-		p.Match(BistatParserT__4)
-		if p.HasError() {
-			// Recognition error - abort rule
-			goto errorExit
-		}
-	}
-	{
-		p.SetState(444)
-		p.Expression()
-	}
-	{
-		p.SetState(445)
-		p.Match(BistatParserT__5)
-		if p.HasError() {
-			// Recognition error - abort rule
-			goto errorExit
-		}
-	}
-
-errorExit:
-	if p.HasError() {
-		v := p.GetError()
-		localctx.SetException(v)
-		p.GetErrorHandler().ReportError(p, v)
-		p.GetErrorHandler().Recover(p, v)
-		p.SetError(nil)
-	}
-	p.ExitRule()
-	return localctx
-	goto errorExit // Trick to prevent compiler error if the label is not used
-}
-
-// ISortContext is an interface to support dynamic dispatch.
-type ISortContext interface {
-	antlr.ParserRuleContext
-
-	// GetParser returns the parser.
-	GetParser() antlr.Parser
-
-	// Getter signatures
-	Expression() IExpressionContext
-
-	// IsSortContext differentiates from other interfaces.
-	IsSortContext()
-}
-
-type SortContext struct {
-	antlr.BaseParserRuleContext
-	parser antlr.Parser
-}
-
-func NewEmptySortContext() *SortContext {
-	var p = new(SortContext)
-	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
-	p.RuleIndex = BistatParserRULE_sort
-	return p
-}
-
-func InitEmptySortContext(p *SortContext) {
-	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
-	p.RuleIndex = BistatParserRULE_sort
-}
-
-func (*SortContext) IsSortContext() {}
-
-func NewSortContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *SortContext {
-	var p = new(SortContext)
-
-	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
-
-	p.parser = parser
-	p.RuleIndex = BistatParserRULE_sort
-
-	return p
-}
-
-func (s *SortContext) GetParser() antlr.Parser { return s.parser }
-
-func (s *SortContext) Expression() IExpressionContext {
-	var t antlr.RuleContext
-	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IExpressionContext); ok {
-			t = ctx.(antlr.RuleContext)
-			break
-		}
-	}
-
-	if t == nil {
-		return nil
-	}
-
-	return t.(IExpressionContext)
-}
-
-func (s *SortContext) GetRuleContext() antlr.RuleContext {
-	return s
-}
-
-func (s *SortContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
-	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *SortContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.EnterSort(s)
-	}
-}
-
-func (s *SortContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(BistatListener); ok {
-		listenerT.ExitSort(s)
-	}
-}
-
-func (p *BistatParser) Sort() (localctx ISortContext) {
-	localctx = NewSortContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 82, BistatParserRULE_sort)
+	p.EnterRule(localctx, 82, BistatParserRULE_cos)
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(447)

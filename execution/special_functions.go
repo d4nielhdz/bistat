@@ -4,6 +4,7 @@ import (
 	"bistat/src"
 	"fmt"
 	"math"
+	"sort"
 )
 
 func (eCtx *ECtx) HandlePrint() {
@@ -161,4 +162,401 @@ func (eCtx *ECtx) HandleNot() {
 
 	val := eCtx.GetBoolFromAddress(addr1)
 	eCtx.StoreBoolAtAddress(!val, addr2)
+}
+
+func (eCtx *ECtx) HandleListSum() {
+	quad := eCtx.GetCurrentQuad()
+	addr1 := eCtx.GetDerefed(quad.Op1)
+	destination := eCtx.GetDerefed(quad.Destination)
+	firstDim := quad.Op2
+	secondDim := quad.Aux
+	pType := GetPTypeFromAddress(addr1)
+	size := firstDim
+	resultSize := 1
+	len := firstDim
+
+	if secondDim > 0 {
+		size *= secondDim
+		resultSize = firstDim
+		len = secondDim
+	}
+
+	if pType == src.Int {
+		original := eCtx.GetIntListFromAddress(addr1, size)
+		result := make([]int64, resultSize)
+		i := 0
+		var acum int64 = 0
+		for i != size {
+			acum += original[i]
+			if (i+1)%len == 0 {
+				idx := ((i + 1) / len) - 1
+				result[idx] = acum
+				acum = 0
+			}
+			i++
+		}
+		eCtx.StoreIntListAtAddress(destination, result)
+	} else {
+		original := eCtx.GetFloatListFromAddress(addr1, size)
+		result := make([]float64, resultSize)
+		i := 0
+		var acum float64 = 0
+		for i != size {
+			acum += original[i]
+			if (i+1)%len == 0 {
+				idx := ((i + 1) / len) - 1
+				result[idx] = acum
+				acum = 0
+			}
+			i++
+		}
+		eCtx.StoreFloatListAtAddress(destination, result)
+	}
+}
+
+func (eCtx *ECtx) HandleProd() {
+	quad := eCtx.GetCurrentQuad()
+	addr1 := eCtx.GetDerefed(quad.Op1)
+	destination := eCtx.GetDerefed(quad.Destination)
+	firstDim := quad.Op2
+	secondDim := quad.Aux
+	pType := GetPTypeFromAddress(addr1)
+	size := firstDim
+	resultSize := 1
+	len := firstDim
+
+	if secondDim > 0 {
+		size *= secondDim
+		resultSize = firstDim
+		len = secondDim
+	}
+
+	if pType == src.Int {
+		original := eCtx.GetIntListFromAddress(addr1, size)
+		result := make([]int64, resultSize)
+		i := 0
+		var acum int64 = 1
+		for i != size {
+			acum *= original[i]
+			if (i+1)%len == 0 {
+				idx := ((i + 1) / len) - 1
+				result[idx] = acum
+				acum = 1
+			}
+			i++
+		}
+		eCtx.StoreIntListAtAddress(destination, result)
+	} else {
+		original := eCtx.GetFloatListFromAddress(addr1, size)
+		result := make([]float64, resultSize)
+		i := 0
+		var acum float64 = 1
+		for i != size {
+			acum *= original[i]
+			if (i+1)%len == 0 {
+				idx := ((i + 1) / len) - 1
+				result[idx] = acum
+				acum = 1
+			}
+			i++
+		}
+		eCtx.StoreFloatListAtAddress(destination, result)
+	}
+}
+
+func (eCtx *ECtx) HandleMax() {
+	quad := eCtx.GetCurrentQuad()
+	addr1 := eCtx.GetDerefed(quad.Op1)
+	destination := eCtx.GetDerefed(quad.Destination)
+	firstDim := quad.Op2
+	secondDim := quad.Aux
+	pType := GetPTypeFromAddress(addr1)
+	size := firstDim
+	resultSize := 1
+	len := firstDim
+
+	if secondDim > 0 {
+		size *= secondDim
+		resultSize = firstDim
+		len = secondDim
+	}
+
+	if pType == src.Int {
+		original := eCtx.GetIntListFromAddress(addr1, size)
+		result := make([]int64, resultSize)
+		i := 0
+		var currMax int64 = math.MinInt64
+		for i != size {
+			currMax = int64(math.Max(float64(original[i]), float64(currMax)))
+			if (i+1)%len == 0 {
+				idx := ((i + 1) / len) - 1
+				result[idx] = currMax
+				currMax = math.MinInt64
+			}
+			i++
+		}
+		eCtx.StoreIntListAtAddress(destination, result)
+	} else {
+		original := eCtx.GetFloatListFromAddress(addr1, size)
+		result := make([]float64, resultSize)
+		i := 0
+		var currMax float64 = -math.MaxFloat64
+		for i != size {
+			currMax = math.Max(original[i], currMax)
+			if (i+1)%len == 0 {
+				idx := ((i + 1) / len) - 1
+				result[idx] = currMax
+				currMax = float64(math.MinInt64)
+			}
+			i++
+		}
+		eCtx.StoreFloatListAtAddress(destination, result)
+	}
+}
+
+func (eCtx *ECtx) HandleMin() {
+	quad := eCtx.GetCurrentQuad()
+	addr1 := eCtx.GetDerefed(quad.Op1)
+	destination := eCtx.GetDerefed(quad.Destination)
+	firstDim := quad.Op2
+	secondDim := quad.Aux
+	pType := GetPTypeFromAddress(addr1)
+	size := firstDim
+	resultSize := 1
+	len := firstDim
+
+	if secondDim > 0 {
+		size *= secondDim
+		resultSize = firstDim
+		len = secondDim
+	}
+
+	if pType == src.Int {
+		original := eCtx.GetIntListFromAddress(addr1, size)
+		result := make([]int64, resultSize)
+		i := 0
+		var currMax int64 = math.MaxInt64
+		for i != size {
+			currMax = int64(math.Min(float64(original[i]), float64(currMax)))
+			if (i+1)%len == 0 {
+				idx := ((i + 1) / len) - 1
+				result[idx] = currMax
+				currMax = math.MaxInt64
+			}
+			i++
+		}
+		eCtx.StoreIntListAtAddress(destination, result)
+	} else {
+		original := eCtx.GetFloatListFromAddress(addr1, size)
+		result := make([]float64, resultSize)
+		i := 0
+		var currMax float64 = math.MaxFloat64
+		for i != size {
+			currMax = math.Min(original[i], currMax)
+			if (i+1)%len == 0 {
+				idx := ((i + 1) / len) - 1
+				result[idx] = currMax
+				currMax = math.MaxInt64
+			}
+			i++
+		}
+		eCtx.StoreFloatListAtAddress(destination, result)
+	}
+}
+
+func (eCtx *ECtx) HandleAvg() {
+	quad := eCtx.GetCurrentQuad()
+	addr1 := eCtx.GetDerefed(quad.Op1)
+	destination := eCtx.GetDerefed(quad.Destination)
+	firstDim := quad.Op2
+	secondDim := quad.Aux
+	pType := GetPTypeFromAddress(addr1)
+	size := firstDim
+	resultSize := 1
+	n := firstDim
+
+	if secondDim > 0 {
+		size *= secondDim
+		resultSize = firstDim
+		n = secondDim
+	}
+
+	if pType == src.Int {
+		original := eCtx.GetIntListFromAddress(addr1, size)
+		result := make([]float64, resultSize)
+		i := 0
+		var acum int64 = 0
+		for i != size {
+			acum += original[i]
+			if (i+1)%n == 0 {
+				idx := ((i + 1) / n) - 1
+				result[idx] = float64(acum) / float64(n)
+				acum = 0
+			}
+			i++
+		}
+		eCtx.StoreFloatListAtAddress(destination, result)
+	} else {
+		// fmt.Println("--", quad.Op1, addr1, quad.Op2, quad.Aux)
+		original := eCtx.GetFloatListFromAddress(addr1, size)
+		result := make([]float64, resultSize)
+		i := 0
+		var acum float64 = 0
+		for i != size {
+			acum += original[i]
+			if (i+1)%n == 0 {
+				idx := ((i + 1) / n) - 1
+				result[idx] = acum / float64(n)
+				acum = 0
+			}
+			i++
+		}
+		eCtx.StoreFloatListAtAddress(destination, result)
+	}
+}
+
+func (eCtx *ECtx) HandleSMode() {
+	quad := eCtx.GetCurrentQuad()
+	addr1 := eCtx.GetDerefed(quad.Op1)
+	destination := eCtx.GetDerefed(quad.Destination)
+	firstDim := quad.Op2
+	secondDim := quad.Aux
+	pType := GetPTypeFromAddress(addr1)
+	size := firstDim
+	resultSize := 1
+	len := firstDim
+
+	if secondDim > 0 {
+		size *= secondDim
+		resultSize = firstDim
+		len = secondDim
+	}
+
+	if pType == src.Int {
+		original := eCtx.GetIntListFromAddress(addr1, size)
+		result := make([]int64, resultSize)
+		freqs := make(map[int64]int)
+		i := 0
+		for i != size {
+			freqs[original[i]] += 1
+
+			if (i+1)%len == 0 {
+				maxFreq := 0
+				var modeVal int64 = 0
+				for val, freq := range freqs {
+					if freq > maxFreq {
+						maxFreq = freq
+						modeVal = val
+					}
+				}
+
+				idx := ((i + 1) / len) - 1
+				result[idx] = modeVal
+				freqs = make(map[int64]int)
+			}
+			i++
+		}
+		eCtx.StoreIntListAtAddress(destination, result)
+	} else {
+		original := eCtx.GetFloatListFromAddress(addr1, size)
+		result := make([]float64, resultSize)
+		freqs := make(map[float64]int)
+		i := 0
+		for i != size {
+			freqs[original[i]] += 1
+
+			if (i+1)%len == 0 {
+				maxFreq := 0
+				var modeVal float64 = 0
+				for val, freq := range freqs {
+					if freq > maxFreq {
+						maxFreq = freq
+						modeVal = val
+					}
+				}
+
+				idx := ((i + 1) / len) - 1
+				result[idx] = modeVal
+				freqs = make(map[float64]int)
+			}
+			i++
+		}
+		eCtx.StoreFloatListAtAddress(destination, result)
+	}
+}
+
+func (eCtx *ECtx) HandleMedian() {
+	quad := eCtx.GetCurrentQuad()
+	addr1 := eCtx.GetDerefed(quad.Op1)
+	destination := eCtx.GetDerefed(quad.Destination)
+	firstDim := quad.Op2
+	secondDim := quad.Aux
+	pType := GetPTypeFromAddress(addr1)
+	size := firstDim
+	resultSize := 1
+	len := firstDim
+
+	if secondDim > 0 {
+		size *= secondDim
+		resultSize = firstDim
+		len = secondDim
+	}
+
+	if pType == src.Int {
+		original := eCtx.GetIntListFromAddress(addr1, size)
+		result := make([]float64, resultSize)
+		ls := make([]int64, len)
+		i := 0
+		j := 0
+		for i != size {
+			ls[j] = original[i]
+			var median float64 = 0
+			if (j + 1) == len {
+				sort.Slice(ls, func(k, l int) bool {
+					return ls[k] < ls[l]
+				})
+				if len%2 == 0 {
+					median = float64((ls[len/2-1] + ls[len/2])) / 2.0
+				} else {
+					median = float64(ls[len/2])
+				}
+				idx := ((i + 1) / len) - 1
+				result[idx] = median
+				ls = make([]int64, len)
+				j = 0
+			} else {
+				j++
+			}
+			i++
+		}
+		eCtx.StoreFloatListAtAddress(destination, result)
+	} else {
+		original := eCtx.GetFloatListFromAddress(addr1, size)
+		result := make([]float64, resultSize)
+		ls := make([]float64, len)
+		i := 0
+		j := 0
+		for i != size {
+			ls[j] = original[i]
+			var median float64 = 0
+			if (j + 1) == len {
+				sort.Slice(ls, func(k, l int) bool {
+					return ls[k] < ls[l]
+				})
+				if len%2 == 0 {
+					median = (ls[len/2-1] + ls[len/2]) / 2
+				} else {
+					median = ls[len/2]
+				}
+				idx := ((i + 1) / len) - 1
+				result[idx] = median
+				ls = make([]float64, len)
+				j = 0
+			} else {
+				j++
+			}
+			i++
+		}
+		eCtx.StoreFloatListAtAddress(destination, result)
+	}
 }

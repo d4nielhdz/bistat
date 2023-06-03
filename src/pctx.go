@@ -437,6 +437,13 @@ func (pCtx *PCtx) GetCorrespondingTempAddressManager(pType PType) *AddressManage
 	}
 }
 
+func (pCtx *PCtx) GetCorrespondingRefAddressManager(addr int) *AddressManager {
+	if pCtx.IsLocalAddr(addr) || pCtx.IsLocalRef(addr) || len(pCtx.scopes) > 1 {
+		return pCtx.vm.localRefAddressMgr
+	}
+	return pCtx.vm.globalRefAddressMgr
+}
+
 func (pCtx *PCtx) PrintPo() {
 	for _, po := range pCtx.pO {
 		po.print()
@@ -521,4 +528,44 @@ func (pCtx *PCtx) AddVarToScope(scope string, varName string, rType RType) {
 func (pCtx *PCtx) RemoveFunction(funcName string) {
 	// delete(pCtx.funcDir, funcName)
 	delete(pCtx.varTable, funcName)
+}
+
+func (pCtx *PCtx) GenerateQuadsForAggregateFunction(op Op, resultType PType) {
+	if len(pCtx.semanticErrors) > 0 {
+		return
+	}
+	o := pCtx.POTop()
+	pCtx.POPop()
+	if o.PType != Float && o.PType != Int {
+		pCtx.SemanticError(OpToString(op) + " can only be called with lists of type int or float")
+		return
+	}
+	if o.FirstDim <= 0 {
+		pCtx.SemanticError(OpToString(op) + " can only be called on arrays or matrices")
+		return
+	}
+	quad := NewQuad(op, o.Address, o.FirstDim, 0)
+	result := NewRType(resultType)
+
+	if o.SecondDim > 0 {
+		quad.Aux = o.SecondDim
+		result.FirstDim = o.FirstDim
+		i := 0
+		addrMgr := pCtx.GetCorrespondingTempAddressManager(resultType)
+		for i != o.FirstDim {
+			addr, _ := addrMgr.GetNext()
+			if i == 0 {
+				quad.Destination = addr
+				result.Address = addr
+			}
+			i++
+		}
+	} else {
+		addrMgr := pCtx.GetCorrespondingTempAddressManager(resultType)
+		addr, _ := addrMgr.GetNext()
+		quad.Destination = addr
+		result.Address = addr
+	}
+	pCtx.vm.PushQuad(quad)
+	pCtx.POPush(result)
 }

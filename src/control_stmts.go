@@ -148,8 +148,11 @@ func (l *bistatListener) ExitForHeader(ctx *parser.ForHeaderContext) {
 	o := l.pCtx.POTop()
 	l.pCtx.POPop()
 	vc := l.pCtx.POTop()
+	if o.FirstDim <= 0 {
+		l.pCtx.SemanticError("For loops can only be used in arrays")
+		return
+	}
 	if o.PType != vc.PType {
-		// todo: validate array type
 		l.pCtx.SemanticError("Control variable must be the same type as expression variable")
 		return
 	}
@@ -160,8 +163,7 @@ func (l *bistatListener) ExitForHeader(ctx *parser.ForHeaderContext) {
 	currQuad := len(l.pCtx.vm.quads)
 	l.pCtx.JumpsPush(currQuad)
 	l.pCtx.vm.PushQuad(NewQuad(GotoF, boolAddr, -1, -1))
-	//  todo: figure out for loop
-	addrMgr := l.pCtx.vm.globalRefAddressMgr
+	addrMgr := l.pCtx.GetCorrespondingRefAddressManager(o.Address)
 	refAddr, _ := addrMgr.GetNext()
 	l.pCtx.vm.PushQuad(NewQuad(RefSum, vc.Address, l.pCtx.IgnoreIfRef(o.Address), refAddr))
 	l.pCtx.vm.PushQuad(NewQuad(Assign, elem.Address, -1, refAddr))

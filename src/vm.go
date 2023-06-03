@@ -1,6 +1,5 @@
 package src
 
-// todo: add memory for refs\
 const GLOBAL_INT_START = 0
 const GLOBAL_FLOAT_START = 10000
 const GLOBAL_STRING_START = 20000
@@ -126,8 +125,8 @@ func NewVM() VM {
 }
 
 type Quad struct {
-	Op                    Op
-	Op1, Op2, Destination int
+	Op                         Op
+	Op1, Op2, Destination, Aux int
 }
 
 func NewQuad(Op Op, Op1 int, Op2 int, Destination int) Quad {

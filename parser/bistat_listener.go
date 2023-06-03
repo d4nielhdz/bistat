@@ -110,6 +110,9 @@ type BistatListener interface {
 	// EnterMin is called when entering the min production.
 	EnterMin(c *MinContext)
 
+	// EnterMax is called when entering the max production.
+	EnterMax(c *MaxContext)
+
 	// EnterProd is called when entering the prod production.
 	EnterProd(c *ProdContext)
 
@@ -130,9 +133,6 @@ type BistatListener interface {
 
 	// EnterCos is called when entering the cos production.
 	EnterCos(c *CosContext)
-
-	// EnterSort is called when entering the sort production.
-	EnterSort(c *SortContext)
 
 	// EnterSqrt is called when entering the sqrt production.
 	EnterSqrt(c *SqrtContext)
@@ -290,6 +290,9 @@ type BistatListener interface {
 	// ExitMin is called when exiting the min production.
 	ExitMin(c *MinContext)
 
+	// ExitMax is called when exiting the max production.
+	ExitMax(c *MaxContext)
+
 	// ExitProd is called when exiting the prod production.
 	ExitProd(c *ProdContext)
 
@@ -310,9 +313,6 @@ type BistatListener interface {
 
 	// ExitCos is called when exiting the cos production.
 	ExitCos(c *CosContext)
-
-	// ExitSort is called when exiting the sort production.
-	ExitSort(c *SortContext)
 
 	// ExitSqrt is called when exiting the sqrt production.
 	ExitSqrt(c *SqrtContext)

@@ -87,7 +87,7 @@ func (eCtx *ECtx) GetPreviousStackSegment() *StackSegment {
 func (eCtx *ECtx) HandleQuad() {
 	quad := eCtx.GetCurrentQuad()
 	if quad.Op != src.Print && quad.Op != src.PrintN {
-		// fmt.Println("#", eCtx.IP)
+		// fmt.Println("#", eCtx.IP, src.OpToString(quad.Op))
 	}
 	switch quad.Op {
 	case src.Goto:
@@ -166,6 +166,22 @@ func (eCtx *ECtx) HandleQuad() {
 		eCtx.HandleUnaryMinus()
 	case src.Sqrt:
 		eCtx.HandleSqrt()
+	case src.ListSum:
+		eCtx.HandleListSum()
+	case src.Prod:
+		eCtx.HandleProd()
+	case src.Max:
+		eCtx.HandleMax()
+	case src.Min:
+		eCtx.HandleMin()
+	case src.Avg:
+		eCtx.HandleAvg()
+	case src.Median:
+		eCtx.HandleMedian()
+	case src.SMode:
+		eCtx.HandleSMode()
+	case src.End:
+		eCtx.HandleEnd()
 	default:
 		fmt.Println("Unhandled ", src.OpToString(quad.Op))
 	}

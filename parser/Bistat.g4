@@ -62,6 +62,7 @@ specialFunction:
 	| listAssign
 	| plot
 	| sum
+	| max
 	| min
 	| prod
 	| avg
@@ -70,7 +71,6 @@ specialFunction:
 	| sin
 	| cos
 	| tan
-	| sort
 	| sqrt
 	| floor
 	| ceil
@@ -85,6 +85,7 @@ range: 'range' '(' expression (',' expression)? ')';
 plot: 'plot' '(' expression ')';
 sum: 'sum' '(' expression ')';
 min: 'min' '(' expression ')';
+max: 'max' '(' expression ')';
 prod: 'prod' '(' expression ')';
 avg: 'avg' '(' expression ')';
 sMode: 'sMode' '(' expression ')';
@@ -92,7 +93,6 @@ median: 'median' '(' expression ')';
 sin: 'sin' '(' expression ')';
 tan: 'tan' '(' expression ')';
 cos: 'cos' '(' expression ')';
-sort: 'sort' '(' expression ')';
 sqrt: 'sqrt' '(' expression ')';
 floor: 'floor' '(' expression ')';
 ceil: 'ceil' '(' expression ')';

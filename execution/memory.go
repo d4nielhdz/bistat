@@ -237,3 +237,37 @@ func (eCtx *ECtx) GetDerefed(addr int) int {
 	}
 	return addr
 }
+
+func (eCtx *ECtx) GetIntListFromAddress(addr int, size int) []int64 {
+	list := make([]int64, size)
+	i := 0
+
+	for i != size {
+		list[i] = eCtx.GetIntFromAddress(addr + i)
+		i++
+	}
+	return list
+}
+
+func (eCtx *ECtx) StoreIntListAtAddress(addr int, ls []int64) {
+	for i, val := range ls {
+		eCtx.StoreIntAtAddress(val, addr+i)
+	}
+}
+
+func (eCtx *ECtx) GetFloatListFromAddress(addr int, size int) []float64 {
+	list := make([]float64, size)
+	i := 0
+
+	for i != size {
+		list[i] = eCtx.GetFloatFromAddress(addr + i)
+		i++
+	}
+	return list
+}
+
+func (eCtx *ECtx) StoreFloatListAtAddress(addr int, ls []float64) {
+	for i, val := range ls {
+		eCtx.StoreFloatAtAddress(val, addr+i)
+	}
+}

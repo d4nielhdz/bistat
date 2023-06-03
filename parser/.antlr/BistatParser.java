@@ -35,9 +35,9 @@ public class BistatParser extends Parser {
 		RULE_ifStmt = 19, RULE_elseIfStmt = 20, RULE_condExprEnd = 21, RULE_elseStmt = 22, 
 		RULE_returnStmt = 23, RULE_specialFunction = 24, RULE_inputRead = 25, 
 		RULE_print = 26, RULE_listAdd = 27, RULE_listPop = 28, RULE_length = 29, 
-		RULE_range = 30, RULE_plot = 31, RULE_sum = 32, RULE_min = 33, RULE_prod = 34, 
-		RULE_avg = 35, RULE_sMode = 36, RULE_median = 37, RULE_sin = 38, RULE_tan = 39, 
-		RULE_cos = 40, RULE_sort = 41, RULE_sqrt = 42, RULE_floor = 43, RULE_ceil = 44, 
+		RULE_range = 30, RULE_plot = 31, RULE_sum = 32, RULE_min = 33, RULE_max = 34, 
+		RULE_prod = 35, RULE_avg = 36, RULE_sMode = 37, RULE_median = 38, RULE_sin = 39, 
+		RULE_tan = 40, RULE_cos = 41, RULE_sqrt = 42, RULE_floor = 43, RULE_ceil = 44, 
 		RULE_abs = 45, RULE_not = 46, RULE_listAccess = 47, RULE_listAssign = 48, 
 		RULE_expression = 49, RULE_exp = 50, RULE_term = 51, RULE_factor = 52, 
 		RULE_unaryMinus = 53, RULE_nestedExpression = 54, RULE_functionCall = 55, 
@@ -49,8 +49,8 @@ public class BistatParser extends Parser {
 			"listAssignment", "comment", "forLoop", "forHeader", "forExprEnd", "whileLoop", 
 			"whileExprEnd", "conditional", "ifStmt", "elseIfStmt", "condExprEnd", 
 			"elseStmt", "returnStmt", "specialFunction", "inputRead", "print", "listAdd", 
-			"listPop", "length", "range", "plot", "sum", "min", "prod", "avg", "sMode", 
-			"median", "sin", "tan", "cos", "sort", "sqrt", "floor", "ceil", "abs", 
+			"listPop", "length", "range", "plot", "sum", "min", "max", "prod", "avg", 
+			"sMode", "median", "sin", "tan", "cos", "sqrt", "floor", "ceil", "abs", 
 			"not", "listAccess", "listAssign", "expression", "exp", "term", "factor", 
 			"unaryMinus", "nestedExpression", "functionCall", "varCons", "opSec", 
 			"opFirst", "logicOperator"
@@ -63,8 +63,8 @@ public class BistatParser extends Parser {
 			null, "'Program'", "';'", "'var'", "'func'", "'('", "')'", "':'", "'{'", 
 			"'}'", "'main'", "'='", "'['", "','", "']'", "'#'", "'for'", "'in'", 
 			"'while'", "'if'", "'else'", "'return'", "'read'", "'print'", "'listAdd'", 
-			"'listPop'", "'length'", "'range'", "'plot'", "'sum'", "'min'", "'prod'", 
-			"'avg'", "'sMode'", "'median'", "'sin'", "'tan'", "'cos'", "'sort'", 
+			"'listPop'", "'length'", "'range'", "'plot'", "'sum'", "'min'", "'max'", 
+			"'prod'", "'avg'", "'sMode'", "'median'", "'sin'", "'tan'", "'cos'", 
 			"'sqrt'", "'floor'", "'ceil'", "'abs'", "'not'", "'listAccess'", "'listAssign'", 
 			"'-'", "'+'", "'/'", "'*'", "'%'", "'<'", "'>'", "'<='", "'>='", "'=='", 
 			"'!='", "'&&'", "'||'"
@@ -1476,6 +1476,9 @@ public class BistatParser extends Parser {
 		public SumContext sum() {
 			return getRuleContext(SumContext.class,0);
 		}
+		public MaxContext max() {
+			return getRuleContext(MaxContext.class,0);
+		}
 		public MinContext min() {
 			return getRuleContext(MinContext.class,0);
 		}
@@ -1499,9 +1502,6 @@ public class BistatParser extends Parser {
 		}
 		public TanContext tan() {
 			return getRuleContext(TanContext.class,0);
-		}
-		public SortContext sort() {
-			return getRuleContext(SortContext.class,0);
 		}
 		public SqrtContext sqrt() {
 			return getRuleContext(SqrtContext.class,0);
@@ -1573,67 +1573,67 @@ public class BistatParser extends Parser {
 				sum();
 				}
 				break;
-			case T__29:
+			case T__30:
 				enterOuterAlt(_localctx, 7);
 				{
 				setState(331);
-				min();
+				max();
 				}
 				break;
-			case T__30:
+			case T__29:
 				enterOuterAlt(_localctx, 8);
 				{
 				setState(332);
-				prod();
+				min();
 				}
 				break;
 			case T__31:
 				enterOuterAlt(_localctx, 9);
 				{
 				setState(333);
-				avg();
+				prod();
 				}
 				break;
 			case T__32:
 				enterOuterAlt(_localctx, 10);
 				{
 				setState(334);
-				sMode();
+				avg();
 				}
 				break;
 			case T__33:
 				enterOuterAlt(_localctx, 11);
 				{
 				setState(335);
-				median();
+				sMode();
 				}
 				break;
 			case T__34:
 				enterOuterAlt(_localctx, 12);
 				{
 				setState(336);
-				sin();
-				}
-				break;
-			case T__36:
-				enterOuterAlt(_localctx, 13);
-				{
-				setState(337);
-				cos();
+				median();
 				}
 				break;
 			case T__35:
-				enterOuterAlt(_localctx, 14);
+				enterOuterAlt(_localctx, 13);
 				{
-				setState(338);
-				tan();
+				setState(337);
+				sin();
 				}
 				break;
 			case T__37:
+				enterOuterAlt(_localctx, 14);
+				{
+				setState(338);
+				cos();
+				}
+				break;
+			case T__36:
 				enterOuterAlt(_localctx, 15);
 				{
 				setState(339);
-				sort();
+				tan();
 				}
 				break;
 			case T__38:
@@ -2082,6 +2082,43 @@ public class BistatParser extends Parser {
 		return _localctx;
 	}
 
+	public static class MaxContext extends ParserRuleContext {
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public MaxContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_max; }
+	}
+
+	public final MaxContext max() throws RecognitionException {
+		MaxContext _localctx = new MaxContext(_ctx, getState());
+		enterRule(_localctx, 68, RULE_max);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(412);
+			match(T__30);
+			setState(413);
+			match(T__4);
+			setState(414);
+			expression();
+			setState(415);
+			match(T__5);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
 	public static class ProdContext extends ParserRuleContext {
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
@@ -2094,17 +2131,17 @@ public class BistatParser extends Parser {
 
 	public final ProdContext prod() throws RecognitionException {
 		ProdContext _localctx = new ProdContext(_ctx, getState());
-		enterRule(_localctx, 68, RULE_prod);
+		enterRule(_localctx, 70, RULE_prod);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(412);
-			match(T__30);
-			setState(413);
+			setState(417);
+			match(T__31);
+			setState(418);
 			match(T__4);
-			setState(414);
+			setState(419);
 			expression();
-			setState(415);
+			setState(420);
 			match(T__5);
 			}
 		}
@@ -2131,17 +2168,17 @@ public class BistatParser extends Parser {
 
 	public final AvgContext avg() throws RecognitionException {
 		AvgContext _localctx = new AvgContext(_ctx, getState());
-		enterRule(_localctx, 70, RULE_avg);
+		enterRule(_localctx, 72, RULE_avg);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(417);
-			match(T__31);
-			setState(418);
+			setState(422);
+			match(T__32);
+			setState(423);
 			match(T__4);
-			setState(419);
+			setState(424);
 			expression();
-			setState(420);
+			setState(425);
 			match(T__5);
 			}
 		}
@@ -2168,17 +2205,17 @@ public class BistatParser extends Parser {
 
 	public final SModeContext sMode() throws RecognitionException {
 		SModeContext _localctx = new SModeContext(_ctx, getState());
-		enterRule(_localctx, 72, RULE_sMode);
+		enterRule(_localctx, 74, RULE_sMode);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(422);
-			match(T__32);
-			setState(423);
+			setState(427);
+			match(T__33);
+			setState(428);
 			match(T__4);
-			setState(424);
+			setState(429);
 			expression();
-			setState(425);
+			setState(430);
 			match(T__5);
 			}
 		}
@@ -2205,17 +2242,17 @@ public class BistatParser extends Parser {
 
 	public final MedianContext median() throws RecognitionException {
 		MedianContext _localctx = new MedianContext(_ctx, getState());
-		enterRule(_localctx, 74, RULE_median);
+		enterRule(_localctx, 76, RULE_median);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(427);
-			match(T__33);
-			setState(428);
+			setState(432);
+			match(T__34);
+			setState(433);
 			match(T__4);
-			setState(429);
+			setState(434);
 			expression();
-			setState(430);
+			setState(435);
 			match(T__5);
 			}
 		}
@@ -2242,17 +2279,17 @@ public class BistatParser extends Parser {
 
 	public final SinContext sin() throws RecognitionException {
 		SinContext _localctx = new SinContext(_ctx, getState());
-		enterRule(_localctx, 76, RULE_sin);
+		enterRule(_localctx, 78, RULE_sin);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(432);
-			match(T__34);
-			setState(433);
+			setState(437);
+			match(T__35);
+			setState(438);
 			match(T__4);
-			setState(434);
+			setState(439);
 			expression();
-			setState(435);
+			setState(440);
 			match(T__5);
 			}
 		}
@@ -2279,17 +2316,17 @@ public class BistatParser extends Parser {
 
 	public final TanContext tan() throws RecognitionException {
 		TanContext _localctx = new TanContext(_ctx, getState());
-		enterRule(_localctx, 78, RULE_tan);
+		enterRule(_localctx, 80, RULE_tan);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(437);
-			match(T__35);
-			setState(438);
+			setState(442);
+			match(T__36);
+			setState(443);
 			match(T__4);
-			setState(439);
+			setState(444);
 			expression();
-			setState(440);
+			setState(445);
 			match(T__5);
 			}
 		}
@@ -2316,44 +2353,7 @@ public class BistatParser extends Parser {
 
 	public final CosContext cos() throws RecognitionException {
 		CosContext _localctx = new CosContext(_ctx, getState());
-		enterRule(_localctx, 80, RULE_cos);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(442);
-			match(T__36);
-			setState(443);
-			match(T__4);
-			setState(444);
-			expression();
-			setState(445);
-			match(T__5);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class SortContext extends ParserRuleContext {
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public SortContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_sort; }
-	}
-
-	public final SortContext sort() throws RecognitionException {
-		SortContext _localctx = new SortContext(_ctx, getState());
-		enterRule(_localctx, 82, RULE_sort);
+		enterRule(_localctx, 82, RULE_cos);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
@@ -3376,9 +3376,9 @@ public class BistatParser extends Parser {
 		"\u0141\3\2\2\2\u0141\u0142\3\2\2\2\u0142\u0143\7\13\2\2\u0143/\3\2\2\2"+
 		"\u0144\u0145\7\27\2\2\u0145\u0146\5d\63\2\u0146\61\3\2\2\2\u0147\u015c"+
 		"\5\64\33\2\u0148\u015c\5\66\34\2\u0149\u015c\5`\61\2\u014a\u015c\5b\62"+
-		"\2\u014b\u015c\5@!\2\u014c\u015c\5B\"\2\u014d\u015c\5D#\2\u014e\u015c"+
-		"\5F$\2\u014f\u015c\5H%\2\u0150\u015c\5J&\2\u0151\u015c\5L\'\2\u0152\u015c"+
-		"\5N(\2\u0153\u015c\5R*\2\u0154\u015c\5P)\2\u0155\u015c\5T+\2\u0156\u015c"+
+		"\2\u014b\u015c\5@!\2\u014c\u015c\5B\"\2\u014d\u015c\5F$\2\u014e\u015c"+
+		"\5D#\2\u014f\u015c\5H%\2\u0150\u015c\5J&\2\u0151\u015c\5L\'\2\u0152\u015c"+
+		"\5N(\2\u0153\u015c\5P)\2\u0154\u015c\5T+\2\u0155\u015c\5R*\2\u0156\u015c"+
 		"\5V,\2\u0157\u015c\5X-\2\u0158\u015c\5Z.\2\u0159\u015c\5\\/\2\u015a\u015c"+
 		"\5^\60\2\u015b\u0147\3\2\2\2\u015b\u0148\3\2\2\2\u015b\u0149\3\2\2\2\u015b"+
 		"\u014a\3\2\2\2\u015b\u014b\3\2\2\2\u015b\u014c\3\2\2\2\u015b\u014d\3\2"+

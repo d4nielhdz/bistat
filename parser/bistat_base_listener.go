@@ -225,6 +225,12 @@ func (s *BaseBistatListener) EnterMin(ctx *MinContext) {}
 // ExitMin is called when production min is exited.
 func (s *BaseBistatListener) ExitMin(ctx *MinContext) {}
 
+// EnterMax is called when production max is entered.
+func (s *BaseBistatListener) EnterMax(ctx *MaxContext) {}
+
+// ExitMax is called when production max is exited.
+func (s *BaseBistatListener) ExitMax(ctx *MaxContext) {}
+
 // EnterProd is called when production prod is entered.
 func (s *BaseBistatListener) EnterProd(ctx *ProdContext) {}
 
@@ -266,12 +272,6 @@ func (s *BaseBistatListener) EnterCos(ctx *CosContext) {}
 
 // ExitCos is called when production cos is exited.
 func (s *BaseBistatListener) ExitCos(ctx *CosContext) {}
-
-// EnterSort is called when production sort is entered.
-func (s *BaseBistatListener) EnterSort(ctx *SortContext) {}
-
-// ExitSort is called when production sort is exited.
-func (s *BaseBistatListener) ExitSort(ctx *SortContext) {}
 
 // EnterSqrt is called when production sqrt is entered.
 func (s *BaseBistatListener) EnterSqrt(ctx *SqrtContext) {}

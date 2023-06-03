@@ -1,6 +1,5 @@
 package src
 
-// todo: add fake bottom for array access and function calls
 import (
 	parser "bistat/parser"
 	"encoding/gob"
@@ -34,7 +33,6 @@ func (l *bistatListener) EnterVarDeclaration(ctx *parser.VarDeclarationContext) 
 		return
 	}
 
-	// todo: catch type errors
 	currScope := l.pCtx.GetCurrentScope()
 	vt := ctx.Var_type()
 	pType := PTypeFromString(vt.TYPE_PRIMITIVE().GetText())
@@ -86,7 +84,7 @@ func (l *bistatListener) ExitAssignment(ctx *parser.AssignmentContext) {
 			}
 			for i, row := range ctx.MatrixAssignment().AllListAssignment() {
 				cols := len(row.AllExpression())
-				if cols != lRType.FirstDim {
+				if cols != lRType.SecondDim {
 					l.pCtx.SemanticError("Incorrect number of columns in assignment to " + varName + " in row " + strconv.Itoa(i) + "; expected " + strconv.Itoa(lRType.SecondDim) + ", got " + strconv.Itoa(cols))
 					return
 				}
@@ -105,16 +103,11 @@ func (l *bistatListener) ExitAssignment(ctx *parser.AssignmentContext) {
 		rType, _ := l.pCtx.GetRTypeFromVarName(varName)
 		startAddr := rType.Address
 		i := expectedSize
-		isLocal := l.pCtx.IsLocalVar(varName)
-		addrMgr := l.pCtx.vm.globalRefAddressMgr
-		if isLocal {
-			addrMgr = l.pCtx.vm.localRefAddressMgr
-		}
+		addrMgr := l.pCtx.GetCorrespondingRefAddressManager(rType.Address)
 		for i > 0 {
 			elem := l.pCtx.POTop()
 			l.pCtx.POPop()
 			refAddr, _ := addrMgr.GetNext()
-			// todo: store i-1 as const
 			l.pCtx.vm.PushQuad(NewQuad(RefSum, l.pCtx.IgnoreIfRef(startAddr), l.pCtx.ConstIntUpsert(i-1), refAddr))
 			l.pCtx.vm.PushQuad(NewQuad(Assign, refAddr, -1, elem.Address))
 			i = i - 1
@@ -144,16 +137,12 @@ func (l *bistatListener) ExitAssignment(ctx *parser.AssignmentContext) {
 				return
 			}
 
-			isLocal := l.pCtx.IsLocalVar(varName)
-			addrMgr := l.pCtx.vm.globalRefAddressMgr
+			addrMgr := l.pCtx.GetCorrespondingRefAddressManager(lRType.Address)
 
-			if isLocal {
-				addrMgr = l.pCtx.vm.localRefAddressMgr
-			}
 			i := 0
 			startAddr := rRType.Address
 			lStartAddr := lRType.Address
-			rAddrMgr := l.pCtx.vm.globalRefAddressMgr
+			rAddrMgr := l.pCtx.GetCorrespondingRefAddressManager(rRType.Address)
 
 			for i != expectedSize {
 				lAddr, _ := addrMgr.GetNext()

@@ -17,70 +17,6 @@ func (l *bistatListener) ExitSpecialFunction(ctx *parser.SpecialFunctionContext)
 		return
 	}
 	l.pCtx.POperPop()
-
-	if ctx.Plot() != nil {
-		if !l.pCtx.POperIsEmpty() {
-			l.pCtx.SemanticError("Cannot use 'plot' inside an arithmetic expression")
-			return
-		}
-		o1 := l.pCtx.POTop()
-		l.pCtx.POPop()
-		quad := NewQuad(Plot, o1.Address, -1, -1)
-		l.pCtx.vm.PushQuad(quad)
-	} else if ctx.Sum() != nil {
-		// todo: verify array type
-		o1 := l.pCtx.POTop()
-		l.pCtx.POPop()
-		if o1.PType != Int && o1.PType != Float {
-			l.pCtx.SemanticError("Cannot perform sum on " + PTypeToString(o1.PType))
-		}
-		addr, _ := l.pCtx.GetCorrespondingTempAddressManager(o1.PType).GetNext()
-		rType := NewRType(o1.PType)
-		rType.Address = addr
-		quad := NewQuad(Sum, o1.Address, -1, addr)
-		l.pCtx.vm.PushQuad(quad)
-		l.pCtx.POPush(rType)
-	} else if ctx.Min() != nil {
-		// todo: verify array type
-		o1 := l.pCtx.POTop()
-		l.pCtx.POPop()
-		if o1.PType != Int && o1.PType != Float {
-			l.pCtx.SemanticError("Cannot perform min on " + PTypeToString(o1.PType))
-		}
-		addr, _ := l.pCtx.GetCorrespondingTempAddressManager(o1.PType).GetNext()
-		rType := NewRType(o1.PType)
-		rType.Address = addr
-		quad := NewQuad(Min, o1.Address, -1, addr)
-		l.pCtx.vm.PushQuad(quad)
-		l.pCtx.POPush(rType)
-	} else if ctx.Avg() != nil {
-		// todo: verify array type
-		o1 := l.pCtx.POTop()
-		l.pCtx.POPop()
-		if o1.PType != Int && o1.PType != Float {
-			l.pCtx.SemanticError("Cannot perform avg on " + PTypeToString(o1.PType))
-		}
-		addr, _ := l.pCtx.GetCorrespondingTempAddressManager(o1.PType).GetNext()
-		rType := NewRType(o1.PType)
-		rType.Address = addr
-		quad := NewQuad(Avg, o1.Address, -1, addr)
-		l.pCtx.vm.PushQuad(quad)
-		l.pCtx.POPush(rType)
-	} else if ctx.Prod() != nil {
-		// todo: verify array type
-		o1 := l.pCtx.POTop()
-		l.pCtx.POPop()
-		if o1.PType != Int && o1.PType != Float {
-			l.pCtx.SemanticError("Cannot perform prod on " + PTypeToString(o1.PType))
-		}
-		addr, _ := l.pCtx.GetCorrespondingTempAddressManager(o1.PType).GetNext()
-		rType := NewRType(o1.PType)
-		rType.Address = addr
-		quad := NewQuad(Prod, o1.Address, -1, addr)
-		l.pCtx.vm.PushQuad(quad)
-		l.pCtx.POPush(rType)
-	}
-	// todo: handle missing functions
 }
 
 func (l *bistatListener) ExitListAssign(ctx *parser.ListAssignContext) {
@@ -98,13 +34,8 @@ func (l *bistatListener) ExitListAssign(ctx *parser.ListAssignContext) {
 		return
 	}
 
-	isLocal := l.pCtx.IsLocalVar(varName)
-	addrMgr := l.pCtx.vm.globalRefAddressMgr
+	addrMgr := l.pCtx.GetCorrespondingRefAddressManager(rType.Address)
 	iAddrMgr := l.pCtx.vm.tempIntAddressMgr
-
-	if isLocal {
-		addrMgr = l.pCtx.vm.localRefAddressMgr
-	}
 
 	if ctx.ListAssignment() != nil {
 		expectedSize := 0
@@ -130,7 +61,7 @@ func (l *bistatListener) ExitListAssign(ctx *parser.ListAssignContext) {
 			elem := l.pCtx.POTop()
 			l.pCtx.POPop()
 			if rType.PType != elem.PType {
-				// todo: csecondAddrst where appropriate
+				// todo: cast where appropriate
 				l.pCtx.SemanticError("Cannot assign to " + varName + " because of type mismatch: " + PTypeToString(elem.PType) + " != " + PTypeToString(rType.PType))
 				return
 			}
@@ -149,7 +80,7 @@ func (l *bistatListener) ExitListAssign(ctx *parser.ListAssignContext) {
 			idx := l.pCtx.POTop()
 			l.pCtx.POPop()
 			if rType.PType != val.PType {
-				// todo: csecondAddrst where appropriate
+				// todo: cast where appropriate
 				l.pCtx.SemanticError("Cannot assign to " + varName + " because of type mismatch: " + PTypeToString(val.PType) + " != " + PTypeToString(rType.PType))
 				return
 			}
@@ -162,10 +93,10 @@ func (l *bistatListener) ExitListAssign(ctx *parser.ListAssignContext) {
 				startAddr := val.Address
 				l.pCtx.vm.PushQuad(NewQuad(Verify, idx.Address, rType.Address, rType.FirstDim))
 				lStartAddr, _ := iAddrMgr.GetNext()
-				l.pCtx.vm.PushQuad(NewQuad(RefMul, l.pCtx.ConstIntUpsert(rType.FirstDim), idx.Address, lStartAddr))
+				l.pCtx.vm.PushQuad(NewQuad(RefMul, l.pCtx.ConstIntUpsert(rType.SecondDim), idx.Address, lStartAddr))
 				secLStartAddr, _ := addrMgr.GetNext()
-				l.pCtx.vm.PushQuad(NewQuad(RefSum, l.pCtx.ConstIntUpsert(rType.Address), lStartAddr, secLStartAddr))
-				rAddrMgr := l.pCtx.vm.globalRefAddressMgr
+				l.pCtx.vm.PushQuad(NewQuad(RefSum, l.pCtx.IgnoreIfRef(rType.Address), lStartAddr, secLStartAddr))
+				rAddrMgr := l.pCtx.GetCorrespondingRefAddressManager(val.Address)
 
 				for i > 0 {
 					lAddr, _ := addrMgr.GetNext()
@@ -197,7 +128,7 @@ func (l *bistatListener) ExitListAssign(ctx *parser.ListAssignContext) {
 			l.pCtx.vm.PushQuad(NewQuad(Verify, secondIdx.Address, rType.Address, rType.SecondDim))
 
 			addr, _ := iAddrMgr.GetNext()
-			l.pCtx.vm.PushQuad(NewQuad(RefMul, l.pCtx.ConstIntUpsert(rType.FirstDim), firstIdx.Address, addr))
+			l.pCtx.vm.PushQuad(NewQuad(RefMul, l.pCtx.ConstIntUpsert(rType.SecondDim), firstIdx.Address, addr))
 			secondAddr, _ := iAddrMgr.GetNext()
 			l.pCtx.vm.PushQuad(NewQuad(RefSum, addr, secondIdx.Address, secondAddr))
 			refAddr, _ := addrMgr.GetNext()
@@ -211,7 +142,6 @@ func (l *bistatListener) ExitPrint(ctx *parser.PrintContext) {
 	if len(l.pCtx.semanticErrors) > 0 {
 		return
 	}
-
 	if !l.pCtx.POperIsEmpty() && l.pCtx.POperTop() != int(Other) {
 		l.pCtx.SemanticError("Cannot use 'print' inside an expression")
 		return
@@ -234,7 +164,7 @@ func (l *bistatListener) ExitPrint(ctx *parser.PrintContext) {
 			rBrack := l.pCtx.ConstStringUpsert("]")
 			size := elem.FirstDim
 			i := 0
-			addrMgr := l.pCtx.vm.globalRefAddressMgr
+			addrMgr := l.pCtx.GetCorrespondingRefAddressManager(elem.Address)
 			if elem.SecondDim > 0 {
 				size *= elem.SecondDim
 				l.pCtx.vm.PushQuad(NewQuad(Print, lBrack, -1, -1))
@@ -294,20 +224,16 @@ func (l *bistatListener) ExitListAccess(ctx *parser.ListAccessContext) {
 		idx := l.pCtx.POTop()
 		l.pCtx.POPop()
 		l.pCtx.vm.PushQuad(NewQuad(Verify, idx.Address, arr.Address, arr.FirstDim))
-		// addr is a ref
-		isLocal := l.pCtx.IsLocalVar(varName)
-		addrMgr := l.pCtx.vm.globalRefAddressMgr
+		addrMgr := l.pCtx.GetCorrespondingRefAddressManager(arr.Address)
 		iAddrMgr := l.pCtx.vm.tempIntAddressMgr
-		if isLocal {
-			addrMgr = l.pCtx.vm.localRefAddressMgr
-		}
+
 		refAddr, _ := addrMgr.GetNext()
 		indexed := NewRType(arr.PType)
 		if arr.SecondDim != 0 {
 			// ref is array
 			iAddr, _ := iAddrMgr.GetNext()
-			l.pCtx.vm.PushQuad(NewQuad(RefMul, l.pCtx.ConstIntUpsert(arr.FirstDim), idx.Address, iAddr))
-			l.pCtx.vm.PushQuad(NewQuad(RefSum, l.pCtx.ConstIntUpsert(arr.Address), iAddr, refAddr))
+			l.pCtx.vm.PushQuad(NewQuad(RefMul, l.pCtx.ConstIntUpsert(arr.SecondDim), idx.Address, iAddr))
+			l.pCtx.vm.PushQuad(NewQuad(RefSum, l.pCtx.IgnoreIfRef(arr.Address), iAddr, refAddr))
 
 			indexed.FirstDim = arr.SecondDim
 		} else {
@@ -316,7 +242,6 @@ func (l *bistatListener) ExitListAccess(ctx *parser.ListAccessContext) {
 		}
 		indexed.Address = refAddr
 
-		// todo: figure out how/when to calculate end address
 		l.pCtx.POPush(indexed)
 	} else {
 		if arr.SecondDim <= 0 {
@@ -330,24 +255,18 @@ func (l *bistatListener) ExitListAccess(ctx *parser.ListAccessContext) {
 		l.pCtx.vm.PushQuad(NewQuad(Verify, firstIdx.Address, arr.Address, arr.FirstDim))
 		l.pCtx.vm.PushQuad(NewQuad(Verify, secondIdx.Address, arr.Address, arr.SecondDim))
 
-		// addr is a ref
-		isLocal := l.pCtx.IsLocalVar(varName)
-		addrMgr := l.pCtx.vm.globalRefAddressMgr
 		iAddrMgr := l.pCtx.vm.tempIntAddressMgr
 
-		if isLocal {
-			addrMgr = l.pCtx.vm.localRefAddressMgr
-		}
+		addrMgr := l.pCtx.GetCorrespondingRefAddressManager(arr.Address)
 		addr, _ := iAddrMgr.GetNext()
-		l.pCtx.vm.PushQuad(NewQuad(RefMul, l.pCtx.ConstIntUpsert(arr.FirstDim), firstIdx.Address, addr))
+		l.pCtx.vm.PushQuad(NewQuad(RefMul, l.pCtx.ConstIntUpsert(arr.SecondDim), firstIdx.Address, addr))
 		secondAddr, _ := iAddrMgr.GetNext()
 		l.pCtx.vm.PushQuad(NewQuad(RefSum, addr, secondIdx.Address, secondAddr))
 		refAddr, _ := addrMgr.GetNext()
-		l.pCtx.vm.PushQuad(NewQuad(RefSum, l.pCtx.ConstIntUpsert(arr.Address), secondAddr, refAddr))
+		l.pCtx.vm.PushQuad(NewQuad(RefSum, l.pCtx.IgnoreIfRef(arr.Address), secondAddr, refAddr))
 
 		indexed := NewRType(arr.PType)
 		indexed.Address = refAddr
-		// todo: figure out how/when to calculate end address
 		l.pCtx.POPush(indexed)
 	}
 }
@@ -368,7 +287,7 @@ func (l *bistatListener) ExitInputRead(ctx *parser.InputReadContext) {
 			if o.SecondDim > 0 {
 				expectedSize *= o.SecondDim
 			}
-			addrMgr := l.pCtx.vm.globalRefAddressMgr
+			addrMgr := l.pCtx.GetCorrespondingRefAddressManager(o.Address)
 			i := 0
 			for i != expectedSize {
 				refAddr, _ := addrMgr.GetNext()
@@ -403,10 +322,7 @@ func (l *bistatListener) ExitCos(ctx *parser.CosContext) {
 		if o.SecondDim > 0 {
 			size *= o.SecondDim
 		}
-		addrMgr := l.pCtx.vm.globalRefAddressMgr
-		if l.pCtx.IsLocalAddr(o.Address) || l.pCtx.IsLocalRef(o.Address) {
-			addrMgr = l.pCtx.vm.localRefAddressMgr
-		}
+		addrMgr := l.pCtx.GetCorrespondingRefAddressManager(o.Address)
 		i := 0
 		result.FirstDim = o.FirstDim
 		result.SecondDim = o.SecondDim
@@ -446,10 +362,7 @@ func (l *bistatListener) ExitSin(ctx *parser.SinContext) {
 		if o.SecondDim > 0 {
 			size *= o.SecondDim
 		}
-		addrMgr := l.pCtx.vm.globalRefAddressMgr
-		if l.pCtx.IsLocalAddr(o.Address) || l.pCtx.IsLocalRef(o.Address) {
-			addrMgr = l.pCtx.vm.localRefAddressMgr
-		}
+		addrMgr := l.pCtx.GetCorrespondingRefAddressManager(o.Address)
 		i := 0
 		result.FirstDim = o.FirstDim
 		result.SecondDim = o.SecondDim
@@ -489,10 +402,7 @@ func (l *bistatListener) ExitTan(ctx *parser.TanContext) {
 		if o.SecondDim > 0 {
 			size *= o.SecondDim
 		}
-		addrMgr := l.pCtx.vm.globalRefAddressMgr
-		if l.pCtx.IsLocalAddr(o.Address) || l.pCtx.IsLocalRef(o.Address) {
-			addrMgr = l.pCtx.vm.localRefAddressMgr
-		}
+		addrMgr := l.pCtx.GetCorrespondingRefAddressManager(o.Address)
 		i := 0
 		result.FirstDim = o.FirstDim
 		result.SecondDim = o.SecondDim
@@ -532,10 +442,7 @@ func (l *bistatListener) ExitSqrt(ctx *parser.SqrtContext) {
 		if o.SecondDim > 0 {
 			size *= o.SecondDim
 		}
-		addrMgr := l.pCtx.vm.globalRefAddressMgr
-		if l.pCtx.IsLocalAddr(o.Address) || l.pCtx.IsLocalRef(o.Address) {
-			addrMgr = l.pCtx.vm.localRefAddressMgr
-		}
+		addrMgr := l.pCtx.GetCorrespondingRefAddressManager(o.Address)
 		i := 0
 		result.FirstDim = o.FirstDim
 		result.SecondDim = o.SecondDim
@@ -575,10 +482,7 @@ func (l *bistatListener) ExitFloor(ctx *parser.FloorContext) {
 		if o.SecondDim > 0 {
 			size *= o.SecondDim
 		}
-		addrMgr := l.pCtx.vm.globalRefAddressMgr
-		if l.pCtx.IsLocalAddr(o.Address) || l.pCtx.IsLocalRef(o.Address) {
-			addrMgr = l.pCtx.vm.localRefAddressMgr
-		}
+		addrMgr := l.pCtx.GetCorrespondingRefAddressManager(o.Address)
 		i := 0
 		result.FirstDim = o.FirstDim
 		result.SecondDim = o.SecondDim
@@ -618,10 +522,7 @@ func (l *bistatListener) ExitCeil(ctx *parser.CeilContext) {
 		if o.SecondDim > 0 {
 			size *= o.SecondDim
 		}
-		addrMgr := l.pCtx.vm.globalRefAddressMgr
-		if l.pCtx.IsLocalAddr(o.Address) || l.pCtx.IsLocalRef(o.Address) {
-			addrMgr = l.pCtx.vm.localRefAddressMgr
-		}
+		addrMgr := l.pCtx.GetCorrespondingRefAddressManager(o.Address)
 		i := 0
 		result.FirstDim = o.FirstDim
 		result.SecondDim = o.SecondDim
@@ -661,10 +562,7 @@ func (l *bistatListener) ExitAbs(ctx *parser.AbsContext) {
 		if o.SecondDim > 0 {
 			size *= o.SecondDim
 		}
-		addrMgr := l.pCtx.vm.globalRefAddressMgr
-		if l.pCtx.IsLocalAddr(o.Address) || l.pCtx.IsLocalRef(o.Address) {
-			addrMgr = l.pCtx.vm.localRefAddressMgr
-		}
+		addrMgr := l.pCtx.GetCorrespondingRefAddressManager(o.Address)
 		i := 0
 		result.FirstDim = o.FirstDim
 		result.SecondDim = o.SecondDim
@@ -704,10 +602,7 @@ func (l *bistatListener) ExitNot(ctx *parser.NotContext) {
 		if o.SecondDim > 0 {
 			size *= o.SecondDim
 		}
-		addrMgr := l.pCtx.vm.globalRefAddressMgr
-		if l.pCtx.IsLocalAddr(o.Address) || l.pCtx.IsLocalRef(o.Address) {
-			addrMgr = l.pCtx.vm.localRefAddressMgr
-		}
+		addrMgr := l.pCtx.GetCorrespondingRefAddressManager(o.Address)
 		i := 0
 		result.FirstDim = o.FirstDim
 		result.SecondDim = o.SecondDim
@@ -726,4 +621,50 @@ func (l *bistatListener) ExitNot(ctx *parser.NotContext) {
 		l.pCtx.vm.PushQuad(NewQuad(Not, o.Address, -1, addr))
 	}
 	l.pCtx.POPush(result)
+}
+
+func (l *bistatListener) ExitSum(ctx *parser.SumContext) {
+	l.pCtx.GenerateQuadsForAggregateFunction(ListSum, l.pCtx.POTop().PType)
+}
+
+func (l *bistatListener) ExitMin(ctx *parser.MinContext) {
+	l.pCtx.GenerateQuadsForAggregateFunction(Min, l.pCtx.POTop().PType)
+}
+
+func (l *bistatListener) ExitMax(ctx *parser.MaxContext) {
+	l.pCtx.GenerateQuadsForAggregateFunction(Max, l.pCtx.POTop().PType)
+}
+
+func (l *bistatListener) ExitProd(ctx *parser.ProdContext) {
+	l.pCtx.GenerateQuadsForAggregateFunction(Prod, l.pCtx.POTop().PType)
+}
+
+func (l *bistatListener) ExitAvg(ctx *parser.AvgContext) {
+	l.pCtx.GenerateQuadsForAggregateFunction(Avg, Float)
+}
+
+func (l *bistatListener) ExitSMode(ctx *parser.SModeContext) {
+	l.pCtx.GenerateQuadsForAggregateFunction(SMode, l.pCtx.POTop().PType)
+}
+
+func (l *bistatListener) ExitMedian(ctx *parser.MedianContext) {
+	l.pCtx.GenerateQuadsForAggregateFunction(Median, Float)
+}
+
+func (l *bistatListener) ExitPlot(ctx *parser.PlotContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+	o := l.pCtx.POTop()
+	l.pCtx.POPop()
+	if o.PType != Float && o.PType != Int {
+		l.pCtx.SemanticError(OpToString(Plot) + " can only be called with lists of type int or float")
+		return
+	}
+	if o.FirstDim <= 0 {
+		l.pCtx.SemanticError(OpToString(Plot) + " can only be called on arrays or matrices")
+		return
+	}
+	quad := NewQuad(Plot, o.Address, o.FirstDim, o.SecondDim)
+	l.pCtx.vm.PushQuad(quad)
 }

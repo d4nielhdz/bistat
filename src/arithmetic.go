@@ -100,7 +100,7 @@ func (l *bistatListener) EnterNestedExpression(ctx *parser.NestedExpressionConte
 		return
 	}
 
-	l.pCtx.POperPush(int(UndefinedOp))
+	l.pCtx.POperPush(int(Other))
 }
 
 func (l *bistatListener) ExitNestedExpression(ctx *parser.NestedExpressionContext) {

@@ -50,7 +50,6 @@ func PTypeToString(pType PType) string {
 	}
 }
 
-// todo: add arrayAssign, arrayPrint, matrixAssign, matrixPrint
 const (
 	Sum Op = iota //
 	Subtraction
@@ -69,25 +68,25 @@ const (
 	InputRead
 	Print
 	PrintN
-	Plot       // 🔶
-	Sort       // 🔶
-	ListSum    // 🔶
-	Min        // 🔶
-	Prod       // 🔶
-	Avg        // 🔶
-	SMode      // 🔶
-	Median     // 🔶
-	Sin        // 🔶
-	Cos        // 🔶
-	Tan        // 🔶
-	Sqrt       // 🔶
-	Floor      // 🔶
-	Ceil       // 🔶
-	Abs        // 🔶
-	Not        // 🔶
-	UnaryMinus // 🔶
+	ListSum // 🔶
+	Min     // 🔶
+	Max     // 🔶
+	Prod    // 🔶
+	Avg     // 🔶
+	SMode   // 🔶
+	Median  // 🔶
+	Plot    // 🔶
+	Sin
+	Cos
+	Tan
+	Sqrt
+	Floor
+	Ceil
+	Abs
+	Not
+	UnaryMinus
 	Goto
-	GotoT // 🔶
+	GotoT
 	GotoF
 	GoSub
 	Era
@@ -195,8 +194,6 @@ func OpToString(op Op) string {
 		return "Cos"
 	case Tan:
 		return "Tan"
-	case Sort:
-		return "Sort"
 	case Sqrt:
 		return "Sqrt"
 	case Floor:

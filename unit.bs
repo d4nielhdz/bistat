@@ -65,9 +65,59 @@ func special_functions1(): void
     print(cos(0.1));
     print(cos(-10.6));
     print(-2 + 2);
+    print((2+2)>4);
+  }
+
+func special_functions2(): void 
+  var int[4] nums;
+  var int[4][3] mat;
+  var int[4] ls;
+  var float[5] fs;
+  var float[2][3] fm;
+  var float f;
+  var int x;
+  {
+    nums = [67, 53, 64, 0];
+    print(nums);
+    x = sum(nums);
+    print(x);
+    x = prod(nums);
+    print(x);
+    x = max(nums);
+    print(x);
+    x = min(nums);
+    print(x);
+    mat = [
+      [23, 45, 0],
+      [65, 45, 35],
+      [67, 67, 99],
+      [54, 54, 76]
+    ];
+    print(avg(mat));
+    print(sMode(mat));
+    print(median(listAccess(mat, 0)));
+    ls = sum(mat);
+    print(ls);
+    fs = [5.6, 6.7, 3.4, 9.9, 2.1];
+    print(max(fs));
+    f = avg(fs);
+    print(f);
+    fm = [
+      [94.5, 3.14, 123.54],
+      [4.5, 234.6, 34.5]
+    ];
+    print(prod(fm));
+    print("hello");
+    print(listAccess(fm, 1));
+    print(avg(listAccess(fm, 1)));
+    print(listAccess(fm, 0));
+    print(avg(listAccess(fm, 0)));
+    print(floor(fm));
+    print(floor(listAccess(fm, 0)));
+    print(avg(fm));
   }
 
 main () { 
-  special_functions1();
+  special_functions2();
 }
 
