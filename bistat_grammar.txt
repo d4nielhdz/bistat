@@ -1,55 +1,55 @@
-program ::= 'Program' id ';' declaracion_variable* definicion_funcion* main
-main ::= 'main' '()' '{' estatuto+ '}' 
-definicion_funcion ::= 'func' id '(' declaracion_parametro* ')' ':' tipo_retorno declaracion_variable* '{' estatuto* '}'
-tipo_retorno ::= tipo | 'void'
-declaracion_variable ::= 'var' tipo id ';'
-declaracion_parametro ::= 'var' tipo_parametro id ';'
-asignacion ::= id '=' (var_cte | asignacion_lista | asignacion_matriz)
-asignacion_matriz ::= '[' asignacion_lista (',' asignacion_lista)* ']'
-asignacion_lista ::= '[' var_cte (',' var_cte)* ']'
-comentario ::= '#' [^#]* '#'
-estatuto ::= ((asignacion | condicion | for | while | return_stmt | funcion_especial | llamada_funcion ) ';') | comentario
-return_stmt ::= 'return' expresion?
-funcion_especial ::= read | print | list_add | list_pop | length | range | plot | sum | min | prod | avg | mode | median | sin | cos | tan | sort | sqrt | floor | ceil | abs | not
+program ::= 'Program' id ';' var_declaration* func_def* main
+main ::= 'main' '()' '{' statement+ '}' 
+func_def ::= 'func' id '(' param_declaration* ')' ':' atomic_type
+var_declaration* '{' statement* '}'
+param_declaration ::= 'var' atomic_type id ';'
+var_declaration ::= 'var' var_type id ';'
+assignment ::= id '=' (var_cons | list_assignment | matrix_assignment)
+matrix_assignment ::= '[' list_assignment (',' list_assignment)* ','? ']'
+list_assignment ::= '[' var_cons (',' var_cons)* ']'
+comment ::= '#' [^#]* '#'
+statement ::= ((assignment | special_function | function_call | return_stmt) ';') | conditional | for | while | comment
+return_stmt ::= 'return' expression
+special_function ::= read | print | plot | sum | min | prod | avg | mode | median | sin | cos | tan | sort | sqrt | floor | ceil | abs | not | list_access | list_assign
 read ::= 'read' '(' id (',' id)* ')'
-list_add ::= 'list_add' '(' expresion ',' expresion ')'
-list_pop ::= 'list_pop' '(' expresion ')'
-length ::= 'length' '(' expresion ')'
-range ::= 'range' '(' expresion (',' expresion)? ')'
-plot ::= 'plot' '(' expresion ')'
-sum ::= 'sum' '(' expresion ')'
-min ::= 'min' '(' expresion ')'
-prod ::= 'prod' '(' expresion ')'
-avg ::= 'avg' '(' expresion ')'
-mode ::= 'mode' '(' expresion ')'
-median ::= 'median' '(' expresion ')'
-sin ::= 'sin' '(' expresion ')'
-tan ::= 'tan' '(' expresion ')'
-cos ::= 'cos' '(' expresion ')'
-sort ::= 'sort' '(' expresion ')'
-sqrt ::= 'sqrt' '(' expresion ')'
-floor ::= 'floor' '(' expresion ')'
-ceil ::= 'ceil' '(' expresion ')'
-abs ::= 'abs' '(' expresion ')'
-not ::= 'not' '(' expresion ')'
-estatuto_anidado ::= ((asignacion | condicion | escritura | while | return_stmt | funcion_especial | llamada_funcion) ';') | comentario
-for ::= 'for' '(' id 'in' expresion ')' '{' estatuto_anidado+ '}'
-while ::= 'while' '(' expresion ')' '{' estatuto+ '}'
-condicion ::= ('if' '(' expresion ')' '{' estatuto+ '}') ('else if' '(' expresion ')' '{' estatuto+ '}')* ('else' '{' estatuto+ '}')?
-print ::= 'print' '(' (expresion) ( ',' (expresion) )* ')'
-expresion ::= exp (('<' | '>' | '<=' | '>=' | '==' | '!=' | '&&' | '||') exp)?
-exp ::= termino (('+' | '-') exp)?
-llamada_funcion ::= (id '(' (expresion (',' expresion)*)? ')')
-termino ::= factor (('*' | '/' | '%') termino)?
-factor ::= '-'? ('('expresion')' | indexacion | funcion_especial | llamada_funcion | var_cte)
-indexacion ::= id '[' expresion ']' ('[' expresion ']')?
-tipo ::= ('int' | 'float' | 'sring' | 'bool') cardinalidad?
-tipo_parametro ::= ('int' | 'float' | 'sring' | 'bool') cardinalidad_parametro?
-cardinalidad_parametro ::= '[' ']' | '[' ']' '[' ']'
-cardinalidad ::= '[' cte_i ']' | '[' cte_i ']' '[' cte_i ']'
-var_cte ::= cte_str | cte_i | cte_f | id | cte_bool
-cte_str ::= '"' [^"]* '"'
-cte_f ::= [0-9]+'.'[0-9]+
-cte_i ::= [0-9]+
-cte_bool ::= 'true' | 'false'
+list_access ::=
+	'listAccess' '(' id ',' expression (',' expression)? ')'
+list_assign ::=
+	'listAssign' '(' id ',' expression ',' (
+		expression
+		| list_assignment
+	) (',' expression)? ')'
+plot ::= 'plot' '(' expression ')'
+sum ::= 'sum' '(' expression ')'
+min ::= 'min' '(' expression ')'
+prod ::= 'prod' '(' expression ')'
+avg ::= 'avg' '(' expression ')'
+mode ::= 'sMode' '(' expression ')'
+median ::= 'median' '(' expression ')'
+sin ::= 'sin' '(' expression ')'
+tan ::= 'tan' '(' expression ')'
+cos ::= 'cos' '(' expression ')'
+sort ::= 'sort' '(' expression ')'
+sqrt ::= 'sqrt' '(' expression ')'
+floor ::= 'floor' '(' expression ')'
+ceil ::= 'ceil' '(' expression ')'
+abs ::= 'abs' '(' expression ')'
+not ::= 'not' '(' expression ')'
+for ::= 'for' '(' id 'in' expression ')' '{' statement+ '}'
+while ::= 'while' '(' expression ')' '{' statement+ '}'
+conditional ::= ('if' '(' expression ')' '{' statement+ '}') ('else if' '(' expression ')' '{' statement+ '}')* ('else' '{' statement+ '}')?
+print ::= 'print' '(' (expression) ( ',' (expression) )* ')'
+expression ::= exp (('<' | '>' | '<=' | '>=' | '==' | '!=' | '&&' | '||') exp)?
+exp ::= term (('+' | '-') term)?*
+function_call ::= (id '(' (expression (',' expression)*)? ')')
+term ::= factor (('*' | '/' | '%') factor)*
+factor ::= '-'? (('('expression')') | list_access | special_function | function_call | var_cons)
+atomic_type ::= ('int' | 'float' | 'string' | 'bool' | 'void') 
+var_type ::= ('int' | 'float' | 'string' | 'bool') cardinality?
+cardinality ::= '[' int_cons ']' | '[' int_cons ']' '[' int_cons ']'
+var_cons ::= string_cons | int_cons | float_cons | id | bool_cons
+string_cons ::= '"' [^"]* '"'
+float_cons ::= [0-9]+'.'[0-9]+
+int_cons ::= [0-9]+
+bool_cons ::= 'true' | 'false'
 id ::= ('_'| [a-zA-Z] )+[0-9a-zA-Z]*

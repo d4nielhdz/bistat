@@ -183,30 +183,6 @@ func (s *BaseBistatListener) EnterPrint(ctx *PrintContext) {}
 // ExitPrint is called when production print is exited.
 func (s *BaseBistatListener) ExitPrint(ctx *PrintContext) {}
 
-// EnterListAdd is called when production listAdd is entered.
-func (s *BaseBistatListener) EnterListAdd(ctx *ListAddContext) {}
-
-// ExitListAdd is called when production listAdd is exited.
-func (s *BaseBistatListener) ExitListAdd(ctx *ListAddContext) {}
-
-// EnterListPop is called when production listPop is entered.
-func (s *BaseBistatListener) EnterListPop(ctx *ListPopContext) {}
-
-// ExitListPop is called when production listPop is exited.
-func (s *BaseBistatListener) ExitListPop(ctx *ListPopContext) {}
-
-// EnterLength is called when production length is entered.
-func (s *BaseBistatListener) EnterLength(ctx *LengthContext) {}
-
-// ExitLength is called when production length is exited.
-func (s *BaseBistatListener) ExitLength(ctx *LengthContext) {}
-
-// EnterRange is called when production range is entered.
-func (s *BaseBistatListener) EnterRange(ctx *RangeContext) {}
-
-// ExitRange is called when production range is exited.
-func (s *BaseBistatListener) ExitRange(ctx *RangeContext) {}
-
 // EnterPlot is called when production plot is entered.
 func (s *BaseBistatListener) EnterPlot(ctx *PlotContext) {}
 

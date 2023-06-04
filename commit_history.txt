@@ -1,0 +1,167 @@
+Sat Jun 3 18:50:42 2023 -0600
+    folder and file rename
+
+Sat Jun 3 18:08:30 2023 -0600
+    minor grammar changes
+
+Sat Jun 3 05:42:32 2023 -0600
+    plot
+
+Sat Jun 3 04:15:11 2023 -0600
+    rename execution folder
+
+Sat Jun 3 04:14:00 2023 -0600
+    generate binary file with the same name as input file
+
+Sat Jun 3 03:58:42 2023 -0600
+    handle aggregation stats functions
+
+Fri Jun 2 20:16:23 2023 -0600
+    handle non aggregation statistics functions
+
+Thu Jun 1 14:17:39 2023 -0600
+    add printQuads flag when compiling
+
+Thu Jun 1 13:53:40 2023 -0600
+    implement read in vm
+
+Wed May 31 19:14:26 2023 -0600
+    support assigning onw matrix to another matrix
+
+Wed May 31 18:30:59 2023 -0600
+    handle for loop
+
+Wed May 31 00:47:48 2023 -0600
+    add refsum and refmul for ref operations
+
+Wed May 31 00:16:35 2023 -0600
+    avoid double derefing
+
+Wed May 31 00:03:38 2023 -0600
+    fix issue with listAccess inside of listAsign
+
+Tue May 30 22:44:02 2023 -0600
+    WIP handle listAssign with listAccess as arg
+
+Tue May 30 20:27:24 2023 -0600
+    handle function execution in vm
+
+Tue May 30 03:34:06 2023 -0600
+    avoid creating double refs in array operations
+
+Tue May 30 02:31:39 2023 -0600
+    print print args from left to right and support printing arrays and matrices
+
+Mon May 29 13:48:29 2023 -0600
+    fix quad generation for listAccess and listAssign
+
+Mon May 29 02:25:51 2023 -0600
+    handle quad generation for listAssign and listAccess
+
+Sun May 28 16:09:03 2023 -0600
+    array indexing
+
+Sat May 27 17:43:04 2023 -0600
+    don't allow arrays as function parameters or function return types
+
+Tue May 23 03:47:10 2023 -0600
+    handle print
+
+Tue May 23 03:31:00 2023 -0600
+    fake bottom for function call and indexing
+
+Tue May 23 03:06:23 2023 -0600
+    handle logic
+
+Tue May 23 02:36:39 2023 -0600
+    handle basic arithmetic
+
+Tue May 23 01:59:58 2023 -0600
+    handle assign
+
+Sun May 21 02:26:03 2023 -0600
+    create execution context for running object code
+
+Sun May 21 01:01:16 2023 -0600
+    Support encoding ObjCode in .gob
+
+Sat May 20 23:06:28 2023 -0600
+    handle array indexing
+
+Sat May 20 18:08:51 2023 -0600
+    handle array declaration
+
+Tue May 16 16:14:28 2023 -0600
+    Handle return stmt
+
+Tue May 16 15:40:26 2023 -0600
+    Add End quad and store functions as variables in var table
+
+Sun May 14 18:31:06 2023 -0600
+    quad generation for functions
+
+Wed May 10 18:16:59 2023 -0600
+    generate nquads for for loops
+
+Wed May 10 17:26:35 2023 -0600
+    reorganize code
+
+Wed May 10 17:08:04 2023 -0600
+    quad generation for while loop
+
+Wed May 10 16:48:55 2023 -0600
+    quad generatino for conditionals
+
+Wed May 3 20:04:10 2023 -0600
+    generate quads for special functions
+
+Wed May 3 19:33:40 2023 -0600
+    generate quads for assignment
+
+Wed May 3 19:01:06 2023 -0600
+    validate types when generating quads
+
+Tue May 2 20:04:06 2023 -0600
+    basic quad generation for + - * / %; type checking missing
+
+Mon May 1 20:21:50 2023 -0600
+    create methods for pO and pOper manipulation
+
+Mon May 1 19:46:06 2023 -0600
+    create vm and address manager for vm; add logic for getting next available address in variable declaration, function definition and param declaration
+
+Sun Apr 30 00:59:32 2023 -0600
+    Create consTable and vm for memory management
+
+Thu Apr 27 14:48:36 2023 -0600
+    modularize code
+
+Sun Apr 23 23:54:06 2023 -0600
+    Create funcDir and varTable
+
+Sun Apr 23 23:11:40 2023 -0600
+    Create RType struct to store type information
+
+Sun Apr 23 22:18:54 2023 -0600
+    Define operator enums and semantic cube. Change grammar to fix detection errors
+
+Sun Apr 16 22:13:06 2023 -0600
+    Add readme
+
+Sun Apr 16 21:04:55 2023 -0600
+    Add more listeners to test rules
+
+Sun Apr 16 20:20:16 2023 -0600
+    Use camel case in rules
+
+Sun Apr 16 20:15:00 2023 -0600
+    Add rule listeners to test they're being called correctly
+
+Sun Apr 16 19:16:46 2023 -0600
+    version inicial del grammar en antlr
+
+Wed Apr 12 18:11:35 2023 -0600
+    Create main program to walk anltr parse tree
+
+Wed Apr 12 17:50:12 2023 -0600
+    Init go module with grammar in text format

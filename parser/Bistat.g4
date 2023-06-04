@@ -79,10 +79,6 @@ specialFunction:
 	| not;
 inputRead: 'read' '(' expression (',' expression)* ')';
 print: 'print' '(' expression ( ',' expression)* ')';
-listAdd: 'listAdd' '(' expression ',' expression ')';
-listPop: 'listPop' '(' expression ')';
-length: 'length' '(' expression ')';
-range: 'range' '(' expression (',' expression)? ')';
 plot: 'plot' '(' expression ')';
 sum: 'sum' '(' expression ')';
 min: 'min' '(' expression ')';

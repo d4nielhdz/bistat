@@ -11,6 +11,10 @@ func (l *bistatListener) EnterFuncDef(ctx *parser.FuncDefContext) {
 	}
 
 	funcName := ctx.ID().GetText()
+	if _, exists := l.pCtx.funcDir[funcName]; exists {
+		l.pCtx.SemanticError("Function " + funcName + " already defined")
+		return
+	}
 	pType := PTypeFromString(ctx.TYPE_PRIMITIVE().GetText())
 	addrMgr := l.pCtx.GetCorrespondingAddressManager(pType)
 	resolved := NewRType(pType)
@@ -33,7 +37,7 @@ func (l *bistatListener) EnterFuncDef(ctx *parser.FuncDefContext) {
 	for _, p := range ctx.AllParamDeclaration() {
 		pType := PTypeFromString(p.TYPE_PRIMITIVE().GetText())
 		if pType == Void {
-			l.pCtx.SemanticError("Can't have void parameters (" + p.ID().GetText() + ")")
+			l.pCtx.SemanticError("Can't use void parameters (" + p.ID().GetText() + ")")
 			return
 		}
 		addrMgr := l.pCtx.GetCorrespondingAddressManager(pType)

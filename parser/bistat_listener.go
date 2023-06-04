@@ -89,18 +89,6 @@ type BistatListener interface {
 	// EnterPrint is called when entering the print production.
 	EnterPrint(c *PrintContext)
 
-	// EnterListAdd is called when entering the listAdd production.
-	EnterListAdd(c *ListAddContext)
-
-	// EnterListPop is called when entering the listPop production.
-	EnterListPop(c *ListPopContext)
-
-	// EnterLength is called when entering the length production.
-	EnterLength(c *LengthContext)
-
-	// EnterRange is called when entering the range production.
-	EnterRange(c *RangeContext)
-
 	// EnterPlot is called when entering the plot production.
 	EnterPlot(c *PlotContext)
 
@@ -268,18 +256,6 @@ type BistatListener interface {
 
 	// ExitPrint is called when exiting the print production.
 	ExitPrint(c *PrintContext)
-
-	// ExitListAdd is called when exiting the listAdd production.
-	ExitListAdd(c *ListAddContext)
-
-	// ExitListPop is called when exiting the listPop production.
-	ExitListPop(c *ListPopContext)
-
-	// ExitLength is called when exiting the length production.
-	ExitLength(c *LengthContext)
-
-	// ExitRange is called when exiting the range production.
-	ExitRange(c *RangeContext)
 
 	// ExitPlot is called when exiting the plot production.
 	ExitPlot(c *PlotContext)

@@ -148,12 +148,12 @@ func (l *bistatListener) ExitForHeader(ctx *parser.ForHeaderContext) {
 	o := l.pCtx.POTop()
 	l.pCtx.POPop()
 	vc := l.pCtx.POTop()
-	if o.FirstDim <= 0 {
+	if o.FirstDim <= 0 || o.SecondDim > 0 {
 		l.pCtx.SemanticError("For loops can only be used in arrays")
 		return
 	}
 	if o.PType != vc.PType {
-		l.pCtx.SemanticError("Control variable must be the same type as expression variable")
+		l.pCtx.SemanticError("Control variable must be the same type as expression variable in for loop")
 		return
 	}
 	lenAddr := l.pCtx.ConstIntUpsert(o.FirstDim)
