@@ -1,0 +1,36 @@
+Program Fibonacci;
+
+var int x;
+var int[5] nums;
+
+func recursive_fib(var int n;): int {
+  if (n <= 1) {
+    return n;
+  }
+  return recursive_fib(n - 1) + recursive_fib(n - 2);
+}
+
+func iterative_fib(var int n;): int 
+var int pprev;
+var int prev;
+var int curr;
+var int i;
+{
+  prev = 0;
+  curr = 1;
+  i = 1;
+  while (i < n) {
+    pprev = prev;
+    prev = curr;
+    curr = pprev + prev;
+    i = i + 1;
+  }
+  return curr;
+}
+
+main() {
+  x = recursive_fib(20);
+  print(x);
+  x = iterative_fib(20);
+  print(x);
+}

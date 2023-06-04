@@ -5,6 +5,7 @@ import (
 	"fmt"
 )
 
+// ECtx has methods used by most Handle{OpCode} methods
 type ECtx struct {
 	IP           int
 	Quads        []src.Quad

@@ -1,0 +1,10 @@
+Program a;
+
+var int x;
+var float[2] f;
+
+main() {
+  f = [3.4, 1.2];
+  print(ceil(f));
+  print(f);
+}

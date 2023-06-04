@@ -1,5 +1,8 @@
 package src
 
+/*
+manages virtual addresses
+*/
 const GLOBAL_INT_START = 0
 const GLOBAL_FLOAT_START = 10000
 const GLOBAL_STRING_START = 20000
@@ -127,7 +130,8 @@ func NewVM() VM {
 }
 
 type Quad struct {
-	Op                         Op
+	Op Op
+	// Aux is only used in aggregate functions to store the secondDimension of their argument
 	Op1, Op2, Destination, Aux int
 }
 

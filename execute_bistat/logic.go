@@ -4,6 +4,8 @@ import (
 	src "bistat/src"
 )
 
+// Handles logic op codes
+
 func (eCtx *ECtx) HandleAnd() {
 	quad := eCtx.GetCurrentQuad()
 	addr1 := eCtx.GetDerefed(quad.Op1)

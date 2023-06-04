@@ -9,6 +9,8 @@ import (
 	"github.com/guptarohit/asciigraph"
 )
 
+// Handles all built in functions
+
 func (eCtx *ECtx) HandlePrint() {
 	quad := eCtx.GetCurrentQuad()
 	addr := eCtx.GetDerefed(quad.Op1)

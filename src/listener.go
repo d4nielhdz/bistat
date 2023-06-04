@@ -169,6 +169,9 @@ func (l *bistatListener) EnterMain(ctx *parser.MainContext) {
 	l.pCtx.vm.quads[0].Destination = len(l.pCtx.vm.Quads())
 }
 
+/*
+Loasing all data needed for execution
+*/
 func (l *bistatListener) ExitProgram(ctx *parser.ProgramContext) {
 	l.pCtx.vm.PushQuad(NewQuad(End, -1, -1, -1))
 	// l.pCtx.PrintAddrTable()
@@ -204,6 +207,7 @@ func (l *bistatListener) ExitProgram(ctx *parser.ProgramContext) {
 	}
 }
 
+// Required for writing .gob file
 func RegisterTypes() {
 	gob.Register(ObjCode{})
 	gob.Register(FuncData{})

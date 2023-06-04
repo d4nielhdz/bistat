@@ -3,6 +3,7 @@ Program Hello;
 var int x;
 var int[5] nums;
 var string[3] words;
+var float[2][2] fm;
 var int i;
 var string word;
 
@@ -11,6 +12,8 @@ main () {
   print(x);
   read(nums);
   print(nums);
+  read(fm);
+  print(fm);
   
   i = 0;
 

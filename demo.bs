@@ -1,0 +1,22 @@
+Program Demo;
+
+var int[5] nums;
+var int x;
+var int[4][2] myMatrix;
+
+main() {
+  nums = [5, 6, 3, -4, -10];
+  myMatrix = [
+    [4, 8],
+    [34, 5],
+    [4, 9],
+    [87, 338],
+  ];
+  x = sum(nums);
+  print(x);
+  print(prod(myMatrix));
+  print(abs(nums));
+  for (x in nums) {
+    print(x);
+  }
+}

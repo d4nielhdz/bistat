@@ -4,6 +4,11 @@ import (
 	src "bistat/src"
 )
 
+/*
+	Defines methods used for storing and getting data from addresses
+
+*/
+
 func (eCtx *ECtx) LoadConstMemory() {
 	for val, rType := range eCtx.ConsTable {
 		eCtx.ConstMemory.StoreVal(val, rType.Address)
@@ -36,6 +41,10 @@ func (eCtx *ECtx) GetIntFromAddress(addr int) int64 {
 	return eCtx.GetStackSegment().localMemory.ints[addr-eCtx.GetStackSegment().localMemory.baseIntAddr]
 }
 
+/*
+Function used for getting a value from a parameter, since at this point a new
+stack segment has been pushed so this gets the memory from the previous segment
+*/
 func (eCtx *ECtx) GetIntFromAddressForParam(addr int) int64 {
 	if addr >= src.CONST_INT_START && addr < src.CONST_FLOAT_START {
 		return eCtx.ConstMemory.ints[addr-eCtx.ConstMemory.baseIntAddr]

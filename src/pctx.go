@@ -7,6 +7,9 @@ import (
 	"strconv"
 )
 
+/*
+This struct contains methods used by many rules such as searching for variables, functions, scope, pO, pOper, jumps and condJumps manipulation
+*/
 type PCtx struct {
 	scopes         []string
 	functions      []string
@@ -172,6 +175,7 @@ func (pCtx *PCtx) GetRTypeFromVarName(varName string) (RType, bool) {
 	}
 }
 
+// This avoids creating a reference to a reference
 func (pCtx *PCtx) IgnoreIfRef(val int) int {
 	if val >= GLOBAL_REF_START && val < LOCAL_REF_END {
 		return val
@@ -179,6 +183,7 @@ func (pCtx *PCtx) IgnoreIfRef(val int) int {
 	return pCtx.ConstIntUpsert(val)
 }
 
+// Used for adding an int value to constant memory if not present
 func (pCtx *PCtx) ConstIntUpsert(val int) int {
 	entry, found := pCtx.consTable[strconv.Itoa(val)]
 	if !found {
@@ -197,6 +202,7 @@ func (pCtx *PCtx) ConstIntUpsert(val int) int {
 	return entry.Address
 }
 
+// Used for adding a string value to constant memory if not present
 func (pCtx *PCtx) ConstStringUpsert(val string) int {
 	entry, found := pCtx.consTable[val]
 	if !found {
@@ -349,6 +355,7 @@ func (pCtx *PCtx) PrintQuads() {
 	}
 }
 
+// This method adds an address and dimensions to a variable
 func (pCtx *PCtx) ResolveType(vt parser.IVar_typeContext, addrMgr *AddressManager) RType {
 	pType := PTypeFromString(vt.TYPE_PRIMITIVE().GetText())
 	rType := RType{PType: pType}
@@ -401,6 +408,7 @@ func (pCtx *PCtx) AddToAddrTable(addr int, varName string) {
 	pCtx.addrTable[addr] = varName
 }
 
+// Gets adequate address manager based on type and scope
 func (pCtx *PCtx) GetCorrespondingAddressManager(pType PType) *AddressManager {
 	if len(pCtx.scopes) == 1 {
 		switch pType {
@@ -452,6 +460,7 @@ func (pCtx *PCtx) PrintPo() {
 	}
 }
 
+// Method used by many rules involving arithmetic and logic operations when quads have to be generated
 func (pCtx *PCtx) HandleGenerateQuadForExpression() {
 	oper := Op(pCtx.POperTop())
 	// pCtx.PrintPo()
@@ -532,6 +541,7 @@ func (pCtx *PCtx) RemoveFunction(funcName string) {
 	delete(pCtx.varTable, funcName)
 }
 
+// Used by all aggregate function rules
 func (pCtx *PCtx) GenerateQuadsForAggregateFunction(op Op, resultType PType) {
 	if len(pCtx.semanticErrors) > 0 {
 		return

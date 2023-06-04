@@ -50,11 +50,11 @@ func (l *bistatListener) ExitListAssign(ctx *parser.ListAssignContext) {
 		expectedSize = rType.SecondDim
 		i := expectedSize
 		idx := l.pCtx.pO[len(l.pCtx.pO)-expectedSize-1]
-		iAddr, _ := iAddrMgr.GetNext()
-		l.pCtx.vm.PushQuad(NewQuad(Verify, idx.Address, rType.Address, rType.FirstDim))
-		l.pCtx.vm.PushQuad(NewQuad(Multiplication, l.pCtx.ConstIntUpsert(rType.FirstDim), idx.Address, iAddr))
-		secondAddr, _ := iAddrMgr.GetNext()
-		l.pCtx.vm.PushQuad(NewQuad(Sum, l.pCtx.ConstIntUpsert(rType.Address), iAddr, secondAddr))
+		iAddr, _ := addrMgr.GetNext()
+		l.pCtx.vm.PushQuad(NewQuad(Verify, idx.Address, rType.Address, rType.SecondDim))
+		l.pCtx.vm.PushQuad(NewQuad(RefMul, l.pCtx.ConstIntUpsert(rType.SecondDim), idx.Address, iAddr))
+		secondAddr, _ := addrMgr.GetNext()
+		l.pCtx.vm.PushQuad(NewQuad(RefSum, l.pCtx.IgnoreIfRef(rType.Address), l.pCtx.IgnoreIfRef(iAddr), secondAddr))
 
 		startAddr := secondAddr
 		for i > 0 {
@@ -66,7 +66,7 @@ func (l *bistatListener) ExitListAssign(ctx *parser.ListAssignContext) {
 				return
 			}
 			refAddr, _ := addrMgr.GetNext()
-			l.pCtx.vm.PushQuad(NewQuad(Sum, startAddr, l.pCtx.ConstIntUpsert(i-1), refAddr))
+			l.pCtx.vm.PushQuad(NewQuad(RefSum, l.pCtx.IgnoreIfRef(startAddr), l.pCtx.ConstIntUpsert(i-1), refAddr))
 			l.pCtx.vm.PushQuad(NewQuad(Assign, refAddr, -1, elem.Address))
 			i = i - 1
 		}
@@ -146,7 +146,6 @@ func (l *bistatListener) ExitPrint(ctx *parser.PrintContext) {
 		l.pCtx.SemanticError("Cannot use 'print' inside an expression")
 		return
 	}
-	ctx.AllExpression()
 	toPrint := make([]RType, 0)
 	for range ctx.AllExpression() {
 		o := l.pCtx.POTop()
@@ -276,7 +275,7 @@ func (l *bistatListener) ExitInputRead(ctx *parser.InputReadContext) {
 		return
 	}
 
-	if !l.pCtx.POperIsEmpty() {
+	if !l.pCtx.POperIsEmpty() && l.pCtx.POperTop() != int(Other) {
 		l.pCtx.SemanticError("Cannot use 'read' inside an expression")
 		return
 	}

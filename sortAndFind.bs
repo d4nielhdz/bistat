@@ -1,0 +1,52 @@
+Program SortAndFind;
+
+var int x;
+var int[5] nums;
+
+
+func bubbleSort(): void
+  var int i;
+  var int j;
+  var int tmp;
+  var int[4] arr;
+ {
+  i = 0;
+  j = 0;
+  arr = [4, 6, 1, 2];
+  print(arr);
+  while (i < 3) {
+    j = 0;
+    while (j < 3 - i) {
+      if (listAccess(arr, j) > listAccess(arr, j + 1)) {
+        tmp = listAccess(arr, j);
+        listAssign(arr, j, listAccess(arr, j + 1));
+        listAssign(arr, j+1, tmp);
+      }
+      j = j + 1;
+    }
+    i = i + 1;
+  }
+  print(arr);
+}
+
+func find(var int num;): int
+  var int i;
+ {
+  i = 0;
+  while (i < 5) {
+    if (listAccess(nums, i) == num) {
+      return i;
+    }
+    i = i + 1;
+  }
+  return -1;
+}
+
+main() {
+  bubbleSort();
+  nums = [6, 87, 35, 9, 3];
+  x = find(11);
+  print(x);
+  x = find(87);
+  print(x);
+}

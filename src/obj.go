@@ -1,5 +1,6 @@
 package src
 
+// This is what is stored in the binary .gob file after compilation
 type ObjCode struct {
 	FuncDir         map[string]FuncData
 	ConsTable       map[string]RType

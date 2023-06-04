@@ -7,6 +7,7 @@ import (
 	"os"
 )
 
+// Reads binary file, converts it to eCtx and runs quads
 func main() {
 	file, err := os.Open("./" + os.Args[1])
 	objCode := new(src.ObjCode)

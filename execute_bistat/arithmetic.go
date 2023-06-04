@@ -4,6 +4,8 @@ import (
 	src "bistat/src"
 )
 
+// Handles arithmetic op codes
+
 func (eCtx *ECtx) HandleSum() {
 	quad := eCtx.GetCurrentQuad()
 	destination := quad.Destination

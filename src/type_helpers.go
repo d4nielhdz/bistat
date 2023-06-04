@@ -4,6 +4,7 @@ import (
 	"fmt"
 )
 
+// Enums are defined in this file, as well as the semantic cube and its lookup function
 type PType int
 type Op int
 
@@ -51,7 +52,7 @@ func PTypeToString(pType PType) string {
 }
 
 const (
-	Sum Op = iota //
+	Sum Op = iota
 	Subtraction
 	Multiplication
 	Division
@@ -86,6 +87,7 @@ const (
 	Not
 	UnaryMinus
 	Goto
+	// Not actually used
 	GotoT
 	GotoF
 	GoSub
@@ -94,10 +96,12 @@ const (
 	EndFunc
 	End
 	Return
+	// These Op codes are only used for reference operations
 	RefSum
 	RefMul
 	UndefinedOp
 	Verify
+	// Used as fake bottom
 	Other
 )
 
@@ -275,18 +279,18 @@ func SemanticCubeLookup(op1 PType, op2 PType, op Op) PType {
 
 type RType struct {
 	PType PType
-	// indicates size of first dimension. -1 for params, 0 for non arrays
+	// indicates size of first dimension. 0 for non atomic values
 	FirstDim int
-	// indicates size of second dimension. -1 for params, 0 for non arrays
+	// indicates size of second dimension. 0 for atomic values
 	SecondDim int
 	Address   int
 }
 
 type FuncData struct {
 	PType PType
-	// indicates size of first dimension. -1 for params, 0 for non arrays
+	// indicates size of first dimension. 0 for atomic values
 	FirstDim int
-	// indicates size of second dimension. -1 for params, 0 for non arrays
+	// indicates size of second dimension. 0 for atomic values
 	SecondDim       int
 	Address         int
 	Params          int
@@ -315,6 +319,7 @@ func RTypeToFuncData(rType RType) FuncData {
 	return FuncData{PType: rType.PType, FirstDim: rType.FirstDim, SecondDim: rType.SecondDim, Address: rType.Address}
 }
 
+// used for debugging
 func (rType RType) print() {
 	fmt.Println("RType:")
 	fmt.Println(rType.PType)

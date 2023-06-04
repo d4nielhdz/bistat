@@ -33,6 +33,10 @@ func NewMemorySegment(fSize int, iSize int, sSize int, bSize int, refSize int, b
 		baseRefAddr:    baseRefAddr,
 	}
 }
+
+/*
+Only really used for loading the constant memory when starting execution
+*/
 func (ms *MemorySegment) StoreVal(val string, addr int) {
 	pType := GetPTypeFromAddress(addr)
 	if pType == src.Int {
