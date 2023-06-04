@@ -238,17 +238,17 @@ func OpToString(op Op) string {
 var semanticCube = [3][3][13]PType{
 	{
 		// Int Op Int
-		{Int, Int, Int, Int, Int, Bool, Bool, Bool, Bool, Bool, Bool, Bool, Bool},
+		{Int, Int, Int, Int, Int, Undefined, Undefined, Bool, Bool, Bool, Bool, Bool, Bool},
 		// Int Op Float
-		{Float, Float, Float, Float, Undefined, Bool, Bool, Bool, Bool, Bool, Bool, Bool, Bool},
+		{Float, Float, Float, Float, Undefined, Undefined, Undefined, Bool, Bool, Bool, Bool, Bool, Bool},
 		// Int Op Bool
 		{Undefined, Undefined, Undefined, Undefined, Undefined, Undefined, Undefined, Undefined, Undefined, Undefined, Undefined, Undefined, Undefined},
 	},
 	{
 		// Float Op Int
-		{Float, Float, Float, Float, Undefined, Bool, Bool, Bool, Bool, Bool, Bool, Bool, Bool},
+		{Float, Float, Float, Float, Undefined, Undefined, Undefined, Bool, Bool, Bool, Bool, Bool, Bool},
 		// Float Op Float
-		{Float, Float, Float, Float, Undefined, Bool, Bool, Bool, Bool, Bool, Bool, Bool, Bool},
+		{Float, Float, Float, Float, Undefined, Undefined, Undefined, Bool, Bool, Bool, Bool, Bool, Bool},
 		// Float Op Bool
 		{Undefined, Undefined, Undefined, Undefined, Undefined, Undefined, Undefined, Undefined, Undefined, Undefined, Undefined, Undefined, Undefined},
 	},
@@ -258,7 +258,7 @@ var semanticCube = [3][3][13]PType{
 		// Bool Op Float
 		{Undefined, Undefined, Undefined, Undefined, Undefined, Undefined, Undefined, Undefined, Undefined, Undefined, Undefined, Undefined, Undefined},
 		// Bool Op Bool
-		{Undefined, Undefined, Undefined, Undefined, Undefined, Bool, Bool, Bool, Bool, Bool, Bool, Bool, Bool},
+		{Undefined, Undefined, Undefined, Undefined, Undefined, Bool, Bool, Undefined, Undefined, Undefined, Undefined, Bool, Bool},
 	},
 }
 

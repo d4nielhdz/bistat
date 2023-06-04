@@ -52,7 +52,6 @@ func (l *bistatListener) EnterFuncDef(ctx *parser.FuncDefContext) {
 		l.pCtx.AddToAddrTable(resolved.Address, p.ID().GetText())
 
 		params = append(params, resolved)
-
 	}
 
 	l.pCtx.AddParams(funcName, params)
