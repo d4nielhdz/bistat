@@ -16,6 +16,7 @@ func (l *bistatListener) EnterVarCons(ctx *parser.VarConsContext) {
 			rType = entry
 		} else {
 			l.pCtx.SemanticError("Variable " + ctx.ID().GetText() + " not found in scope")
+			return
 		}
 	} else {
 		rType = l.pCtx.GetRTypeFromVarConsContext(ctx)

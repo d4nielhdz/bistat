@@ -271,7 +271,6 @@ public class BistatParser extends Parser {
 			{
 			setState(143);
 			match(TYPE_PRIMITIVE);
-			{
 			setState(145);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
@@ -282,7 +281,6 @@ public class BistatParser extends Parser {
 				}
 			}
 
-			}
 			}
 		}
 		catch (RecognitionException re) {

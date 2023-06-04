@@ -9,7 +9,7 @@ func myfunc(): void {
   print("hola");
 }
 
-func myfun(var int[] w;): float
+func myfun(var int w;): float
   var int x;
   var float y;
  {

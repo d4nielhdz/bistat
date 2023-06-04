@@ -5,8 +5,8 @@ WS: [ \t\n\r]+ -> channel(HIDDEN);
 program: 'Program' ID ';' varDeclaration* funcDef* main EOF;
 
 varDeclaration: 'var' var_type ID ';';
-var_type: TYPE_PRIMITIVE (CARDINALITY?);
-CARDINALITY: ('[' (INT_CONS) ']') ('[' (INT_CONS) ']')?;
+var_type: TYPE_PRIMITIVE CARDINALITY?;
+CARDINALITY: '[' (INT_CONS) ']' ('[' (INT_CONS) ']')?;
 TYPE_PRIMITIVE: 'int' | 'float' | 'string' | 'bool' | 'void';
 
 funcDef:
