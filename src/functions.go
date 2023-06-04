@@ -29,10 +29,6 @@ func (l *bistatListener) EnterFuncDef(ctx *parser.FuncDefContext) {
 	l.pCtx.AddScope(funcName)
 	l.pCtx.AddFunction(funcName, RTypeToFuncData(resolved))
 	params := make([]RType, 0)
-	localIntVars := 0
-	localFloatVars := 0
-	localBoolVars := 0
-	localStringVars := 0
 
 	for _, p := range ctx.AllParamDeclaration() {
 		pType := PTypeFromString(p.TYPE_PRIMITIVE().GetText())
@@ -56,28 +52,13 @@ func (l *bistatListener) EnterFuncDef(ctx *parser.FuncDefContext) {
 		l.pCtx.AddToAddrTable(resolved.Address, p.ID().GetText())
 
 		params = append(params, resolved)
-		switch pType {
-		case Int:
-			localIntVars += 1
-			// break
-		case Float:
-			localFloatVars += 1
-			// break
-		case String:
-			localStringVars += 1
-			// break
-		default:
-			localBoolVars += 1
-		}
+
 	}
 
 	l.pCtx.AddParams(funcName, params)
 	data := l.pCtx.funcDir[funcName]
 	data.Params = len(params)
-	data.LocalStringVars = localStringVars
-	data.LocalBoolVars = localBoolVars
-	data.LocalFloatVars = localFloatVars
-	data.LocalIntVars = localIntVars
+
 	data.Idx = len(l.pCtx.functions)
 	l.pCtx.functions = append(l.pCtx.functions, funcName)
 	l.pCtx.funcDir[funcName] = data
@@ -89,10 +70,10 @@ func (l *bistatListener) EnterFuncBlockStart(ctx *parser.FuncBlockStartContext) 
 	}
 	funcName := l.pCtx.GetCurrentScope()
 	data := l.pCtx.funcDir[funcName]
-	data.LocalIntVars = data.LocalIntVars + l.pCtx.vm.localIntAddressMgr.GetSize()
-	data.LocalFloatVars = data.LocalFloatVars + l.pCtx.vm.localFloatAddressMgr.GetSize()
-	data.LocalBoolVars = data.LocalBoolVars + l.pCtx.vm.localBoolAddressMgr.GetSize()
-	data.LocalStringVars = data.LocalStringVars + l.pCtx.vm.localStringAddressMgr.GetSize()
+	data.LocalIntVars = l.pCtx.vm.localIntAddressMgr.GetSize()
+	data.LocalFloatVars = l.pCtx.vm.localFloatAddressMgr.GetSize()
+	data.LocalBoolVars = l.pCtx.vm.localBoolAddressMgr.GetSize()
+	data.LocalStringVars = l.pCtx.vm.localStringAddressMgr.GetSize()
 
 	data.FuncStart = len(l.pCtx.vm.Quads())
 	l.pCtx.funcDir[funcName] = data
@@ -105,10 +86,11 @@ func (l *bistatListener) EnterFuncBlockEnd(ctx *parser.FuncBlockEndContext) {
 	funcName := l.pCtx.GetCurrentScope()
 	data := l.pCtx.funcDir[funcName]
 	data.LocalRefs = l.pCtx.vm.localRefAddressMgr.GetSize()
-	data.TempIntVars = data.TempIntVars + l.pCtx.vm.tempIntAddressMgr.GetSize()
-	data.TempFloatVars = data.TempFloatVars + l.pCtx.vm.tempFloatAddressMgr.GetSize()
-	data.TempBoolVars = data.TempBoolVars + l.pCtx.vm.tempBoolAddressMgr.GetSize()
-	data.TempStringVars = data.TempStringVars + l.pCtx.vm.tempStringAddressMgr.GetSize()
+	data.TempIntVars = l.pCtx.vm.tempIntAddressMgr.GetSize()
+	data.TempFloatVars = l.pCtx.vm.tempFloatAddressMgr.GetSize()
+	data.TempBoolVars = l.pCtx.vm.tempBoolAddressMgr.GetSize()
+	data.TempStringVars = l.pCtx.vm.tempStringAddressMgr.GetSize()
+
 	l.pCtx.funcDir[funcName] = data
 
 	l.pCtx.RemoveFunction(funcName)
