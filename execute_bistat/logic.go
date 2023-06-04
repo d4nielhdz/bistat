@@ -17,8 +17,8 @@ func (eCtx *ECtx) HandleAnd() {
 
 func (eCtx *ECtx) HandleOr() {
 	quad := eCtx.GetCurrentQuad()
-	addr1 := quad.Op1
-	addr2 := quad.Op2
+	addr1 := eCtx.GetDerefed(quad.Op1)
+	addr2 := eCtx.GetDerefed(quad.Op2)
 
 	val1 := eCtx.GetBoolFromAddress(addr1)
 	val2 := eCtx.GetBoolFromAddress(addr2)
@@ -28,8 +28,8 @@ func (eCtx *ECtx) HandleOr() {
 
 func (eCtx *ECtx) HandleGt() {
 	quad := eCtx.GetCurrentQuad()
-	addr1 := quad.Op1
-	addr2 := quad.Op2
+	addr1 := eCtx.GetDerefed(quad.Op1)
+	addr2 := eCtx.GetDerefed(quad.Op2)
 	pType1 := GetPTypeFromAddress(addr1)
 	pType2 := GetPTypeFromAddress(addr2)
 
@@ -60,8 +60,8 @@ func (eCtx *ECtx) HandleGt() {
 
 func (eCtx *ECtx) HandleLt() {
 	quad := eCtx.GetCurrentQuad()
-	addr1 := quad.Op1
-	addr2 := quad.Op2
+	addr1 := eCtx.GetDerefed(quad.Op1)
+	addr2 := eCtx.GetDerefed(quad.Op2)
 	pType1 := GetPTypeFromAddress(addr1)
 	pType2 := GetPTypeFromAddress(addr2)
 
@@ -92,8 +92,8 @@ func (eCtx *ECtx) HandleLt() {
 
 func (eCtx *ECtx) HandleGe() {
 	quad := eCtx.GetCurrentQuad()
-	addr1 := quad.Op1
-	addr2 := quad.Op2
+	addr1 := eCtx.GetDerefed(quad.Op1)
+	addr2 := eCtx.GetDerefed(quad.Op2)
 	pType1 := GetPTypeFromAddress(addr1)
 	pType2 := GetPTypeFromAddress(addr2)
 
@@ -124,8 +124,8 @@ func (eCtx *ECtx) HandleGe() {
 
 func (eCtx *ECtx) HandleLe() {
 	quad := eCtx.GetCurrentQuad()
-	addr1 := quad.Op1
-	addr2 := quad.Op2
+	addr1 := eCtx.GetDerefed(quad.Op1)
+	addr2 := eCtx.GetDerefed(quad.Op2)
 	pType1 := GetPTypeFromAddress(addr1)
 	pType2 := GetPTypeFromAddress(addr2)
 
@@ -156,8 +156,8 @@ func (eCtx *ECtx) HandleLe() {
 
 func (eCtx *ECtx) HandleEq() {
 	quad := eCtx.GetCurrentQuad()
-	addr1 := quad.Op1
-	addr2 := quad.Op2
+	addr1 := eCtx.GetDerefed(quad.Op1)
+	addr2 := eCtx.GetDerefed(quad.Op2)
 	pType1 := GetPTypeFromAddress(addr1)
 	pType2 := GetPTypeFromAddress(addr2)
 
@@ -193,8 +193,8 @@ func (eCtx *ECtx) HandleEq() {
 
 func (eCtx *ECtx) HandleNe() {
 	quad := eCtx.GetCurrentQuad()
-	addr1 := quad.Op1
-	addr2 := quad.Op2
+	addr1 := eCtx.GetDerefed(quad.Op1)
+	addr2 := eCtx.GetDerefed(quad.Op2)
 	pType1 := GetPTypeFromAddress(addr1)
 	pType2 := GetPTypeFromAddress(addr2)
 
