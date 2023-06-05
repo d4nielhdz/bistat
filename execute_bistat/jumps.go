@@ -1,5 +1,6 @@
 package main
 
+// Handles jumps
 func (eCtx *ECtx) HandleGotoF() {
 	quad := eCtx.GetCurrentQuad()
 	val := eCtx.GetBoolFromAddress(eCtx.GetDerefed(quad.Op1))

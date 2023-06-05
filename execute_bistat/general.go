@@ -8,6 +8,7 @@ import (
 	"strings"
 )
 
+// Handles assignment and read
 func (eCtx *ECtx) HandleAssign() {
 	quad := eCtx.GetCurrentQuad()
 	rAddr := eCtx.GetDerefed(quad.Destination)

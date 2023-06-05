@@ -6,6 +6,7 @@ import (
 	"strconv"
 )
 
+// Manages a particular scope of memory (temp, local, const, global)
 type MemorySegment struct {
 	floats         []float64
 	ints           []int64

@@ -5,8 +5,7 @@ import (
 )
 
 /*
-	Defines methods used for storing and getting data from addresses
-
+	Defines methods used for storing and reading data from addresses
 */
 
 func (eCtx *ECtx) LoadConstMemory() {

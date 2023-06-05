@@ -4,6 +4,7 @@ import (
 	"strconv"
 )
 
+// Handles array op codes
 func (eCtx *ECtx) HandleRefSum() {
 	quad := eCtx.GetCurrentQuad()
 	destination := quad.Destination

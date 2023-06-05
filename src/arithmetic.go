@@ -4,6 +4,7 @@ import (
 	parser "bistat/parser"
 )
 
+// Generates quads for arithmetic and logic operations
 func (l *bistatListener) EnterVarCons(ctx *parser.VarConsContext) {
 	if len(l.pCtx.semanticErrors) > 0 {
 		return

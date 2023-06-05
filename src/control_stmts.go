@@ -4,6 +4,7 @@ import (
 	parser "bistat/parser"
 )
 
+// Generates quads for control statements
 func (l *bistatListener) EnterConditional(ctx *parser.ConditionalContext) {
 	l.pCtx.PushCondJumps()
 }

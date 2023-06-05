@@ -114,10 +114,9 @@ func (l *bistatListener) ExitAssignment(ctx *parser.AssignmentContext) {
 			}
 			expectedSize = lRType.FirstDim
 		}
-		rType, _ := l.pCtx.GetRTypeFromVarName(varName)
-		startAddr := rType.Address
+		startAddr := lRType.Address
 		i := expectedSize
-		addrMgr := l.pCtx.GetCorrespondingRefAddressManager(rType.Address)
+		addrMgr := l.pCtx.GetCorrespondingRefAddressManager(lRType.Address)
 		for i > 0 {
 			elem := l.pCtx.POTop()
 			l.pCtx.POPop()
@@ -203,6 +202,10 @@ func (l *bistatListener) ExitIndexing(ctx *parser.IndexingContext) {
 
 	if levels == 1 {
 		idx := l.pCtx.POTop()
+		if idx.PType != Int {
+			l.pCtx.SemanticError("Expression in indexing must be of type int")
+			return
+		}
 		l.pCtx.POPop()
 		l.pCtx.vm.PushQuad(NewQuad(Verify, idx.Address, arr.Address, arr.FirstDim))
 		addrMgr := l.pCtx.GetCorrespondingRefAddressManager(arr.Address)
@@ -231,6 +234,12 @@ func (l *bistatListener) ExitIndexing(ctx *parser.IndexingContext) {
 		l.pCtx.POPop()
 		firstIdx := l.pCtx.POTop()
 		l.pCtx.POPop()
+
+		if firstIdx.PType != Int || secondIdx.PType != Int {
+			l.pCtx.SemanticError("Expressions in indexing must be of type int")
+			return
+		}
+
 		l.pCtx.vm.PushQuad(NewQuad(Verify, firstIdx.Address, arr.Address, arr.FirstDim))
 		l.pCtx.vm.PushQuad(NewQuad(Verify, secondIdx.Address, arr.Address, arr.SecondDim))
 

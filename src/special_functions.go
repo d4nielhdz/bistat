@@ -4,6 +4,7 @@ import (
 	parser "bistat/parser"
 )
 
+// Generates quads for built in functions
 func (l *bistatListener) EnterSpecialFunction(ctx *parser.SpecialFunctionContext) {
 	if len(l.pCtx.semanticErrors) > 0 {
 		return

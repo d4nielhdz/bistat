@@ -4,21 +4,15 @@ func_def ::= 'func' id '(' param_declaration* ')' ':' atomic_type
 var_declaration* '{' statement* '}'
 param_declaration ::= 'var' atomic_type id ';'
 var_declaration ::= 'var' var_type id ';'
-assignment ::= id '=' (var_cons | list_assignment | matrix_assignment)
+indexing ::= id '{' expression '}' ('{' expression '}')?
+assignment ::= (indexing | id) '=' (var_cons | list_assignment | matrix_assignment)
 matrix_assignment ::= '[' list_assignment (',' list_assignment)* ','? ']'
 list_assignment ::= '[' var_cons (',' var_cons)* ']'
 comment ::= '#' [^#]* '#'
 statement ::= ((assignment | special_function | function_call | return_stmt) ';') | conditional | for | while | comment
 return_stmt ::= 'return' expression
-special_function ::= read | print | plot | sum | min | max | prod | avg | mode | median | sin | cos | tan | sqrt | floor | ceil | abs | not | list_access | list_assign
+special_function ::= read | print | plot | sum | min | max | prod | avg | mode | median | sin | cos | tan | sqrt | floor | ceil | abs | not
 read ::= 'read' '(' id (',' id)* ')'
-list_access ::=
-	'listAccess' '(' id ',' expression (',' expression)? ')'
-list_assign ::=
-	'listAssign' '(' id ',' expression ',' (
-		expression
-		| list_assignment
-	) (',' expression)? ')'
 plot ::= 'plot' '(' expression ')'
 sum ::= 'sum' '(' expression ')'
 min ::= 'min' '(' expression ')'
@@ -43,7 +37,7 @@ expression ::= exp (('<' | '>' | '<=' | '>=' | '==' | '!=' | '&&' | '||') exp)?
 exp ::= term (('+' | '-') term)?*
 function_call ::= (id '(' (expression (',' expression)*)? ')')
 term ::= factor (('*' | '/' | '%') factor)*
-factor ::= '-'? (('('expression')') | list_access | special_function | function_call | var_cons)
+factor ::= '-'? (('('expression')') | indexing | special_function | function_call | var_cons)
 atomic_type ::= ('int' | 'float' | 'string' | 'bool' | 'void') 
 var_type ::= ('int' | 'float' | 'string' | 'bool') cardinality?
 cardinality ::= '[' int_cons ']' | '[' int_cons ']' '[' int_cons ']'

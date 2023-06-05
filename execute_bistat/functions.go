@@ -2,6 +2,7 @@ package main
 
 import "bistat/src"
 
+// Handles function op codes
 func (eCtx *ECtx) HandleEra() {
 	quad := eCtx.GetCurrentQuad()
 	funcData := eCtx.FuncDir[eCtx.Functions[quad.Op1]]

@@ -5,6 +5,7 @@ import (
 	"strconv"
 )
 
+// Generates quads for functions
 func (l *bistatListener) EnterFuncDef(ctx *parser.FuncDefContext) {
 	if len(l.pCtx.semanticErrors) > 0 {
 		return
