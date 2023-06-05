@@ -1,0 +1,20 @@
+Sun Jun 4 21:52:26 2023 -0600
+    use indexing in tests and comment all source files
+
+Sun Jun 4 18:19:24 2023 -0600
+    Support indexing; refactor code to generate code for non aggregate functions
+
+Sun Jun 4 11:15:14 2023 -0600
+    add more tests
+
+Sun Jun 4 06:16:23 2023 -0600
+    deref addresses in logical operations
+
+Sun Jun 4 03:46:59 2023 -0600
+    fix semantic cube
+
+Sun Jun 4 00:16:11 2023 -0600
+    avoid calculating function resource amount twice
+
+Sun Jun 4 00:05:27 2023 -0600
+    Throw error when redefining a function
