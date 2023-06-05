@@ -33,7 +33,12 @@ stmt: (
 	| comment;
 
 assignment:
-	ID '=' (expression | listAssignment | matrixAssignment);
+	(indexing | ID) '=' (
+		expression
+		| listAssignment
+		| matrixAssignment
+	);
+indexing: ID ('{' expression '}') ('{' expression '}')?;
 matrixAssignment:
 	'[' listAssignment (',' listAssignment)* ','? ']';
 listAssignment: '[' (expression) (',' (expression))* ']';
@@ -59,8 +64,6 @@ returnStmt: 'return' expression;
 specialFunction:
 	inputRead
 	| print
-	| listAccess
-	| listAssign
 	| plot
 	| sum
 	| max
@@ -95,13 +98,6 @@ floor: 'floor' '(' expression ')';
 ceil: 'ceil' '(' expression ')';
 abs: 'abs' '(' expression ')';
 not: 'not' '(' expression ')';
-listAccess:
-	'listAccess' '(' ID ',' expression (',' expression)? ')';
-listAssign:
-	'listAssign' '(' ID ',' expression ',' (
-		expression
-		| listAssignment
-	) (',' expression)? ')';
 
 expression: exp (logicOperator exp)?;
 exp: term (opSec term)*;
@@ -111,6 +107,7 @@ factor:
 		nestedExpression
 		| specialFunction
 		| functionCall
+		| indexing
 		| varCons
 	);
 unaryMinus: '-';

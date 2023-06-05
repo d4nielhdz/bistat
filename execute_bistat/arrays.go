@@ -68,6 +68,6 @@ func (eCtx *ECtx) HandleVerify() {
 	val := eCtx.GetIntFromAddress(addr1)
 	// fmt.Println("ver", quad.Op1, val, quad.Destination)
 	if int(val) >= quad.Destination {
-		eCtx.NewError("Access " + strconv.Itoa(quad.Op1) + " out of bounds for element with dimension " + strconv.Itoa(quad.Destination))
+		eCtx.NewError("Access " + strconv.Itoa(int(val)) + " out of bounds for element with dimension " + strconv.Itoa(quad.Destination))
 	}
 }

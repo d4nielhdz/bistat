@@ -125,7 +125,7 @@ func (eCtx *ECtx) HandleFloor() {
 	val := eCtx.GetFloatFromAddress(addr1)
 	floored = math.Floor(val)
 
-	eCtx.StoreFloatAtAddress(floored, addr2)
+	eCtx.StoreIntAtAddress(int64(floored), addr2)
 }
 
 func (eCtx *ECtx) HandleCeil() {
@@ -138,7 +138,7 @@ func (eCtx *ECtx) HandleCeil() {
 	val := eCtx.GetFloatFromAddress(addr1)
 	ceiled = math.Ceil(val)
 
-	eCtx.StoreFloatAtAddress(ceiled, addr2)
+	eCtx.StoreIntAtAddress(int64(ceiled), addr2)
 }
 
 func (eCtx *ECtx) HandleAbs() {

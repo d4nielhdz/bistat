@@ -60,11 +60,26 @@ func (l *bistatListener) ExitAssignment(ctx *parser.AssignmentContext) {
 	if len(l.pCtx.semanticErrors) > 0 {
 		return
 	}
-	varName := ctx.ID().GetText()
-	lRType, found := l.pCtx.GetRTypeFromVarName(varName)
-	if !found {
-		l.pCtx.SemanticError("Variable " + varName + " not defined")
-		return
+	varName := ""
+	lRType := NewRType(Bool)
+	if ctx.ID() != nil {
+		varName = ctx.ID().GetText()
+		lType, found := l.pCtx.GetRTypeFromVarName(varName)
+		if !found {
+			l.pCtx.SemanticError("Variable " + varName + " not defined")
+			return
+		}
+		lRType = lType
+	} else if ctx.Indexing() != nil {
+		varName = ctx.Indexing().ID().GetText()
+		rightSize := 1
+		if ctx.ListAssignment() != nil {
+			rightSize = len(ctx.ListAssignment().AllExpression())
+		} else if ctx.MatrixAssignment() != nil {
+			l.pCtx.SemanticError("Cannot assign a matrix with an indexing expression on the left side")
+			return
+		}
+		lRType = l.pCtx.pO[len(l.pCtx.pO)-rightSize-1]
 	}
 
 	if ctx.ListAssignment() != nil || ctx.MatrixAssignment() != nil {
@@ -155,6 +170,81 @@ func (l *bistatListener) ExitAssignment(ctx *parser.AssignmentContext) {
 			quad := NewQuad(Assign, lRType.Address, -1, rRType.Address)
 			l.pCtx.vm.PushQuad(quad)
 		}
+	}
+	if ctx.Indexing() != nil {
+		l.pCtx.POPop()
+	}
+}
+
+func (l *bistatListener) EnterIndexing(ctx *parser.IndexingContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+	l.pCtx.POperPush(int(Other))
+}
+
+func (l *bistatListener) ExitIndexing(ctx *parser.IndexingContext) {
+	if len(l.pCtx.semanticErrors) > 0 {
+		return
+	}
+	l.pCtx.POperPop()
+
+	varName := ctx.ID().GetText()
+	arr, found := l.pCtx.GetRTypeFromVarName(varName)
+	if !found {
+		l.pCtx.SemanticError("Variable " + varName + " was not declared")
+		return
+	}
+	if arr.FirstDim == 0 {
+		l.pCtx.SemanticError("Variable " + varName + " isn't a matrix or array")
+		return
+	}
+	levels := len(ctx.AllExpression())
+
+	if levels == 1 {
+		idx := l.pCtx.POTop()
+		l.pCtx.POPop()
+		l.pCtx.vm.PushQuad(NewQuad(Verify, idx.Address, arr.Address, arr.FirstDim))
+		addrMgr := l.pCtx.GetCorrespondingRefAddressManager(arr.Address)
+
+		indexed := NewRType(arr.PType)
+		refAddr, _ := addrMgr.GetNext()
+		if arr.SecondDim != 0 {
+			l.pCtx.vm.PushQuad(NewQuad(RefMul, l.pCtx.ConstIntUpsert(arr.SecondDim), idx.Address, refAddr))
+			endAddr, _ := addrMgr.GetNext()
+			l.pCtx.vm.PushQuad(NewQuad(RefSum, l.pCtx.IgnoreIfRef(arr.Address), refAddr, endAddr))
+
+			indexed.FirstDim = arr.SecondDim
+			indexed.Address = endAddr
+		} else {
+			l.pCtx.vm.PushQuad(NewQuad(RefSum, l.pCtx.IgnoreIfRef(arr.Address), idx.Address, refAddr))
+			indexed.Address = refAddr
+		}
+
+		l.pCtx.POPush(indexed)
+	} else {
+		if arr.SecondDim <= 0 {
+			l.pCtx.SemanticError("Variable " + varName + " isn't a matrix")
+			return
+		}
+		secondIdx := l.pCtx.POTop()
+		l.pCtx.POPop()
+		firstIdx := l.pCtx.POTop()
+		l.pCtx.POPop()
+		l.pCtx.vm.PushQuad(NewQuad(Verify, firstIdx.Address, arr.Address, arr.FirstDim))
+		l.pCtx.vm.PushQuad(NewQuad(Verify, secondIdx.Address, arr.Address, arr.SecondDim))
+
+		addrMgr := l.pCtx.GetCorrespondingRefAddressManager(arr.Address)
+		addr, _ := addrMgr.GetNext()
+		l.pCtx.vm.PushQuad(NewQuad(RefMul, l.pCtx.ConstIntUpsert(arr.SecondDim), firstIdx.Address, addr))
+		secondAddr, _ := addrMgr.GetNext()
+		l.pCtx.vm.PushQuad(NewQuad(RefSum, addr, secondIdx.Address, secondAddr))
+		refAddr, _ := addrMgr.GetNext()
+		l.pCtx.vm.PushQuad(NewQuad(RefSum, l.pCtx.IgnoreIfRef(arr.Address), secondAddr, refAddr))
+
+		indexed := NewRType(arr.PType)
+		indexed.Address = refAddr
+		l.pCtx.POPush(indexed)
 	}
 }
 

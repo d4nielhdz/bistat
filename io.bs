@@ -18,11 +18,11 @@ main () {
   i = 0;
 
   while (i != 3) {
-    read(listAccess(words, i));
+    read(words{i});
     i = i + 1;
   }
 
   print(words);
-  print(listAccess(words, 2));
+  print(words{2});
   print("a");
 }

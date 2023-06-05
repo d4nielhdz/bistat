@@ -541,6 +541,53 @@ func (pCtx *PCtx) RemoveFunction(funcName string) {
 	delete(pCtx.varTable, funcName)
 }
 
+func (pCtx *PCtx) GenerateQuadsForNonAggregateFunction(op Op, resultType PType) {
+	if len(pCtx.semanticErrors) > 0 {
+		return
+	}
+	o := pCtx.POTop()
+	pCtx.POPop()
+	if op == Not && o.PType != Bool {
+		pCtx.SemanticError(OpToString(op) + " can only be called with boolean expressions")
+		return
+	}
+	if (op == Ceil || op == Floor) && o.PType != Float {
+		pCtx.SemanticError(OpToString(op) + " can only be called with expressions of type float")
+		return
+	}
+	if (op == Sin || op == Tan || op == Cos || op == Abs || op == Sqrt) && o.PType != Float && o.PType != Int {
+		pCtx.SemanticError(OpToString(op) + " can only be called with expressions of type int or float")
+		return
+	}
+	result := NewRType(resultType)
+	if o.FirstDim > 0 {
+		size := o.FirstDim
+		if o.SecondDim > 0 {
+			size *= o.SecondDim
+		}
+		addrMgr := pCtx.GetCorrespondingRefAddressManager(o.Address)
+		tempAddMgr := pCtx.GetCorrespondingTempAddressManager(resultType)
+		result.FirstDim = o.FirstDim
+		result.SecondDim = o.SecondDim
+		i := 0
+		for i < size {
+			refAddr, _ := addrMgr.GetNext()
+			tempAddr, _ := tempAddMgr.GetNext()
+			if i == 0 {
+				result.Address = tempAddr
+			}
+			pCtx.vm.PushQuad(NewQuad(RefSum, pCtx.IgnoreIfRef(o.Address), pCtx.ConstIntUpsert(i), refAddr))
+			pCtx.vm.PushQuad(NewQuad(op, refAddr, -1, tempAddr))
+			i++
+		}
+	} else {
+		addr, _ := pCtx.GetCorrespondingTempAddressManager(resultType).GetNext()
+		result.Address = addr
+		pCtx.vm.PushQuad(NewQuad(op, o.Address, -1, addr))
+	}
+	pCtx.POPush(result)
+}
+
 // Used by all aggregate function rules
 func (pCtx *PCtx) GenerateQuadsForAggregateFunction(op Op, resultType PType) {
 	if len(pCtx.semanticErrors) > 0 {

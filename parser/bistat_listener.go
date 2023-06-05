@@ -38,6 +38,9 @@ type BistatListener interface {
 	// EnterAssignment is called when entering the assignment production.
 	EnterAssignment(c *AssignmentContext)
 
+	// EnterIndexing is called when entering the indexing production.
+	EnterIndexing(c *IndexingContext)
+
 	// EnterMatrixAssignment is called when entering the matrixAssignment production.
 	EnterMatrixAssignment(c *MatrixAssignmentContext)
 
@@ -137,12 +140,6 @@ type BistatListener interface {
 	// EnterNot is called when entering the not production.
 	EnterNot(c *NotContext)
 
-	// EnterListAccess is called when entering the listAccess production.
-	EnterListAccess(c *ListAccessContext)
-
-	// EnterListAssign is called when entering the listAssign production.
-	EnterListAssign(c *ListAssignContext)
-
 	// EnterExpression is called when entering the expression production.
 	EnterExpression(c *ExpressionContext)
 
@@ -205,6 +202,9 @@ type BistatListener interface {
 
 	// ExitAssignment is called when exiting the assignment production.
 	ExitAssignment(c *AssignmentContext)
+
+	// ExitIndexing is called when exiting the indexing production.
+	ExitIndexing(c *IndexingContext)
 
 	// ExitMatrixAssignment is called when exiting the matrixAssignment production.
 	ExitMatrixAssignment(c *MatrixAssignmentContext)
@@ -304,12 +304,6 @@ type BistatListener interface {
 
 	// ExitNot is called when exiting the not production.
 	ExitNot(c *NotContext)
-
-	// ExitListAccess is called when exiting the listAccess production.
-	ExitListAccess(c *ListAccessContext)
-
-	// ExitListAssign is called when exiting the listAssign production.
-	ExitListAssign(c *ListAssignContext)
 
 	// ExitExpression is called when exiting the expression production.
 	ExitExpression(c *ExpressionContext)

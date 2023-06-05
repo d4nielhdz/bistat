@@ -26,7 +26,7 @@ func matmul(): void
     while (j < 4) {
       k = 0;
       while (k < 3) {
-        listAssign(z, i, j, listAccess(z, i, j) + listAccess(x, i, k) * listAccess(y, k, j));
+        z{i}{j} = z{i}{j} + x{i}{k} * y{k}{j};
         k = k + 1;
       }
       j = j + 1;

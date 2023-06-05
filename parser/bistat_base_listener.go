@@ -81,6 +81,12 @@ func (s *BaseBistatListener) EnterAssignment(ctx *AssignmentContext) {}
 // ExitAssignment is called when production assignment is exited.
 func (s *BaseBistatListener) ExitAssignment(ctx *AssignmentContext) {}
 
+// EnterIndexing is called when production indexing is entered.
+func (s *BaseBistatListener) EnterIndexing(ctx *IndexingContext) {}
+
+// ExitIndexing is called when production indexing is exited.
+func (s *BaseBistatListener) ExitIndexing(ctx *IndexingContext) {}
+
 // EnterMatrixAssignment is called when production matrixAssignment is entered.
 func (s *BaseBistatListener) EnterMatrixAssignment(ctx *MatrixAssignmentContext) {}
 
@@ -278,18 +284,6 @@ func (s *BaseBistatListener) EnterNot(ctx *NotContext) {}
 
 // ExitNot is called when production not is exited.
 func (s *BaseBistatListener) ExitNot(ctx *NotContext) {}
-
-// EnterListAccess is called when production listAccess is entered.
-func (s *BaseBistatListener) EnterListAccess(ctx *ListAccessContext) {}
-
-// ExitListAccess is called when production listAccess is exited.
-func (s *BaseBistatListener) ExitListAccess(ctx *ListAccessContext) {}
-
-// EnterListAssign is called when production listAssign is entered.
-func (s *BaseBistatListener) EnterListAssign(ctx *ListAssignContext) {}
-
-// ExitListAssign is called when production listAssign is exited.
-func (s *BaseBistatListener) ExitListAssign(ctx *ListAssignContext) {}
 
 // EnterExpression is called when production expression is entered.
 func (s *BaseBistatListener) EnterExpression(ctx *ExpressionContext) {}
